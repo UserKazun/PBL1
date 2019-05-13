@@ -1,41 +1,40 @@
 package model
 
-import "github.com/jinzhu/gorm"
+import (
+	"time"
+)
 
-// ユーザー
+// User ...ユーザー
 type User struct {
-	gorm.Model
-	ID       int
+	ID       int `sql:"type:int" gorm:"primary_key"`
 	Password string
-	Admin    bool
+	Name     string
+	IsAdmin  bool
 }
 
-// メニュー
+// Menu ...メニュー
 type Menu struct {
-	gorm.Model
-	ID       int
-	MenuName string
+	ID   int `gorm:"primary_key"`
+	Name string
 }
 
-// 食材
+// Food ...食材
 type Food struct {
-	gorm.Model
-	ID             int
-	FoodName       string
+	ID             int `gorm:"primary_key"`
+	Name           string
 	Price          int
-	ExpirationDate string
+	ExpirationDate time.Time
+	Point          int
 }
 
-// 食材
+// Material ...材料
 type Material struct {
-	gorm.Model
-	FoodId int
-	MenuId int
+	MenuID int `sql:"type:int" gorm:"primary_key"`
+	FoodID int `sql:"type:int" gorm:"primary_key"`
 }
 
-// レシピURL
-type RecipeUrl struct {
-	gorm.Model
-	MenuId int
-	Url    string
+// Recipe ...レシピ
+type Recipe struct {
+	MenuID int `sql:"type:int" gorm:"primary_key"`
+	URL    string
 }
