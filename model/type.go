@@ -2,11 +2,13 @@ package model
 
 import (
 	"time"
+
+	"github.com/jinzhu/gorm"
 )
 
 // User ...ユーザー
 type User struct {
-	ID       int `sql:"type:int" gorm:"primary_key"`
+	ID       string `gorm:"primary_key"`
 	Password string
 	Name     string
 	IsAdmin  bool
@@ -14,27 +16,27 @@ type User struct {
 
 // Menu ...メニュー
 type Menu struct {
-	ID   int `gorm:"primary_key"`
+	gorm.Model
 	Name string
 }
 
 // Food ...食材
 type Food struct {
-	ID             int `gorm:"primary_key"`
+	gorm.Model
 	Name           string
-	Price          int
+	Price          uint
 	ExpirationDate time.Time
-	Point          int
+	Point          uint
 }
 
 // Material ...材料
 type Material struct {
-	MenuID int `sql:"type:int" gorm:"primary_key"`
-	FoodID int `sql:"type:int" gorm:"primary_key"`
+	MenuID uint `sql:"type:int" gorm:"primary_key"`
+	FoodID uint `sql:"type:int" gorm:"primary_key"`
 }
 
 // Recipe ...レシピ
 type Recipe struct {
-	MenuID int `sql:"type:int" gorm:"primary_key"`
+	MenuID uint `sql:"type:int" gorm:"primary_key"`
 	URL    string
 }
