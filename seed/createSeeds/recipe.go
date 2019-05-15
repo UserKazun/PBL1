@@ -5,7 +5,6 @@ import (
 	"strconv"
 
 	"github.com/PBL1/model"
-
 )
 
 func CreateSeedRecipes() {
@@ -27,7 +26,7 @@ func CreateSeedRecipes() {
 
 	for _, info := range recipes_infos {
 		menuID, _ := strconv.Atoi(info["menuID"])
-		URL, _ := strconv.Atoi(info["URL"])
+		URL, _ := info["URL"]
 		createRecipe(model.Recipe{
 			MenuID: uint(menuID),
 			URL:    string(URL),
