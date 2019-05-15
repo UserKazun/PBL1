@@ -1,10 +1,6 @@
 package main
 
 import (
-	_ "fmt"
-	_ "log"
-	_ "os"
-
 	"github.com/PBL1/router"
 	//_ "github.com/jinzhu/gorm/dialects/mysql"
 )

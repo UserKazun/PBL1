@@ -1,12 +1,17 @@
 package router
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/PBL1/controller"
+	"github.com/gin-gonic/gin"
+)
 
-func GetRouter() *gin.Context {
-	r := gin.Default()
+func apiRouter(api *gin.RouterGroup) {
+	// ログイン時にクッキーにログイン情報を保持させる
+	//api.POST("/auth/login", controller.PostLoginDataInCookie)
 
-	api := r.Group("/api/v1")
-	apiRouter(api)
+	// ログアウト時にクッキーのログイン情報を削除する
+	//api.POST("/auth/logout", controller.PostLogoutDeleteCookie)
 
-	return r
+	// メニューIDを受け取り、レシピのURLを返す
+	api.GET("/recipe/:menu_id", controller.GetRecipeByMenuID)
 }

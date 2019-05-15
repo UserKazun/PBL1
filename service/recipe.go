@@ -1,18 +1,21 @@
 package service
 
 import (
-	"github.com/PBL1/controller"
 	"github.com/PBL1/model"
 )
 
-func GetRecipeByMenuID(menuID uint) (controller.Recipe, error) {
+func GetRecipeByMenuID(menuID uint) (string, error) {
 	modelRecipe := model.Recipe{}
-	controllerRecipe := controller.Recipe{}
 
 	err := db.Where("menu_id = ?", menuID).First(&modelRecipe).Error
 
-	controllerRecipe.URL = modelRecipe.URL
-
-	return controllerRecipe, err
+	return modelRecipe.URL, err
 }
 
+func CreateRecipe(recipe model.Recipe) (model.Recipe, error) {
+	err := db.Create(&recipe).Error
+	if err != nil {
+		return model.Recipe{}, err
+	}
+	return recipe, nil
+}

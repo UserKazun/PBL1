@@ -1,10 +1,11 @@
 package controller
 
 import (
-	"github.com/PBL1/service"
-	"github.com/gin-gonic/gin"
 	"log"
 	"net/http"
+
+	"github.com/PBL1/service"
+	"github.com/gin-gonic/gin"
 )
 
 func GetRecipeByMenuID(c *gin.Context) {
@@ -13,13 +14,13 @@ func GetRecipeByMenuID(c *gin.Context) {
 
 	recipe := Recipe{}
 
-	menuID, err = GetUint(c,"menu_id")
+	menuID, err = GetUint(c, "menu_id")
 	if err != nil {
 		log.Println(err)
 		c.AbortWithStatus(http.StatusBadRequest)
 	}
 
-	recipe, err = service.GetRecipeByMenuID(menuID)
+	recipe.URL, err = service.GetRecipeByMenuID(menuID)
 	if err != nil {
 		log.Println(err)
 		c.AbortWithStatus(http.StatusBadRequest)
