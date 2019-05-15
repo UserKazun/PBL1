@@ -5,6 +5,7 @@ import (
 	"strconv"
 
 	"github.com/PBL1/model"
+	"github.com/PBL1/service"
 )
 
 func CreateSeedRecipes() {
@@ -35,7 +36,7 @@ func CreateSeedRecipes() {
 }
 
 func createRecipe(recipe model.Recipe) {
-	recipe, err := model.CreateRecipe(recipe)
+	recipe, err := service.CreateRecipe(recipe)
 	if err != nil {
 		panic(err)
 	}
