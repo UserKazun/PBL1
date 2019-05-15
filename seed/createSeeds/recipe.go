@@ -5,6 +5,7 @@ import (
 	"strconv"
 
 	"github.com/PBL1/model"
+
 )
 
 func CreateSeedRecipes() {
@@ -27,15 +28,15 @@ func CreateSeedRecipes() {
 	for _, info := range recipes_infos {
 		menuID, _ := strconv.Atoi(info["menuID"])
 		URL, _ := strconv.Atoi(info["URL"])
-		createResipe(model.Recipe{
+		createRecipe(model.Recipe{
 			MenuID: uint(menuID),
 			URL:    string(URL),
 		})
 	}
 }
 
-func createResipe(recipe model.Recipe) {
-	recipe, err := service.CreateRecipe(recipe)
+func createRecipe(recipe model.Recipe) {
+	recipe, err := model.CreateRecipe(recipe)
 	if err != nil {
 		panic(err)
 	}
