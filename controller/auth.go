@@ -25,18 +25,16 @@ func PostLoginDataInCookie(c *gin.Context) {
 		c.AbortWithStatus(http.StatusUnauthorized)
 	}
 
-	service.PostTrueToAdmin(userID)
-
 	loginUser.ID = user.ID
 	loginUser.Name = user.Name
 	loginUser.IsAdmin = true
 
 	session = sessions.Default(c)
 
-	//ログインIDをKeyにセッションIDを生成
-	session.Set(userID, userID)
-
+	session.Set(userID, userID) //ログインIDをKeyにセッションIDを生成
 	session.Save()
+
+	service.PostTrueToIsAdmin(userID) //ログインしたアカウントのIsAdminをTrueに変更
 
 	c.JSON(http.StatusOK, loginUser)
 
@@ -46,6 +44,7 @@ func PostLoginDataInCookie(c *gin.Context) {
 func PostLogoutDeleteCookie(c *gin.Context) {
 
 	userID := c.PostForm("user_id")
+	service.PostFalseToIsAdmin(userID) //ログインしたアカウントのIsAdminをFalseに変更
 
 	sessionUser := session.Get(userID)
 

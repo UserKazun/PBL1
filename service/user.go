@@ -30,7 +30,8 @@ func CheckAccount(userID string, password string) (*model.User, error) {
 	return &User, nil
 }
 
-func PostTrueToAdmin(userID string) {
+// PostTrueToIsAdmin ...対象のuserTableのIsAdminをTrueに変更
+func PostTrueToIsAdmin(userID string) {
 	userBefore := model.User{}
 
 	userBefore.ID = userID
@@ -42,5 +43,20 @@ func PostTrueToAdmin(userID string) {
 
 	// 更新を実行
 	db.Model(&userBefore).Update(&userAfter)
+}
 
+// PostFalseToIsAdmin ...対象のuserTableのIsAdminをFalseに変更
+func PostFalseToIsAdmin(userID string) {
+	userBefore := model.User{}
+
+	userBefore.ID = userID
+	userAfter := userBefore
+
+	db.First(&userAfter)
+
+	userAfter.IsAdmin = false
+
+	// 更新を実行
+	// db.Model(&userBefore).Update(&userAfter)
+	db.Save(&userAfter)
 }
