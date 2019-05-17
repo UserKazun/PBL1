@@ -8,6 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// GetRecipeByMenuID ...メニューIDを受け取り、レシピのURLを返す
 func GetRecipeByMenuID(c *gin.Context) {
 	var menuID uint
 	var err error
