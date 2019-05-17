@@ -5,7 +5,6 @@ import (
 	"fmt"
 
 	"github.com/PBL1/model"
-	"github.com/gin-gonic/gin"
 )
 
 // CreateUser ...DBに与えられたデータをinsertする
@@ -17,8 +16,8 @@ func CreateUser(user model.User) (model.User, error) {
 	return user, nil
 }
 
-// PostLoginDataInCookie ...ログイン時にクッキーにログイン情報を保持させる
-func PostLoginDataInCookie(c *gin.Context, userID string, password string) (*model.User, error) {
+// CheckAccount ...ログインされたアカウント情報が存在するか確かめる
+func CheckAccount(userID string, password string) (*model.User, error) {
 	User := model.User{}
 
 	err := db.Where("id = ? and password = ?", userID, password).First(&User).Error
@@ -29,4 +28,19 @@ func PostLoginDataInCookie(c *gin.Context, userID string, password string) (*mod
 
 	fmt.Println(User)
 	return &User, nil
+}
+
+func PostTrueToAdmin(userID string) {
+	userBefore := model.User{}
+
+	userBefore.ID = userID
+	userAfter := userBefore
+
+	db.First(&userAfter)
+
+	userAfter.IsAdmin = true
+
+	// 更新を実行
+	db.Model(&userBefore).Update(&userAfter)
+
 }

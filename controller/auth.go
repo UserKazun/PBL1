@@ -11,7 +11,7 @@ import (
 
 var session sessions.Session //API別にセッションがリセットされるためグローバルで保存
 
-// PostLoginDataInCookie ...ログイン時にクッキーにログイン情報を保持させる
+// PostLoginDataInCookie ...ログイン時にセッションにログイン情報を保持させる
 func PostLoginDataInCookie(c *gin.Context) {
 
 	loginUser := LoginUser{}
@@ -19,15 +19,17 @@ func PostLoginDataInCookie(c *gin.Context) {
 	userID := c.PostForm("user_id")
 	password := c.PostForm("password")
 
-	user, err := service.PostLoginDataInCookie(c, userID, password)
+	user, err := service.CheckAccount(userID, password)
 	if err != nil {
 		log.Println(err)
 		c.AbortWithStatus(http.StatusUnauthorized)
 	}
 
+	service.PostTrueToAdmin(userID)
+
 	loginUser.ID = user.ID
 	loginUser.Name = user.Name
-	loginUser.IsAdmin = user.IsAdmin
+	loginUser.IsAdmin = true
 
 	session = sessions.Default(c)
 

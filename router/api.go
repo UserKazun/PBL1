@@ -7,10 +7,10 @@ import (
 
 func apiRouter(api *gin.RouterGroup) {
 
-	// ログイン時にクッキーにログイン情報を保持させる
+	// ログイン時にセッションとしてログイン情報を保持させる
 	api.POST("/auth/login", controller.PostLoginDataInCookie)
 
-	// ログアウト時にクッキーのログイン情報を削除する
+	// ログアウト時にセッションとしてログイン情報を削除する
 	api.POST("/auth/logout", controller.PostLogoutDeleteCookie)
 
 	// メニューIDを受け取り、レシピのURLを返す
