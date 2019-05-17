@@ -8,9 +8,10 @@ import (
 	"github.com/PBL1/service"
 )
 
+// CreateSeedRecipes ...ここで記入したデータをDBにinsertする
 func CreateSeedRecipes() {
 
-	recipes_infos := []map[string]string{
+	recipesInfos := []map[string]string{
 		map[string]string{
 			"menuID": "1",
 			"URL":    "hogehoge.com",
@@ -25,7 +26,7 @@ func CreateSeedRecipes() {
 		},
 	}
 
-	for _, info := range recipes_infos {
+	for _, info := range recipesInfos {
 		menuID, _ := strconv.Atoi(info["menuID"])
 		URL, _ := info["URL"]
 		createRecipe(model.Recipe{
@@ -35,6 +36,7 @@ func CreateSeedRecipes() {
 	}
 }
 
+// createRecipe ...渡されたデータをserviceの関数へ渡し、DBにinsertさせる
 func createRecipe(recipe model.Recipe) {
 	recipe, err := service.CreateRecipe(recipe)
 	if err != nil {
