@@ -13,7 +13,6 @@ var session sessions.Session //API別にセッションがリセットされる�
 
 // PostLoginDataInCookie ...ログイン時にセッションにログイン情報を保持させる
 func PostLoginDataInCookie(c *gin.Context) {
-
 	loginUser := LoginUser{}
 
 	userID := c.PostForm("user_id")
@@ -23,6 +22,7 @@ func PostLoginDataInCookie(c *gin.Context) {
 	if err != nil {
 		log.Println(err)
 		c.AbortWithStatus(http.StatusUnauthorized)
+		return
 	}
 
 	loginUser.ID = user.ID
@@ -42,7 +42,6 @@ func PostLoginDataInCookie(c *gin.Context) {
 
 // PostLogoutDeleteCookie ...ログアウト時にセッションからログイン情報を削除する
 func PostLogoutDeleteCookie(c *gin.Context) {
-
 	userID := c.PostForm("user_id")
 	service.PostFalseToIsAdmin(userID) //ログインしたアカウントのIsAdminをFalseに変更
 
@@ -51,9 +50,24 @@ func PostLogoutDeleteCookie(c *gin.Context) {
 	if sessionUser == nil {
 		log.Println("セッションがありません")
 		c.AbortWithStatus(http.StatusUnauthorized)
+		return
 	}
 	session.Delete(userID)
 	session.Save()
 
 	c.AbortWithStatus(http.StatusOK)
+}
+
+// AuthCheck ...ユーザーごとの処理をする際にログインされているか確認する
+func AuthCheck(c *gin.Context, userID string) *int {
+	sessionUserID := session.Get(userID)
+
+	if sessionUserID == nil {
+		log.Println("ログインしてください")
+		err := http.StatusUnauthorized
+		return &err
+	}
+
+	log.Println("ログイン中")
+	return nil
 }
