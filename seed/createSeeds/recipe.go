@@ -13,25 +13,35 @@ func CreateSeedRecipes() {
 
 	recipesInfos := []map[string]string{
 		map[string]string{
-			"menuID": "1",
-			"URL":    "hogehoge.com",
+			"ID":       "1",
+			"Name":     "牛丼",
+			"Category": "1",
+			"URL":      "hogehoge.com",
 		},
 		map[string]string{
-			"menuID": "2",
-			"URL":    "fugafuga.com",
+			"ID":       "2",
+			"Name":     "シチュー",
+			"Category": "2",
+			"URL":      "fugafuga.com",
 		},
 		map[string]string{
-			"menuID": "3",
-			"URL":    "goyagoya.com",
+			"ID":       "3",
+			"Name":     "カレーライス",
+			"Category": "1",
+			"URL":      "goyagoya.com",
 		},
 	}
 
 	for _, info := range recipesInfos {
-		menuID, _ := strconv.Atoi(info["menuID"])
+		ID, _ := strconv.Atoi(info["ID"])
+		Name, _ := info["Name"]
+		category, _ := strconv.Atoi(info["Category"])
 		URL, _ := info["URL"]
 		createRecipe(model.Recipe{
-			MenuID: uint(menuID),
-			URL:    string(URL),
+			ID:       uint(ID),
+			Name:     string(Name),
+			Category: uint(category),
+			URL:      string(URL),
 		})
 	}
 }

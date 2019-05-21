@@ -5,12 +5,12 @@ import (
 )
 
 // GetRecipeByMenuID ...メニューIDを受け取り、レシピのURLを返す
-func GetRecipeByMenuID(menuID uint) (string, error) {
-	modelRecipe := model.Recipe{}
+func GetRecipeByMenuID(recipeID uint) (string, error) {
+	recipe := model.Recipe{}
 
-	err := db.Where("menu_id = ?", menuID).First(&modelRecipe).Error
+	err := db.Where("id = ?", recipeID).First(&recipe).Error
 
-	return modelRecipe.URL, err
+	return recipe.URL, err
 }
 
 // CreateRecipe ...DBに与えられたデータをinsertする

@@ -10,24 +10,25 @@ import (
 
 // GetRecipeByMenuID ...受け取ったメニューIDを元にレシピのURLを返す
 func GetRecipeByMenuID(c *gin.Context) {
-	var menuID uint
+	var recipeID uint
 	var err error
+	var recipeURL string
 
-	recipe := Recipe{}
-
-	menuID, err = GetUint(c, "menu_id")
+	recipeID, err = GetUint(c, "recipe_id")
 	if err != nil {
 		log.Println(err)
 		c.AbortWithStatus(http.StatusBadRequest)
 		return
 	}
 
-	recipe.URL, err = service.GetRecipeByMenuID(menuID)
+	recipeURL, err = service.GetRecipeByMenuID(recipeID)
 	if err != nil {
-		log.Println(err)
+		log.Println("そのレシピは存在しません")
 		c.AbortWithStatus(http.StatusBadRequest)
 		return
 	}
 
-	c.JSON(http.StatusOK, recipe)
+	c.JSON(http.StatusOK, gin.H{
+		"recipe_URL": recipeURL,
+	})
 }

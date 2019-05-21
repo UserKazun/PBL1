@@ -6,8 +6,3 @@ type LoginUser struct {
 	Name    string `json:"user_name"`
 	IsAdmin bool   `json:"is_admin"`
 }
-
-// Recipe ...レシピ
-type Recipe struct {
-	URL string `json:"recipe_url"`
-}
