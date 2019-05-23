@@ -4,15 +4,6 @@ import (
 	"github.com/PBL1/model"
 )
 
-// GetRecipeByMenuID ...メニューIDを受け取り、レシピのURLを返す
-func GetRecipeByMenuID(menuID uint) (string, error) {
-	modelRecipe := model.Recipe{}
-
-	err := db.Where("menu_id = ?", menuID).First(&modelRecipe).Error
-
-	return modelRecipe.URL, err
-}
-
 // CreateRecipe ...DBに与えられたデータをinsertする
 func CreateRecipe(recipe model.Recipe) (model.Recipe, error) {
 	err := db.Create(&recipe).Error
@@ -20,4 +11,22 @@ func CreateRecipe(recipe model.Recipe) (model.Recipe, error) {
 		return model.Recipe{}, err
 	}
 	return recipe, nil
+}
+
+// GetRecipeByMenuID ...メニューIDを元に、レシピのURLを返す
+func GetRecipeByMenuID(recipeID uint) (string, error) {
+	recipe := model.Recipe{}
+
+	err := db.Where("id = ?", recipeID).First(&recipe).Error
+
+	return recipe.URL, err
+}
+
+// GetRecipeNameByRecipeID ...メニューIDを元に、レシピの名前を返す
+func GetRecipeNameByRecipeID(recipeID uint) (string, error) {
+	recipe := model.Recipe{}
+
+	err := db.Where("id = ?", recipeID).First(&recipe).Error
+
+	return recipe.Name, err
 }

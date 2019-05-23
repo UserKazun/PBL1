@@ -36,8 +36,8 @@ func PostLoginDataInCookie(c *gin.Context) {
 
 	service.PostTrueToIsAdmin(userID) //ログインしたアカウントのIsAdminをTrueに変更
 
+	log.Println("ログインしました")
 	c.JSON(http.StatusOK, loginUser)
-
 }
 
 // PostLogoutDeleteCookie ...ログアウト時にセッションからログイン情報を削除する
@@ -48,13 +48,14 @@ func PostLogoutDeleteCookie(c *gin.Context) {
 	sessionUser := session.Get(userID)
 
 	if sessionUser == nil {
-		log.Println("セッションがありません")
+		log.Println("ログインされていません")
 		c.AbortWithStatus(http.StatusUnauthorized)
 		return
 	}
 	session.Delete(userID)
 	session.Save()
 
+	log.Println("ログアウトしました")
 	c.AbortWithStatus(http.StatusOK)
 }
 
@@ -63,7 +64,7 @@ func AuthCheck(c *gin.Context, userID string) *int {
 	sessionUserID := session.Get(userID)
 
 	if sessionUserID == nil {
-		log.Println("ログインしてください")
+		log.Println("ログインされていません")
 		err := http.StatusUnauthorized
 		return &err
 	}

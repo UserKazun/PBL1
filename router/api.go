@@ -13,6 +13,9 @@ func apiRouter(api *gin.RouterGroup) {
 	// ログアウト時にセッションとしてログイン情報を削除する
 	api.POST("/auth/logout", controller.PostLogoutDeleteCookie)
 
-	// メニューIDを受け取り、レシピのURLを返す
-	api.GET("/recipe/:menu_id", controller.GetRecipeByMenuID)
+	// 受け取ったrecipeIDを元にレシピのURLを返す
+	api.GET("/recipe/:recipe_id/URL", controller.GetRecipeByMenuID)
+
+	// 受け取ったレシピIDを元にそのレシピに必要な材料を返す
+	api.GET("/ingredient/:recipe_id", controller.GetIngredientsByRecipeID)
 }
