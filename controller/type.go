@@ -7,7 +7,7 @@ type LoginUser struct {
 	IsAdmin bool   `json:"is_admin"`
 }
 
-// Ingredient ...材料群
+// Ingredient ...レシピとその材料群
 type Ingredient struct {
 	RecipeName      string          `json:"recipe_name"`
 	IngredientCards IngredientCards `json:"Ingredient"`

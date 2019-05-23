@@ -11,24 +11,6 @@ import (
 
 // PostIngredientsToCart ...受け取った材料IDを指定されたユーザーのカートに追加する
 func PostIngredientsToCart(c *gin.Context) {
-
-	// Cart ...カート
-	// type Cart struct {
-	// 	UserID   string `sql:"type:varchar(50)" gorm:"primary_key"`
-	// 	RecipeID uint   `sql:"type:int" gorm:"primary_key"`
-	// 	FoodID   uint
-	// 	Quantity uint
-	// 	Unit     string
-	// }
-
-	// Ingredient ...材料
-	// type Ingredient struct {
-	// 	RecipeID uint `sql:"type:int" gorm:"primary_key"`
-	// 	FoodID   uint `sql:"type:int" gorm:"primary_key"`
-	// 	Quantity uint
-	// 	Unit     string
-	// }
-
 	userID := c.PostForm("user_id")
 	recipeID, _ := strconv.Atoi(c.PostForm("recipe_id"))
 	uintRecipeID := uint(recipeID)
@@ -54,5 +36,4 @@ func PostIngredientsToCart(c *gin.Context) {
 	}
 
 	c.AbortWithStatus(http.StatusOK)
-
 }
