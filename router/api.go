@@ -18,4 +18,7 @@ func apiRouter(api *gin.RouterGroup) {
 
 	// 受け取ったレシピIDを元にそのレシピに必要な材料を返す
 	api.GET("/ingredient/:recipe_id", controller.GetIngredientsByRecipeID)
+
+	// 受け取った材料IDを指定されたユーザーのカートに追加する
+	api.POST("/cart", controller.PostIngredientsToCart)
 }

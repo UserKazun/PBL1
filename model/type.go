@@ -43,7 +43,7 @@ type Ingredient struct {
 type Cart struct {
 	UserID   string `sql:"type:varchar(50)" gorm:"primary_key"`
 	RecipeID uint   `sql:"type:int" gorm:"primary_key"`
-	FoodID   uint
+	FoodID   uint   `sql:"type:int" gorm:"primary_key"`
 	Quantity uint
 	Unit     string
 }
