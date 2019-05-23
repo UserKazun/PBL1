@@ -13,35 +13,38 @@ func CreateSeedRecipes() {
 
 	recipesInfos := []map[string]string{
 		map[string]string{
-			"ID":       "1",
-			"Name":     "牛丼",
-			"Category": "1",
-			"URL":      "hogehoge.com",
+			"Name":       "牛丼",
+			"CategoryID": "1",
+			"Price":      "150",
+			"Point":      "15",
+			"URL":        "hogehoge.com",
 		},
 		map[string]string{
-			"ID":       "2",
-			"Name":     "シチュー",
-			"Category": "2",
-			"URL":      "fugafuga.com",
+			"Name":       "シチュー",
+			"CategoryID": "2",
+			"Price":      "200",
+			"Point":      "20",
+			"URL":        "fugafuga.com",
 		},
 		map[string]string{
-			"ID":       "3",
-			"Name":     "カレーライス",
-			"Category": "1",
-			"URL":      "goyagoya.com",
+			"Name":       "カレーライス",
+			"CategoryID": "1",
+			"Price":      "200",
+			"Point":      "20",
+			"URL":        "goyagoya.com",
 		},
 	}
 
 	for _, info := range recipesInfos {
-		ID, _ := strconv.Atoi(info["ID"])
-		Name, _ := info["Name"]
-		category, _ := strconv.Atoi(info["Category"])
-		URL, _ := info["URL"]
+		categoryID, _ := strconv.Atoi(info["CategoryID"])
+		price, _ := strconv.Atoi(info["Price"])
+		point, _ := strconv.Atoi(info["Point"])
 		createRecipe(model.Recipe{
-			ID:       uint(ID),
-			Name:     string(Name),
-			Category: uint(category),
-			URL:      string(URL),
+			Name:       string(info["Name"]),
+			CategoryID: uint(categoryID),
+			Price:      uint(price),
+			Point:      uint(point),
+			URL:        string(info["URL"]),
 		})
 	}
 }
