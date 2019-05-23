@@ -6,3 +6,18 @@ type LoginUser struct {
 	Name    string `json:"user_name"`
 	IsAdmin bool   `json:"is_admin"`
 }
+
+// Ingredient ...材料群
+type Ingredient struct {
+	RecipeName      string          `json:"recipe_name"`
+	IngredientCards IngredientCards `json:"Ingredient"`
+}
+
+// IngredientCard ...材料
+type IngredientCard struct {
+	FoodName string `json:"food_name"`
+	Quantity string `json:"quantity"`
+}
+
+// IngredientCards ...材料群
+type IngredientCards []IngredientCard
