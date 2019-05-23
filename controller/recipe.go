@@ -23,7 +23,7 @@ func GetRecipeByMenuID(c *gin.Context) {
 
 	recipeURL, err = service.GetRecipeByMenuID(recipeID)
 	if err != nil {
-		log.Println("そのレシピは存在しません")
+		log.Println("存在しないレシピIDです")
 		c.AbortWithStatus(http.StatusBadRequest)
 		return
 	}
