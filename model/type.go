@@ -13,7 +13,8 @@ type Recipe struct {
 	ID         uint `gorm:"primary_key"`
 	Name       string
 	CategoryID uint
-	URL        string
+	ImageURL   string
+	PageURL    string
 	Price      uint
 	Point      uint
 }

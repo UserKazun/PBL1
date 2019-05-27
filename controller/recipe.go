@@ -12,7 +12,7 @@ import (
 func GetRecipeByMenuID(c *gin.Context) {
 	var recipeID uint
 	var err error
-	var recipeURL string
+	var recipePageURL string
 
 	recipeID, err = GetUint(c, "recipe_id")
 	if err != nil {
@@ -21,7 +21,7 @@ func GetRecipeByMenuID(c *gin.Context) {
 		return
 	}
 
-	recipeURL, err = service.GetRecipeByMenuID(recipeID)
+	recipePageURL, err = service.GetRecipeByMenuID(recipeID)
 	if err != nil {
 		log.Println("存在しないレシピIDです")
 		c.AbortWithStatus(http.StatusBadRequest)
@@ -29,6 +29,6 @@ func GetRecipeByMenuID(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"recipe_URL": recipeURL,
+		"recipe_PageURL": recipePageURL,
 	})
 }

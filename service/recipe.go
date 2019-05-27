@@ -19,7 +19,7 @@ func GetRecipeByMenuID(recipeID uint) (string, error) {
 
 	err := db.Where("id = ?", recipeID).First(&recipe).Error
 
-	return recipe.URL, err
+	return recipe.PageURL, err
 }
 
 // GetRecipeNameByRecipeID ...メニューIDを元に、レシピの名前を返す
