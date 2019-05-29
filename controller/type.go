@@ -21,3 +21,9 @@ type IngredientCard struct {
 
 // IngredientCards ...材料群
 type IngredientCards []IngredientCard
+
+type Category struct {
+	Name string `json:"category_name"`
+}
+
+type Categories []Category

@@ -7,10 +7,13 @@ import (
 	"github.com/PBL1/service"
 )
 
-// CreateSeedCategorys ...ここで記入したデータをDBにinsertする
+// CreateSeedCategories ...ここで記入したデータをDBにinsertする
 func CreateSeedCategories() {
 
 	categoriesInfos := []map[string]string{
+		map[string]string{
+			"Name": "全て",
+		},
 		map[string]string{
 			"Name": "和食",
 		},

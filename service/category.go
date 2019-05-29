@@ -12,3 +12,14 @@ func CreateCategory(category model.Category) (model.Category, error) {
 	}
 	return category, nil
 }
+
+// GetAllCategoriesName ...食材IDを元に食材の名前を返す
+func GetAllCategoriesName() ([]model.Category, error) {
+	categories := []model.Category{}
+
+	err := db.Find(&categories).Error
+	if err != nil {
+		return nil, err
+	}
+	return categories, nil
+}
