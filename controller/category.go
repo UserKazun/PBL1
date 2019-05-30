@@ -10,8 +10,8 @@ import (
 
 // GetAllCategoriesName ...全てのカテゴリの名前を取得する
 func GetAllCategoriesName(c *gin.Context) {
-	categories := Categories{}
 	category := Category{}
+	categories := []Category{}
 
 	modelCategories, err := service.GetAllCategoriesName()
 	if err != nil {
@@ -26,5 +26,4 @@ func GetAllCategoriesName(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, categories)
-
 }
