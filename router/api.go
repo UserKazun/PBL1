@@ -24,4 +24,7 @@ func apiRouter(api *gin.RouterGroup) {
 
 	// 全てのカテゴリの名前を取得する
 	api.GET("/categories", controller.GetAllCategoriesName)
+
+	// 与えられたキーを元に検索した結果のレシピデータを取得する
+	api.GET("/recipes/:category_id/:search_key", controller.GetRecipesSearch)
 }
