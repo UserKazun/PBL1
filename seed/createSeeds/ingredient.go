@@ -45,8 +45,8 @@ func CreateSeedIngredients() {
 		map[string]string{
 			"RecipeID": "2",
 			"FoodID":   "4",
-			"Quantity": "1/4",
-			"Unit":     "かけ",
+			"Quantity": "",
+			"Unit":     "欠片4分の1ほど",
 		},
 	}
 

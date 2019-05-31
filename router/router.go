@@ -12,7 +12,8 @@ func GetRouter() *gin.Engine {
 	r.Use(sessions.Sessions("SessionName", store))
 
 	api := r.Group("/api/v1")
-	apiRouter(api)
+	api2 := r.Group("/api/v2")
+	apiRouter(api, api2)
 
 	return r
 }
