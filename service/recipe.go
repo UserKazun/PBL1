@@ -19,14 +19,42 @@ func GetRecipeByMenuID(recipeID uint) (string, error) {
 
 	err := db.Where("id = ?", recipeID).First(&recipe).Error
 
-	return recipe.URL, err
+	return recipe.PageURL, err
 }
 
 // GetRecipeNameByRecipeID ...メニューIDを元に、レシピの名前を返す
-func GetRecipeNameByRecipeID(recipeID uint) (string, error) {
+func GetRecipeNameByRecipeID(recipeID uint) string {
 	recipe := model.Recipe{}
 
-	err := db.Where("id = ?", recipeID).First(&recipe).Error
+	db.Where("id = ?", recipeID).First(&recipe)
 
-	return recipe.Name, err
+	return recipe.Name
+}
+
+func GetRecipeByRecipeID(recipeID uint) model.Recipe {
+	recipe := model.Recipe{}
+
+	db.Where("id = ?", recipeID).First(&recipe)
+
+	return recipe
+}
+
+//GetRecipesSearch ...
+func GetRecipesSearch(categoryID uint, searchKey string) ([]model.Recipe, error) {
+	recipes := []model.Recipe{}
+	searchKey = "%" + searchKey + "%"
+
+	if categoryID == 1 {
+		err := db.Raw("select distinct recipes.id, recipes.name, recipes.description, recipes.image_url, recipes.page_url, recipes.price, recipes.point FROM recipes JOIN ingredients ON (recipes.ID=ingredients.recipe_id) LEFT JOIN foods ON (ingredients.food_id = foods.id) WHERE recipes.name LIKE ? OR foods.name LIKE ? ORDER BY RAND() LIMIT 5;", searchKey, searchKey).Scan(&recipes).Error
+		if err != nil {
+			return nil, err
+		}
+	} else {
+		err := db.Raw("select distinct ingredients.recipe_id AS id FROM recipes JOIN ingredients ON (recipes.ID=ingredients.recipe_id) LEFT JOIN foods ON (ingredients.food_id = foods.id) WHERE (recipes.name LIKE ? OR foods.name LIKE ?) AND recipes.category_id = ? ORDER BY RAND() LIMIT 5;", searchKey, searchKey, categoryID).Scan(&recipes).Error
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	return recipes, nil
 }

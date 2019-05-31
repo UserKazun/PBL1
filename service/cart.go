@@ -4,15 +4,6 @@ import (
 	"github.com/PBL1/model"
 )
 
-// CreateFood ...DBに与えられたデータをinsertする
-// func CreateFood(food model.Food) (model.Food, error) {
-// 	err := db.Create(&food).Error
-// 	if err != nil {
-// 		return model.Food{}, err
-// 	}
-// 	return food, nil
-// }
-
 // PostIngredientsToCart ...渡された材料データをカートテーブルに追加する
 func PostIngredientsToCart(userID string, modelIngredients []model.Ingredient) error {
 	cart := model.Cart{}

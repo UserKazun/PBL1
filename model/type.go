@@ -10,12 +10,14 @@ type User struct {
 
 // Recipe ...レシピ
 type Recipe struct {
-	ID         uint `gorm:"primary_key"`
-	Name       string
-	CategoryID uint
-	URL        string
-	Price      uint
-	Point      uint
+	ID          uint `gorm:"primary_key"`
+	Name        string
+	Description string
+	CategoryID  uint
+	ImageURL    string
+	PageURL     string
+	Price       uint
+	Point       uint
 }
 
 // Category ...料理カテゴリー

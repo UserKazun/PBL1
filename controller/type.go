@@ -7,7 +7,7 @@ type LoginUser struct {
 	IsAdmin bool   `json:"is_admin"`
 }
 
-// Ingredient ...材料群
+// Ingredient ...レシピとその材料群
 type Ingredient struct {
 	RecipeName      string          `json:"recipe_name"`
 	IngredientCards IngredientCards `json:"Ingredient"`
@@ -21,3 +21,19 @@ type IngredientCard struct {
 
 // IngredientCards ...材料群
 type IngredientCards []IngredientCard
+
+// Category ...カテゴリ
+type Category struct {
+	Name string `json:"category_name"`
+}
+
+// SearchRecipe ...レシピの検索結果
+type SearchRecipe struct {
+	ID          uint   `json:"recipe_id"`
+	Name        string `json:"recipe_name"`
+	Description string `json:"recipe_Description"`
+	ImageURL    string `json:"recipe_image_url"`
+	PageURL     string `json:"recipe_page_url"`
+	Price       string `json:"price"`
+	Point       uint   `json:"point"`
+}
