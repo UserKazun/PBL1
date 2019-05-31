@@ -14,13 +14,10 @@ func CreateIngredient(ingredient model.Ingredient) (model.Ingredient, error) {
 }
 
 // GetIngredientsByRecipeID ...レシピIDを元にそのレシピに必要な材料の情報を返す
-func GetIngredientsByRecipeID(recipeID uint) ([]model.Ingredient, error) {
+func GetIngredientsByRecipeID(recipeID uint) []model.Ingredient {
 	ingredients := []model.Ingredient{}
 
-	err := db.Where("recipe_id = ?", recipeID).Find(&ingredients).Error
-	if err != nil {
-		return nil, err
-	}
+	db.Where("recipe_id = ?", recipeID).Find(&ingredients)
 
-	return ingredients, nil
+	return ingredients
 }

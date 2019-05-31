@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"log"
 	"net/http"
 	"strconv"
 
@@ -21,19 +20,9 @@ func PostIngredientsToCart(c *gin.Context) {
 		return
 	}
 
-	modelIngredients, err := service.GetIngredientsByRecipeID(uintRecipeID)
-	if err != nil {
-		log.Println("存在しないレシピIDです")
-		c.AbortWithStatus(http.StatusBadRequest)
-		return
-	}
+	modelIngredients := service.GetIngredientsByRecipeID(uintRecipeID)
 
-	err = service.PostIngredientsToCart(userID, modelIngredients)
-	if err != nil {
-		log.Println("与えられたパラメータが適切ではありません")
-		c.AbortWithStatus(http.StatusBadRequest)
-		return
-	}
+	service.PostIngredientsToCart(userID, modelIngredients)
 
 	c.AbortWithStatus(http.StatusOK)
 }
