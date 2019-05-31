@@ -72,7 +72,7 @@ GET http://54.238.92.95:8080/api/v1/ingredient/:recipe_id
 #### Request Parameters
 場所|パラメータ名|指定する値|説明|
 |:-|:-|:-|:-|
-|Path|recipe_id|数値|データを取得したいレシピID|
+|Path|recipe_id|数値|データを取得したいレシピID|
 
 #### Example Response
 
@@ -117,7 +117,7 @@ GET http://54.238.92.95:8080/api/v2/recipes/:recipe_id
 #### Request Parameters
 場所|パラメータ名|指定する値|説明|
 |:-|:-|:-|:-|
-|Path|recipe_id|数値|データを取得したいレシピID|
+|Path|recipe_id|数値|データを取得したいレシピID|
 
 #### Example Request
 
@@ -137,7 +137,7 @@ POST http://54.238.92.95:8080/api/v1/carts
 場所|パラメータ名|指定する値|説明|
 |:-|:-|:-|:-|
 |Body|user_id|文字列|材料をカートに追加したいユーザID|
-|Body|recipe_id|数値|カートに追加したい材料のあるレシピID|
+|Body|recipe_id|数値|カートに追加したい材料のあるレシピID|
 
 #### Example Request
 
@@ -152,11 +152,6 @@ curl -F "user_id=1" -F "recipe_id=1" http://54.238.92.95:8080/api/v1/carts
 ```
 GET  http://54.238.92.95:8080/api/v1/categories
 ```
-
-#### Request Parameters
-場所|パラメータ名|指定する値|説明|
-|:-|:-|:-|:-|
-
 
 #### Example Response
 
@@ -212,8 +207,8 @@ GET http://54.238.92.95:8080/api/v1/search-recipes/categories/:category_id/keys/
 #### Request Parameters
 場所|パラメータ名|指定する値|説明|
 |:-|:-|:-|:-|
-|Path|category_id|数値|絞り込みたいカテゴリーID|
-|Path|search_key|数値|検索したい文字列|
+|Path|category_id|数値|絞り込みたいカテゴリーID|
+|Path|search_key|数値|検索したい文字列|
 
 
 #### Example Response
