@@ -12,8 +12,10 @@ func GetRouter() *gin.Engine {
 	store := sessions.NewCookieStore([]byte("secret"))
 	r.Use(sessions.Sessions("SessionName", store))
 	r.Use(cors.Default())
-
+	
+	api := r.Group("/api/v1")
 	api2 := r.Group("/api/v2")
 	apiRouter(api, api2)
+
 	return r
 }

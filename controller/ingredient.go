@@ -21,7 +21,7 @@ func GetIngredientsByRecipeID(c *gin.Context) {
 		return
 	}
 
-	modelIngredients, err := service.GetIngredientsByRecipeID(recipeID)
+	modelIngredients := service.GetIngredientsByRecipeID(recipeID)
 
 	for _, modelIngredient := range modelIngredients {
 		ingredient.FoodName, err = service.GetFoodNameByID(modelIngredient.FoodID)

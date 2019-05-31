@@ -23,12 +23,20 @@ func GetRecipeByMenuID(recipeID uint) (string, error) {
 }
 
 // GetRecipeNameByRecipeID ...メニューIDを元に、レシピの名前を返す
-func GetRecipeNameByRecipeID(recipeID uint) (string, error) {
+func GetRecipeNameByRecipeID(recipeID uint) string {
 	recipe := model.Recipe{}
 
-	err := db.Where("id = ?", recipeID).First(&recipe).Error
+	db.Where("id = ?", recipeID).First(&recipe)
 
-	return recipe.Name, err
+	return recipe.Name
+}
+
+func GetRecipeByRecipeID(recipeID uint) model.Recipe {
+	recipe := model.Recipe{}
+
+	db.Where("id = ?", recipeID).First(&recipe)
+
+	return recipe
 }
 
 //GetRecipesSearch ...
