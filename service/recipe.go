@@ -50,7 +50,7 @@ func GetRecipesSearch(categoryID uint, searchKey string) ([]model.Recipe, error)
 			return nil, err
 		}
 	} else {
-		err := db.Raw("select distinct ingredients.recipe_id AS id FROM recipes JOIN ingredients ON (recipes.ID=ingredients.recipe_id) LEFT JOIN foods ON (ingredients.food_id = foods.id) WHERE (recipes.name LIKE ? OR foods.name LIKE ?) AND recipes.category_id = ? ORDER BY RAND() LIMIT 5;", searchKey, searchKey, categoryID).Scan(&recipes).Error
+		err := db.Raw("select distinct recipes.id, recipes.name, recipes.description, recipes.image_url, recipes.page_url, recipes.price, recipes.point FROM recipes JOIN ingredients ON (recipes.ID=ingredients.recipe_id) LEFT JOIN foods ON (ingredients.food_id = foods.id) WHERE (recipes.name LIKE ? OR foods.name LIKE ?) AND recipes.category_id = ? ORDER BY RAND() LIMIT 5;", searchKey, searchKey, categoryID).Scan(&recipes).Error
 		if err != nil {
 			return nil, err
 		}
