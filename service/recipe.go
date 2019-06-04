@@ -31,6 +31,7 @@ func GetRecipeNameByRecipeID(recipeID uint) string {
 	return recipe.Name
 }
 
+// GetRecipeByRecipeID ...レシピIDを元にレシピデータを返す
 func GetRecipeByRecipeID(recipeID uint) model.Recipe {
 	recipe := model.Recipe{}
 
