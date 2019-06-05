@@ -28,9 +28,8 @@ type Category struct {
 
 // Food ...食材
 type Food struct {
-	ID    uint `gorm:"primary_key"`
-	Name  string
-	Point uint
+	ID   uint `gorm:"primary_key"`
+	Name string
 }
 
 // Ingredient ...材料
@@ -43,9 +42,17 @@ type Ingredient struct {
 
 // Cart ...カート
 type Cart struct {
-	UserID   string `sql:"type:varchar(50)" gorm:"primary_key"`
-	RecipeID uint   `sql:"type:int" gorm:"primary_key"`
-	FoodID   uint   `sql:"type:int" gorm:"primary_key"`
-	Quantity uint
-	Unit     string
+	UserID    string `sql:"type:varchar(50)" gorm:"primary_key"`
+	RecipeID  uint   `sql:"type:int" gorm:"primary_key"`
+	FoodID    uint   `sql:"type:int" gorm:"primary_key"`
+	FoodCount uint
+	Quantity  uint
+	Unit      string
+}
+
+// RecipeSetCountInCart ...カート内のレシピセット数
+type RecipeSetCountInCart struct {
+	UserID      string `sql:"type:varchar(50)" gorm:"primary_key"`
+	RecipeID    uint   `sql:"type:int" gorm:"primary_key"`
+	RecipeCount uint
 }
