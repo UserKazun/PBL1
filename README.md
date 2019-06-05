@@ -126,7 +126,7 @@ curl http://54.238.92.95:8080/api/v2/recipes/1
 ```
 ---
 
-### [POST] 材料IDに結びつく材料データをカートに追加する
+### [POST] 材料IDに結びつく材料データをカートに追加する(ログイン必要)
 
 #### エンドポイント
 ```
@@ -142,7 +142,7 @@ POST http://54.238.92.95:8080/api/v1/carts
 #### Example Request
 
 ```
-curl -F "user_id=1" -F "recipe_id=1" http://54.238.92.95:8080/api/v1/carts
+curl -F "user_id=goya" -F "recipe_id=1" http://54.238.92.95:8080/api/v1/carts
 ```
 ---
 
