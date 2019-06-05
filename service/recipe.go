@@ -1,6 +1,8 @@
 package service
 
 import (
+	"log"
+
 	"github.com/PBL1/model"
 )
 
@@ -40,7 +42,7 @@ func GetRecipeByRecipeID(recipeID uint) model.Recipe {
 	return recipe
 }
 
-//GetRecipesSearch ...
+//GetRecipesSearch ...レシピを検索する
 func GetRecipesSearch(categoryID uint, searchKey string) ([]model.Recipe, error) {
 	recipes := []model.Recipe{}
 	searchKey = "%" + searchKey + "%"
@@ -58,4 +60,19 @@ func GetRecipesSearch(categoryID uint, searchKey string) ([]model.Recipe, error)
 	}
 
 	return recipes, nil
+}
+
+// GetRecipeCount ...ユーザIDとレシピIDを元に、そのレシピのカートに入っている個数を返す
+func GetRecipeCount(userID string, recipeID uint) (uint, error) {
+	recipeSetCountInCart := model.RecipeSetCountInCart{}
+
+	err := db.Where("user_id = ? and recipe_id = ?", userID, recipeID).First(&recipeSetCountInCart).Error
+	if err != nil {
+		return 0, err
+	}
+
+	log.Print(recipeSetCountInCart)
+
+	return recipeSetCountInCart.RecipeCount, err
+
 }

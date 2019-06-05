@@ -30,4 +30,8 @@ func apiRouter(api *gin.RouterGroup, api2 *gin.RouterGroup) {
 
 	// 与えられたキーを元に検索した結果のレシピデータを取得する
 	api.GET("search-recipes/categories/:category_id/keys/:search_key", controller.GetRecipesSearch)
+
+	// カートの中身を取得する
+	api.GET("/carts/users/:user_id", controller.GetCarts)
+
 }

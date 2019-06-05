@@ -49,3 +49,18 @@ type SearchRecipe struct {
 	Price       string `json:"price"`
 	Point       uint   `json:"point"`
 }
+
+// Cart ...カート
+type Cart struct {
+	RecipeName     string       `json:"recipe_name"`
+	RecipeCount    uint         `json:"recipe_count"`
+	RecipeImageURL string       `json:"recipe_image_url"`
+	FoodsInCart    []FoodInCart `json:"food_names"`
+}
+
+//FoodInCart ...カート内の食料
+type FoodInCart struct {
+	Name      string `json:"food_name"`
+	FoodCount uint   `json:"food_count"`
+	Quantity  string `json:"food_quantity"`
+}

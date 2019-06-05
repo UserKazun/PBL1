@@ -14,6 +14,7 @@ func PostIngredientsToCart(userID string, modelIngredients []model.Ingredient) e
 		cart.FoodID = modelIngredient.FoodID
 		cart.Quantity = modelIngredient.Quantity
 		cart.Unit = modelIngredient.Unit
+		cart.FoodCount = 1
 		err := db.Create(&cart).Error
 		if err != nil {
 			return err
@@ -21,4 +22,49 @@ func PostIngredientsToCart(userID string, modelIngredients []model.Ingredient) e
 	}
 
 	return nil
+}
+
+// GetRecipeIDsInCartByUserID ...ユーザーごとのカート内のレシピIDを返す
+func GetRecipeIDsInCartByUserID(userID string) ([]uint, error) {
+	carts := []model.Cart{}
+	recipeIDs := []uint{}
+
+	err := db.Raw("select distinct carts.recipe_id FROM carts WHERE user_id = ?;", userID).Scan(&carts).Error
+
+	if err != nil {
+		return nil, err
+	}
+
+	for _, cart := range carts {
+		recipeIDs = append(recipeIDs, cart.RecipeID)
+	}
+
+	return recipeIDs, nil
+}
+
+// InsertRecipeCount ...ユーザーごとのカートにあるレシピのセット数（○人前）をTableにInsertする
+func InsertRecipeCount(userID string, recipeID uint) error {
+	recipeSetCountInCart := model.RecipeSetCountInCart{}
+
+	recipeSetCountInCart.UserID = userID
+	recipeSetCountInCart.RecipeID = recipeID
+	recipeSetCountInCart.RecipeCount = 1
+	err := db.Create(&recipeSetCountInCart).Error
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// GetFoodIDsInCartByUserID ...
+func GetFoodIDsInCartByUserID(userID string, recipeID uint) ([]model.Cart, error) {
+	carts := []model.Cart{}
+
+	err := db.Where("user_id = ? and recipe_id = ?", userID, recipeID).Find(&carts).Error
+	if err != nil {
+		return nil, err
+	}
+
+	return carts, nil
 }
