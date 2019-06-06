@@ -12,8 +12,6 @@ func PostIngredientsToCart(userID string, modelIngredients []model.Ingredient) e
 		cart.UserID = userID
 		cart.RecipeID = modelIngredient.RecipeID
 		cart.FoodID = modelIngredient.FoodID
-		cart.Quantity = modelIngredient.Quantity
-		cart.Unit = modelIngredient.Unit
 		cart.FoodCount = 1
 		err := db.Create(&cart).Error
 		if err != nil {

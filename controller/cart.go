@@ -47,6 +47,7 @@ func GetCarts(c *gin.Context) {
 	recipeIDs := []uint{}
 	modelCarts := []model.Cart{}
 	modelRecipe := model.Recipe{}
+	ingredient := &model.Ingredient{}
 
 	userID := c.Param("user_id")
 
@@ -81,10 +82,12 @@ func GetCarts(c *gin.Context) {
 
 			food.FoodCount = modelCart.FoodCount
 
-			if modelCart.Quantity == 0 {
-				food.Quantity = modelCart.Unit
+			ingredient, err = service.GetIngredientsByRecipeIDAndFoodID(recipeID, modelCart.FoodID)
+
+			if ingredient.Quantity == 0 {
+				food.Quantity = ingredient.Unit
 			} else {
-				food.Quantity = strconv.FormatUint(uint64(modelCart.Quantity), 10) + modelCart.Unit
+				food.Quantity = strconv.FormatUint(uint64(ingredient.Quantity), 10) + ingredient.Unit
 			}
 
 			foods = append(foods, food)
