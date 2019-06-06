@@ -55,6 +55,7 @@ type Cart struct {
 	RecipeName     string       `json:"recipe_name"`
 	RecipeCount    uint         `json:"recipe_count"`
 	RecipeImageURL string       `json:"recipe_image_url"`
+	Price          uint         `json:"price"`
 	Point          uint         `json:"point"`
 	FoodsInCart    []FoodInCart `json:"food_names"`
 }

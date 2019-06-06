@@ -60,20 +60,15 @@ func GetCarts(c *gin.Context) {
 		foods = nil
 		modelRecipe = service.GetRecipeByRecipeID(recipeID)
 		cart.RecipeName = modelRecipe.Name
+		cart.RecipeImageURL = modelRecipe.ImageURL
+		cart.Price = modelRecipe.Price
+		cart.Point = modelRecipe.Point
 
 		cart.RecipeCount, err = service.GetRecipeCount(userID, recipeID)
 		if err != nil {
 			c.AbortWithStatus(http.StatusUnauthorized)
 			return
 		}
-
-		cart.Point, err = service.GetRecipePoint(recipeID)
-		if err != nil {
-			c.AbortWithStatus(http.StatusUnauthorized)
-			return
-		}
-
-		cart.RecipeImageURL = modelRecipe.ImageURL
 
 		modelCarts, err = service.GetFoodIDsInCartByUserID(userID, recipeID)
 
@@ -100,5 +95,4 @@ func GetCarts(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, carts)
-
 }
