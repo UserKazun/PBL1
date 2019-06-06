@@ -48,6 +48,12 @@ func CreateSeedIngredients() {
 			"Quantity": "",
 			"Unit":     "欠片4分の1ほど",
 		},
+		map[string]string{
+			"RecipeID": "4",
+			"FoodID":   "1",
+			"Quantity": "500",
+			"Unit":     "g",
+		},
 	}
 
 	for _, info := range ingredientsInfos {

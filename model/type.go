@@ -1,5 +1,9 @@
 package model
 
+import (
+	"time"
+)
+
 // User ...ユーザー
 type User struct {
 	ID       string `gorm:"primary_key"`
@@ -46,8 +50,6 @@ type Cart struct {
 	RecipeID  uint   `sql:"type:int" gorm:"primary_key"`
 	FoodID    uint   `sql:"type:int" gorm:"primary_key"`
 	FoodCount uint
-	Quantity  uint
-	Unit      string
 }
 
 // RecipeSetCountInCart ...カート内のレシピセット数
@@ -57,8 +59,8 @@ type RecipeSetCountInCart struct {
 	RecipeCount uint
 }
 
-// Cart ...カート
-type PurchaseHistory struct {
+// FoodPurchaseHistory ...食材の購入履歴
+type FoodPurchaseHistory struct {
 	UserID    string `sql:"type:varchar(50)" gorm:"primary_key"`
 	RecipeID  uint   `sql:"type:int" gorm:"primary_key"`
 	FoodID    uint   `sql:"type:int" gorm:"primary_key"`
@@ -67,9 +69,10 @@ type PurchaseHistory struct {
 	Unit      string
 }
 
-// RecipeSetCountInCart ...カート内のレシピセット数
-type History struct {
+// RecipePurchaseHistory ...レシピの購入履歴
+type RecipePurchaseHistory struct {
 	UserID      string `sql:"type:varchar(50)" gorm:"primary_key"`
 	RecipeID    uint   `sql:"type:int" gorm:"primary_key"`
 	RecipeCount uint
+	CreatedAt   time.Time
 }
