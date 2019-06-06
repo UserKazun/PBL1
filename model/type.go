@@ -56,3 +56,20 @@ type RecipeSetCountInCart struct {
 	RecipeID    uint   `sql:"type:int" gorm:"primary_key"`
 	RecipeCount uint
 }
+
+// Cart ...カート
+type PurchaseHistory struct {
+	UserID    string `sql:"type:varchar(50)" gorm:"primary_key"`
+	RecipeID  uint   `sql:"type:int" gorm:"primary_key"`
+	FoodID    uint   `sql:"type:int" gorm:"primary_key"`
+	FoodCount uint
+	Quantity  uint
+	Unit      string
+}
+
+// RecipeSetCountInCart ...カート内のレシピセット数
+type History struct {
+	UserID      string `sql:"type:varchar(50)" gorm:"primary_key"`
+	RecipeID    uint   `sql:"type:int" gorm:"primary_key"`
+	RecipeCount uint
+}

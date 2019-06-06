@@ -76,3 +76,15 @@ func GetRecipeCount(userID string, recipeID uint) (uint, error) {
 	return recipeSetCountInCart.RecipeCount, err
 
 }
+
+// GetRecipePoint ...レシピのIDを元に貢献ポイントを取得する
+func GetRecipePoint(recipeID uint) (uint, error) {
+	recipe := model.Recipe{}
+
+	err := db.Select("point").Where("id = ?", recipeID).First(&recipe).Error
+	if err != nil {
+		return 0, err
+	}
+
+	return recipe.Point, nil
+}
