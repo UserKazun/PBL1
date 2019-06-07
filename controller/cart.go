@@ -30,7 +30,7 @@ func PostIngredientsToCart(c *gin.Context) {
 }
 
 // GetCarts ...カートの中身を取得する
-func GetCarts(c *gin.Context) {
+func GetCartsByUserID(c *gin.Context) {
 	// ModelCart ...カート
 	// type Cart struct {
 	// 	UserID   string `sql:"type:varchar(50)" gorm:"primary_key"`
@@ -42,8 +42,8 @@ func GetCarts(c *gin.Context) {
 	var err error
 	cart := Cart{}
 	carts := []Cart{}
-	food := FoodInCart{}
-	foods := []FoodInCart{}
+	food := Food{}
+	foods := []Food{}
 	recipeIDs := []uint{}
 	modelCarts := []model.Cart{}
 	modelRecipe := model.Recipe{}
@@ -92,7 +92,7 @@ func GetCarts(c *gin.Context) {
 
 			foods = append(foods, food)
 		}
-		cart.FoodsInCart = foods
+		cart.Foods = foods
 
 		carts = append(carts, cart)
 	}
