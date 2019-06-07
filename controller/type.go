@@ -1,5 +1,7 @@
 package controller
 
+import "time"
+
 // LoginUser ...ログインユーザ情報
 type LoginUser struct {
 	ID      string `json:"user_id"`
@@ -7,6 +9,7 @@ type LoginUser struct {
 	IsAdmin bool   `json:"is_admin"`
 }
 
+// Recipe ...レシピ
 type Recipe struct {
 	RecipeName  string        `json:"recipe_name"`
 	ImageURL    string        `json:"recipe_image_url"`
@@ -52,17 +55,35 @@ type SearchRecipe struct {
 
 // Cart ...カート
 type Cart struct {
-	RecipeName     string       `json:"recipe_name"`
-	RecipeCount    uint         `json:"recipe_count"`
-	RecipeImageURL string       `json:"recipe_image_url"`
-	Price          uint         `json:"price"`
-	Point          uint         `json:"point"`
-	FoodsInCart    []FoodInCart `json:"food_names"`
+	RecipeName     string `json:"recipe_name"`
+	RecipeCount    uint   `json:"recipe_count"`
+	RecipeImageURL string `json:"recipe_image_url"`
+	Price          uint   `json:"price"`
+	Point          uint   `json:"point"`
+	Foods          []Food `json:"foods"`
 }
 
-//FoodInCart ...カート内の食料
-type FoodInCart struct {
+// PurchaseHistory ...購入履歴
+type PurchaseHistory struct {
+	Date                 time.Time `json:"date"`
+	TotalPrice           uint      `json:"total_price"`
+	TotalPoint           uint      `json:"total_point"`
+	PurchaseHistoryCards []PurchaseHistoryCard
+}
+
+// PurchaseHistoryCard ...
+type PurchaseHistoryCard struct {
+	RecipeName     string `json:"recipe_name"`
+	RecipeCount    uint   `json:"recipe_count"`
+	RecipeImageURL string `json:"recipe_image_url"`
+	Price          uint   `json:"price"`
+	Point          uint   `json:"point"`
+	Foods          []Food `json:"foods"`
+}
+
+//Food ...食料
+type Food struct {
 	Name      string `json:"food_name"`
-	FoodCount uint   `json:"food_count"`
 	Quantity  string `json:"food_quantity"`
+	FoodCount uint   `json:"food_count"`
 }

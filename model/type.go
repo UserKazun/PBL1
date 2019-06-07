@@ -74,5 +74,7 @@ type RecipePurchaseHistory struct {
 	UserID      string `sql:"type:varchar(50)" gorm:"primary_key"`
 	RecipeID    uint   `sql:"type:int" gorm:"primary_key"`
 	RecipeCount uint
+	Price       uint
+	Point       uint
 	CreatedAt   time.Time
 }

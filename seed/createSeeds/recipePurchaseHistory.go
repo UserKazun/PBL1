@@ -16,16 +16,22 @@ func CreateSeedRecipePurchaseHistories() {
 			"UserID":      "goya",
 			"RecipeID":    "4",
 			"RecipeCount": "1",
+			"Price":       "50",
+			"Point":       "5",
 		},
 	}
 
 	for _, info := range recipePurchaseHistoriesInfos {
 		recipeID, _ := strconv.Atoi(info["RecipeID"])
 		recipeCount, _ := strconv.Atoi(info["RecipeCount"])
+		price, _ := strconv.Atoi(info["Price"])
+		point, _ := strconv.Atoi(info["Point"])
 		createRecipePurchaseHistory(model.RecipePurchaseHistory{
 			UserID:      info["UserID"],
 			RecipeID:    uint(recipeID),
 			RecipeCount: uint(recipeCount),
+			Price:       uint(price),
+			Point:       uint(point),
 		})
 	}
 }
