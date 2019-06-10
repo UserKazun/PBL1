@@ -25,13 +25,15 @@ func CreateSeedFoodPurchaseHistories() {
 	for _, info := range foodPurchaseHistoriesInfos {
 		recipeID, _ := strconv.Atoi(info["RecipeID"])
 		foodID, _ := strconv.Atoi(info["FoodID"])
+		foodCount, _ := strconv.Atoi(info["FoodCount"])
 		quantity, _ := strconv.Atoi(info["Quantity"])
 		createFoodPurchaseHistory(model.FoodPurchaseHistory{
-			UserID:   info["UserID"],
-			RecipeID: uint(recipeID),
-			FoodID:   uint(foodID),
-			Quantity: uint(quantity),
-			Unit:     info["Unit"],
+			UserID:    info["UserID"],
+			RecipeID:  uint(recipeID),
+			FoodID:    uint(foodID),
+			FoodCount: uint(foodCount),
+			Quantity:  uint(quantity),
+			Unit:      info["Unit"],
 		})
 	}
 }
