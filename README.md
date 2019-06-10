@@ -251,6 +251,135 @@ curl http://54.238.92.95:8080/api/v1/search-recipes/categories/1/keys/肉
 ```
 ---
 
+### [GET] ユーザーIDを元にカートの中身を取得する
+
+#### エンドポイント
+```
+GET http://54.238.92.95:8080/api/v1/carts/users/:user_id
+```
+
+#### Request Parameters
+場所|パラメータ名|指定する値|説明|
+|:-|:-|:-|:-|
+|Path|user_id|文字列|対象のユーザーID|
 
 
+#### Example Response
 
++ Response 200 (application/json)
+
+    <details>
+    <summary>Body</summary>
+    <pre>
+    <code>
+    [
+        {
+            "recipe_name": "牛丼",
+            "recipe_count": 1,
+            "recipe_image_url": "https://www.pakutaso.com/shared/img/thumb/KAZUHIRO171013022_TP_V.jpg",
+            "food_names": [
+                {
+                    "food_name": "ライス",
+                    "food_count": 1,
+                    "food_quantity": "250g"
+                },
+                {
+                    "food_name": "牛肉",
+                    "food_count": 1,
+                    "food_quantity": "85g"
+                },
+                {
+                    "food_name": "牛丼のタレ",
+                    "food_count": 1,
+                    "food_quantity": "適量"
+                }
+            ]
+        },
+        {
+            "recipe_name": "肉だけカレーライス",
+            "recipe_count": 1,
+            "recipe_image_url": "https://d2l930y2yx77uc.cloudfront.net/production/uploads/images/7120502/picture_pc_bd3805fab5e332c67b1862c988179471.jpg",
+            "food_names": [
+                {
+                    "food_name": "ライス",
+                    "food_count": 1,
+                    "food_quantity": "250g"
+                },
+                {
+                    "food_name": "牛肉",
+                    "food_count": 1,
+                    "food_quantity": "100g"
+                },
+                {
+                    "food_name": "カレールー",
+                    "food_count": 1,
+                    "food_quantity": "欠片4分の1ほど"
+                }
+            ]
+        }
+    ]
+    </code>
+    </pre>
+    </details>
+
+
+#### Example Request
+
+```
+curl http://54.238.92.95:8080/api/v1/carts/users/goya
+```
+---
+
+### [GET] ユーザーIDを元に購入履歴を取得する
+
+#### エンドポイント
+```
+GET http://54.238.92.95:8080/api/v1/purchase-histories/users/:user_id
+```
+
+#### Request Parameters
+場所|パラメータ名|指定する値|説明|
+|:-|:-|:-|:-|
+|Path|user_id|文字列|対象のユーザーID|
+
+
+#### Example Response
+
++ Response 200 (application/json)
+
+    <details>
+    <summary>Body</summary>
+    <pre>
+    <code>
+    {
+        "date": "2019-06-10T19:51:23+09:00",
+        "total_price": 50,
+        "total_point": 5,
+        "PurchaseHistoryCards": [
+            {
+                "recipe_name": "米食っとけ、そう米だけさ",
+                "recipe_count": 1,
+                "recipe_image_url": "https://d2dcan0armyq93.cloudfront.net/photo/odai/600/222569875b57db9b87ae55845b35315d_600.jpg",
+                "price": 50,
+                "point": 5,
+                "foods": [
+                    {
+                        "food_name": "ライス",
+                        "food_quantity": "500g",
+                        "food_count": 0
+                    }
+                ]
+            }
+        ]
+    }
+    </code>
+    </pre>
+    </details>
+
+
+#### Example Request
+
+```
+curl http://54.238.92.95:8080/api/v1/purchase-histories/users/gaya
+```
+---
