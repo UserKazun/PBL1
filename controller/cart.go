@@ -29,16 +29,8 @@ func PostIngredientsToCart(c *gin.Context) {
 	c.AbortWithStatus(http.StatusOK)
 }
 
-// GetCarts ...カートの中身を取得する
+// GetCartsByUserID ...カートの中身を取得する
 func GetCartsByUserID(c *gin.Context) {
-	// ModelCart ...カート
-	// type Cart struct {
-	// 	UserID   string `sql:"type:varchar(50)" gorm:"primary_key"`
-	// 	RecipeID uint   `sql:"type:int" gorm:"primary_key"`
-	// 	FoodID   uint   `sql:"type:int" gorm:"primary_key"`
-	// 	Quantity uint
-	// 	Unit     string
-	// }
 	var err error
 	cart := Cart{}
 	carts := []Cart{}
@@ -50,6 +42,12 @@ func GetCartsByUserID(c *gin.Context) {
 	ingredient := &model.Ingredient{}
 
 	userID := c.Param("user_id")
+
+	errCode := AuthCheck(c, userID)
+	if errCode != nil {
+		c.AbortWithStatus(http.StatusUnauthorized)
+		return
+	}
 
 	recipeIDs, err = service.GetRecipeIDsInCartByUserID(userID)
 	if err != nil {

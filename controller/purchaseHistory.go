@@ -25,6 +25,12 @@ func GetPurchaseHistoriesByUserID(c *gin.Context) {
 
 	userID := c.Param("user_id")
 
+	errCode := AuthCheck(c, userID)
+	if errCode != nil {
+		c.AbortWithStatus(http.StatusUnauthorized)
+		return
+	}
+
 	modelRecipePurchaseHistories, err = service.GetRecipePurchaseHistoriesByUserID(userID)
 	if err != nil {
 		log.Println("登録されていないユーザIDです")
