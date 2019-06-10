@@ -366,7 +366,7 @@ GET http://54.238.92.95:8080/api/v1/purchase-histories/users/:user_id
                     {
                         "food_name": "ライス",
                         "food_quantity": "500g",
-                        "food_count": 0
+                        "food_count": 1
                     }
                 ]
             }
