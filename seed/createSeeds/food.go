@@ -2,7 +2,6 @@ package createSeeds
 
 import (
 	"fmt"
-	"strconv"
 
 	"github.com/PBL1/model"
 	"github.com/PBL1/service"
@@ -13,40 +12,31 @@ func CreateSeedFoods() {
 
 	foodsInfos := []map[string]string{
 		map[string]string{ //1
-			"Name":  "ライス",
-			"Point": "5",
+			"Name": "ライス",
 		},
 		map[string]string{ //2
-			"Name":  "牛肉",
-			"Point": "5",
+			"Name": "牛肉",
 		},
 		map[string]string{ //3
-			"Name":  "牛丼のタレ",
-			"Point": "1",
+			"Name": "牛丼のタレ",
 		},
 		map[string]string{ //4
-			"Name":  "カレールー",
-			"Point": "1",
+			"Name": "カレールー",
 		},
 		map[string]string{ //5
-			"Name":  "人参",
-			"Point": "1",
+			"Name": "人参",
 		},
 		map[string]string{ //6
-			"Name":  "玉葱",
-			"Point": "1",
+			"Name": "玉葱",
 		},
 		map[string]string{ //7
-			"Name":  "じゃがいも",
-			"Point": "1",
+			"Name": "じゃがいも",
 		},
 	}
 
 	for _, info := range foodsInfos {
-		point, _ := strconv.Atoi(info["Point"])
 		createFood(model.Food{
-			Name:  info["Name"],
-			Point: uint(point),
+			Name: info["Name"],
 		})
 	}
 }

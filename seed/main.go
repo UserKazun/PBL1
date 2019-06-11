@@ -8,5 +8,6 @@ func main() {
 	createSeeds.CreateSeedFoods()
 	createSeeds.CreateSeedIngredients()
 	createSeeds.CreateSeedCategories()
-
+	createSeeds.CreateSeedRecipePurchaseHistories()
+	createSeeds.CreateSeedFoodPurchaseHistories()
 }
