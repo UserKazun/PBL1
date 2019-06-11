@@ -51,7 +51,7 @@ func GetCartsByUserID(c *gin.Context) {
 
 	recipeIDs, err = service.GetRecipeIDsInCartByUserID(userID)
 	if err != nil {
-		c.AbortWithStatus(http.StatusUnauthorized)
+		c.AbortWithStatus(http.StatusInternalServerError)
 		return
 	}
 
@@ -65,7 +65,7 @@ func GetCartsByUserID(c *gin.Context) {
 
 		cart.RecipeCount, err = service.GetRecipeCount(userID, recipeID)
 		if err != nil {
-			c.AbortWithStatus(http.StatusUnauthorized)
+			c.AbortWithStatus(http.StatusInternalServerError)
 			return
 		}
 
@@ -74,7 +74,7 @@ func GetCartsByUserID(c *gin.Context) {
 		for _, modelCart := range modelCarts {
 			food.Name, err = service.GetFoodNameByID(modelCart.FoodID)
 			if err != nil {
-				c.AbortWithStatus(http.StatusUnauthorized)
+				c.AbortWithStatus(http.StatusInternalServerError)
 				return
 			}
 
@@ -96,4 +96,25 @@ func GetCartsByUserID(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, carts)
+}
+
+// PutCartsRecipeCountByUserID ...カートの中身を更新する
+func PutCartsRecipeCountByUserID(c *gin.Context) {
+	userID := c.PostForm("user_id")
+	recipeID, _ := strconv.Atoi(c.PostForm("recipe_id"))
+	recipeCount, _ := strconv.Atoi(c.PostForm("recipe_count"))
+
+	errCode := AuthCheck(c, userID)
+	if errCode != nil {
+		c.AbortWithStatus(http.StatusUnauthorized)
+		return
+	}
+
+	err := service.PutCartsRecipeCountByUserIDAndRecipeID(userID, uint(recipeID), uint(recipeCount))
+	if err != nil {
+		c.AbortWithStatus(http.StatusInternalServerError)
+		return
+	}
+
+	c.AbortWithStatus(http.StatusOK)
 }
