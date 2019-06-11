@@ -45,6 +45,7 @@ func GetPurchaseDatesByUserID(userID string) ([]time.Time, error) {
 	return purchaseDates, nil
 }
 
+// GetmodelRecipePurchaseHistoriesByUserIDAndPurchaseDate ...購入履歴にあるデータの挿入時間をダブることなく取得する
 func GetmodelRecipePurchaseHistoriesByUserIDAndPurchaseDate(userID string, purchaseDate time.Time) ([]model.RecipePurchaseHistory, error) {
 	recipePurchaseHistories := []model.RecipePurchaseHistory{}
 
