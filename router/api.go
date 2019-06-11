@@ -34,6 +34,15 @@ func apiRouter(api *gin.RouterGroup, api2 *gin.RouterGroup) {
 	// ユーザーIDを元にカートの中身を取得する
 	api.GET("/carts/users/:user_id", controller.GetCartsByUserID)
 
+	// ユーザーIDを元にカートの中身(レシピ)を更新する
+	api.PUT("/carts", controller.PutCartsRecipeCountByUserID)
+
+	// ユーザーIDを元にカートの中身(食材)を更新する
+	//api.PUT("/carts", controller.PutCartsFoodCountByUserID)
+
+	// ユーザーIDを元にカートの中身を購入する
+	//api.POST("/purchase-histories", controller.PostPurchaseHistoriesByUserID)
+
 	// ユーザーIDを元に購入履歴を取得する
 	api.GET("/purchase-histories/users/:user_id", controller.GetPurchaseHistoriesByUserID)
 
