@@ -55,6 +55,7 @@ type SearchRecipe struct {
 
 // Cart ...カート
 type Cart struct {
+	RecipeID       uint   `json:"recipe_id"`
 	RecipeName     string `json:"recipe_name"`
 	RecipeCount    uint   `json:"recipe_count"`
 	RecipeImageURL string `json:"recipe_image_url"`
@@ -83,6 +84,7 @@ type PurchaseHistoryCard struct {
 
 //Food ...食料
 type Food struct {
+	ID        uint   `json:"food_id"`
 	Name      string `json:"food_name"`
 	Quantity  string `json:"food_quantity"`
 	FoodCount uint   `json:"food_count"`

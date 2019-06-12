@@ -57,6 +57,7 @@ func GetCartsByUserID(c *gin.Context) {
 
 	for _, recipeID := range recipeIDs {
 		foods = nil
+		cart.RecipeID = recipeID
 		modelRecipe = service.GetRecipeByRecipeID(recipeID)
 		cart.RecipeName = modelRecipe.Name
 		cart.RecipeImageURL = modelRecipe.ImageURL
@@ -72,6 +73,7 @@ func GetCartsByUserID(c *gin.Context) {
 		modelCarts, err = service.GetFoodIDsInCartByUserID(userID, recipeID)
 
 		for _, modelCart := range modelCarts {
+			food.ID = modelCart.FoodID
 			food.Name, err = service.GetFoodNameByID(modelCart.FoodID)
 			if err != nil {
 				c.AbortWithStatus(http.StatusInternalServerError)
