@@ -4,8 +4,8 @@ import (
 	"github.com/PBL1/model"
 )
 
-// PutCartsRecipeCountByUserIDAndRecipeID ...
-func PutCartsRecipeCountByUserIDAndRecipeID(userID string, recipeID uint, recipeCount uint) error {
+// PutCartsRecipeCount ...カート内のレシピセット数に関するテーブルを更新
+func PutCartsRecipeCount(userID string, recipeID uint, recipeCount uint) error {
 	BeforeRecipeSetCountInCart := model.RecipeSetCountInCart{}
 	var err error
 
