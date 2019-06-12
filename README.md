@@ -383,3 +383,24 @@ GET http://54.238.92.95:8080/api/v1/purchase-histories/users/:user_id
 curl http://54.238.92.95:8080/api/v1/purchase-histories/users/gaya
 ```
 ---
+
+### [PUT] ユーザーIDを元にカートの中身(レシピの数量)を更新する
+
+#### エンドポイント
+```
+PUT http://54.238.92.95:8080/api/v1/carts
+```
+
+#### Request Parameters
+場所|パラメータ名|指定する値|説明|
+|:-|:-|:-|:-|
+|Body|user_id|文字列|対象のユーザーID|
+|Body|recipe_id|文字列|対象のレシピID|
+|Body|recipe_count|文字列|購入したいレシピのセット数|
+
+#### Example Request
+
+```
+curl -X PUT -d "user_id=goya&recipe_id=1&recipe_count=2" localhost:8080/api/v1/carts
+```
+---
