@@ -380,7 +380,7 @@ GET http://54.238.92.95:8080/api/v1/purchase-histories/users/:user_id
 #### Example Request
 
 ```
-curl http://54.238.92.95:8080/api/v1/purchase-histories/users/gaya
+curl http://54.238.92.95:8080/api/v1/purchase-histories/users/goya
 ```
 ---
 
