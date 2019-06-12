@@ -395,8 +395,8 @@ PUT http://54.238.92.95:8080/api/v1/carts
 場所|パラメータ名|指定する値|説明|
 |:-|:-|:-|:-|
 |Body|user_id|文字列|対象のユーザーID|
-|Body|recipe_id|文字列|対象のレシピID|
-|Body|recipe_count|文字列|購入したいレシピのセット数|
+|Body|recipe_id|数値|対象のレシピID|
+|Body|recipe_count|数値|購入したいレシピのセット数|
 
 #### Example Request
 
