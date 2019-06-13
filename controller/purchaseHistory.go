@@ -11,8 +11,10 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// GetPurchaseHistoriesByUserID ...ユーザーIDを元に購入履歴を取得する
 func GetPurchaseHistoriesByUserID(c *gin.Context) {
 	purchaseHistory := PurchaseHistory{}
+	purchaseHistories := []PurchaseHistory{}
 	purchaseHistoryCard := PurchaseHistoryCard{}
 	purchaseHistoryCards := []PurchaseHistoryCard{}
 	foods := []Food{}
@@ -48,7 +50,7 @@ func GetPurchaseHistoriesByUserID(c *gin.Context) {
 			for _, modelRecipePurchaseHistory := range modelRecipePurchaseHistories {
 				purchaseHistoryCard.Point = modelRecipePurchaseHistory.Point
 				purchaseHistoryCard.Price = modelRecipePurchaseHistory.Price
-				purchaseHistoryCard.RecipeCount = modelRecipePurchaseHistory.RecipeCount
+				purchaseHistoryCard.RecipeCount = *modelRecipePurchaseHistory.RecipeCount
 
 				recipe = service.GetRecipeByRecipeID(modelRecipePurchaseHistory.RecipeID)
 
@@ -65,7 +67,7 @@ func GetPurchaseHistoriesByUserID(c *gin.Context) {
 				}
 
 				for _, modelFoodPurchaseHistory := range modelFoodPurchaseHistories {
-					food.FoodCount = modelFoodPurchaseHistory.FoodCount
+					food.FoodCount = *modelFoodPurchaseHistory.FoodCount
 					food.Name, err = service.GetFoodNameByID(modelFoodPurchaseHistory.FoodID)
 
 					if modelFoodPurchaseHistory.Quantity == 0 {
@@ -80,13 +82,12 @@ func GetPurchaseHistoriesByUserID(c *gin.Context) {
 
 				purchaseHistoryCards = append(purchaseHistoryCards, purchaseHistoryCard)
 			}
-
 			purchaseHistory.PurchaseHistoryCards = purchaseHistoryCards
-
 		}
+		purchaseHistories = append(purchaseHistories, purchaseHistory)
 
 	}
 
-	c.JSON(http.StatusOK, purchaseHistory)
+	c.JSON(http.StatusOK, purchaseHistories)
 
 }

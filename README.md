@@ -380,6 +380,50 @@ GET http://54.238.92.95:8080/api/v1/purchase-histories/users/:user_id
 #### Example Request
 
 ```
-curl http://54.238.92.95:8080/api/v1/purchase-histories/users/gaya
+curl http://54.238.92.95:8080/api/v1/purchase-histories/users/goya
 ```
 ---
+
+### [PUT] ユーザーIDを元にカートの中身(レシピの数量)を更新する
+
+#### エンドポイント
+```
+PUT http://54.238.92.95:8080/api/v1/carts/recipe-counts
+```
+
+#### Request Parameters
+場所|パラメータ名|指定する値|説明|
+|:-|:-|:-|:-|
+|Body|user_id|文字列|対象のユーザーID|
+|Body|recipe_id|数値|対象のレシピID|
+|Body|recipe_count|数値|購入したいレシピのセット数|
+
+#### Example Request
+
+```
+curl -X PUT -d "user_id=goya&recipe_id=1&recipe_count=2" http://54.238.92.95:8080/api/v1/carts/recipe-counts
+```
+---
+
+### [PUT] ユーザーIDを元にカートの中身(食料の数量)を更新する
+
+#### エンドポイント
+```
+PUT http://54.238.92.95:8080/api/v1/carts/food-counts
+```
+
+#### Request Parameters
+場所|パラメータ名|指定する値|説明|
+|:-|:-|:-|:-|
+|Body|user_id|文字列|対象のユーザーID|
+|Body|recipe_id|数値|対象のレシピID|
+|Body|food_id|数値|対象の食料ID|
+|Body|food_count|数値|購入したい食料のセット数|
+
+#### Example Request
+
+```
+curl -X PUT -d "user_id=goya&recipe_id=1&food_id=1&food_count=5" http://54.238.92.95:8080/api/v1/carts/food-counts
+```
+---
+
