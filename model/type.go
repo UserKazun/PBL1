@@ -49,14 +49,14 @@ type Cart struct {
 	UserID    string `sql:"type:varchar(50)" gorm:"primary_key"`
 	RecipeID  uint   `sql:"type:int" gorm:"primary_key"`
 	FoodID    uint   `sql:"type:int" gorm:"primary_key"`
-	FoodCount uint
+	FoodCount *uint
 }
 
 // RecipeSetCountInCart ...カート内のレシピセット数
 type RecipeSetCountInCart struct {
 	UserID      string `sql:"type:varchar(50)" gorm:"primary_key"`
 	RecipeID    uint   `sql:"type:int" gorm:"primary_key"`
-	RecipeCount uint
+	RecipeCount *uint
 }
 
 // FoodPurchaseHistory ...食材の購入履歴
@@ -64,7 +64,7 @@ type FoodPurchaseHistory struct {
 	UserID    string `sql:"type:varchar(50)" gorm:"primary_key"`
 	RecipeID  uint   `sql:"type:int" gorm:"primary_key"`
 	FoodID    uint   `sql:"type:int" gorm:"primary_key"`
-	FoodCount uint
+	FoodCount *uint
 	Quantity  uint
 	Unit      string
 }
@@ -73,7 +73,7 @@ type FoodPurchaseHistory struct {
 type RecipePurchaseHistory struct {
 	UserID      string `sql:"type:varchar(50)" gorm:"primary_key"`
 	RecipeID    uint   `sql:"type:int" gorm:"primary_key"`
-	RecipeCount uint
+	RecipeCount *uint
 	Price       uint
 	Point       uint
 	CreatedAt   time.Time

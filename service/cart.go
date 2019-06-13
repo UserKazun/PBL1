@@ -7,12 +7,13 @@ import (
 // PostIngredientsToCart ...渡された材料データをカートテーブルに追加する
 func PostIngredientsToCart(userID string, modelIngredients []model.Ingredient) error {
 	cart := model.Cart{}
+	numOne := uint(1)
 
 	for _, modelIngredient := range modelIngredients {
 		cart.UserID = userID
 		cart.RecipeID = modelIngredient.RecipeID
 		cart.FoodID = modelIngredient.FoodID
-		cart.FoodCount = 1
+		cart.FoodCount = &numOne
 		err := db.Create(&cart).Error
 		if err != nil {
 			return err
@@ -46,7 +47,7 @@ func InsertRecipeCount(userID string, recipeID uint) error {
 
 	recipeSetCountInCart.UserID = userID
 	recipeSetCountInCart.RecipeID = recipeID
-	recipeSetCountInCart.RecipeCount = 1
+	*recipeSetCountInCart.RecipeCount = 1
 	err := db.Create(&recipeSetCountInCart).Error
 	if err != nil {
 		return err

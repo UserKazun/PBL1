@@ -15,7 +15,7 @@ func PutCartsFoodCount(userID string, recipeID uint, foodID uint, foodCount uint
 	}
 
 	afterCart := BeforeCart
-	afterCart.FoodCount = foodCount
+	afterCart.FoodCount = &foodCount
 
 	err = db.Model(&BeforeCart).Update(afterCart).Error
 	if err != nil {

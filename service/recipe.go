@@ -73,7 +73,7 @@ func GetRecipeCount(userID string, recipeID uint) (uint, error) {
 
 	log.Print(recipeSetCountInCart)
 
-	return recipeSetCountInCart.RecipeCount, err
+	return *recipeSetCountInCart.RecipeCount, err
 
 }
 

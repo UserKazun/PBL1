@@ -80,7 +80,7 @@ func GetCartsByUserID(c *gin.Context) {
 				return
 			}
 
-			food.FoodCount = modelCart.FoodCount
+			food.FoodCount = *modelCart.FoodCount
 
 			ingredient, err = service.GetIngredientsByRecipeIDAndFoodID(recipeID, modelCart.FoodID)
 
