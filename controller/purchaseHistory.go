@@ -11,8 +11,10 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// GetPurchaseHistoriesByUserID ...ユーザーIDを元に購入履歴を取得する
 func GetPurchaseHistoriesByUserID(c *gin.Context) {
 	purchaseHistory := PurchaseHistory{}
+	purchaseHistories := []PurchaseHistory{}
 	purchaseHistoryCard := PurchaseHistoryCard{}
 	purchaseHistoryCards := []PurchaseHistoryCard{}
 	foods := []Food{}
@@ -80,13 +82,12 @@ func GetPurchaseHistoriesByUserID(c *gin.Context) {
 
 				purchaseHistoryCards = append(purchaseHistoryCards, purchaseHistoryCard)
 			}
-
 			purchaseHistory.PurchaseHistoryCards = purchaseHistoryCards
-
 		}
+		purchaseHistories = append(purchaseHistories, purchaseHistory)
 
 	}
 
-	c.JSON(http.StatusOK, purchaseHistory)
+	c.JSON(http.StatusOK, purchaseHistories)
 
 }
