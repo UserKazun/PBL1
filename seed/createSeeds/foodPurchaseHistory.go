@@ -38,9 +38,9 @@ func CreateSeedFoodPurchaseHistories() {
 		},
 		map[string]string{
 			"UserID":    "goya",
-			"RecipeID":  "4",
+			"RecipeID":  "1",
 			"FoodID":    "3",
-			"FoodCount": "3",
+			"FoodCount": "2",
 			"Quantity":  "",
 			"Unit":      "適量",
 		},

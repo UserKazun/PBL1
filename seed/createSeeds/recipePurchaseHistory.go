@@ -21,7 +21,7 @@ func CreateSeedRecipePurchaseHistories() {
 		},
 		map[string]string{
 			"UserID":      "goya",
-			"RecipeID":    "2",
+			"RecipeID":    "1",
 			"RecipeCount": "2",
 			"Price":       "300",
 			"Point":       "30",
