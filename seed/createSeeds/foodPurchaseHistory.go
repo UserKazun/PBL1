@@ -27,11 +27,12 @@ func CreateSeedFoodPurchaseHistories() {
 		foodID, _ := strconv.Atoi(info["FoodID"])
 		foodCount, _ := strconv.Atoi(info["FoodCount"])
 		quantity, _ := strconv.Atoi(info["Quantity"])
+		uintfoodXCount := uint(foodCount)
 		createFoodPurchaseHistory(model.FoodPurchaseHistory{
 			UserID:    info["UserID"],
 			RecipeID:  uint(recipeID),
 			FoodID:    uint(foodID),
-			FoodCount: uint(foodCount),
+			FoodCount: &uintfoodXCount,
 			Quantity:  uint(quantity),
 			Unit:      info["Unit"],
 		})
