@@ -41,7 +41,7 @@ func apiRouter(api *gin.RouterGroup, api2 *gin.RouterGroup) {
 	api.PUT("/carts/food-counts", controller.PutCartsFoodCountByUserID)
 
 	// ユーザーIDを元にカートの中身を購入する
-	//api.POST("/purchase-histories", controller.PostPurchaseHistoriesByUserID)
+	api.POST("/purchase-histories", controller.PostPurchaseHistoriesByUserID)
 
 	// ユーザーIDを元に購入履歴を取得する
 	api.GET("/purchase-histories/users/:user_id", controller.GetPurchaseHistoriesByUserID)
