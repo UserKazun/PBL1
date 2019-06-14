@@ -19,6 +19,13 @@ func CreateSeedRecipePurchaseHistories() {
 			"Price":       "50",
 			"Point":       "5",
 		},
+		map[string]string{
+			"UserID":      "goya",
+			"RecipeID":    "2",
+			"RecipeCount": "2",
+			"Price":       "300",
+			"Point":       "30",
+		},
 	}
 
 	for _, info := range recipePurchaseHistoriesInfos {

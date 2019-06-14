@@ -44,10 +44,11 @@ func GetRecipeIDsInCartByUserID(userID string) ([]uint, error) {
 // InsertRecipeCount ...ユーザーごとのカートにあるレシピのセット数（○人前）をTableにInsertする
 func InsertRecipeCount(userID string, recipeID uint) error {
 	recipeSetCountInCart := model.RecipeSetCountInCart{}
+	numOne := uint(1)
 
 	recipeSetCountInCart.UserID = userID
 	recipeSetCountInCart.RecipeID = recipeID
-	*recipeSetCountInCart.RecipeCount = 1
+	recipeSetCountInCart.RecipeCount = &numOne
 	err := db.Create(&recipeSetCountInCart).Error
 	if err != nil {
 		return err
