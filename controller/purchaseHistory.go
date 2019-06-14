@@ -27,66 +27,71 @@ func GetPurchaseHistoriesByUserID(c *gin.Context) {
 
 	userID := c.Param("user_id")
 
-	errCode := AuthCheck(c, userID)
-	if errCode != nil {
-		c.AbortWithStatus(http.StatusUnauthorized)
-		return
-	}
+	// errCode := AuthCheck(c, userID)
+	// if errCode != nil {
+	// 	c.AbortWithStatus(http.StatusUnauthorized)
+	// 	return
+	// }
 
-	modelRecipePurchaseHistories, err = service.GetRecipePurchaseHistoriesByUserID(userID)
+	//特定ユーザーの購入日データ群を取得
+	purchaseDates, err = service.GetPurchaseDatesByUserID(userID)
 	if err != nil {
 		log.Println("登録されていないユーザIDです")
 		c.AbortWithStatus(http.StatusBadRequest)
 		return
 	}
 
-	for _, modelRecipePurchaseHistory := range modelRecipePurchaseHistories {
-		purchaseHistory.Date = modelRecipePurchaseHistory.CreatedAt
-		purchaseDates, err = service.GetPurchaseDatesByUserID(userID)
+	for _, purchaseDate := range purchaseDates {
+		purchaseHistory.Date = purchaseDate
+		modelRecipePurchaseHistories, err = service.GetmodelRecipePurchaseHistoriesByUserIDAndPurchaseDate(userID, purchaseDate)
 
-		for _, purchaseDate := range purchaseDates {
-			modelRecipePurchaseHistories, err = service.GetmodelRecipePurchaseHistoriesByUserIDAndPurchaseDate(userID, purchaseDate)
+		for _, modelRecipePurchaseHistory := range modelRecipePurchaseHistories {
+			// 材料の中身をリセット
+			foods = nil
 
-			for _, modelRecipePurchaseHistory := range modelRecipePurchaseHistories {
-				purchaseHistoryCard.Point = modelRecipePurchaseHistory.Point
-				purchaseHistoryCard.Price = modelRecipePurchaseHistory.Price
-				purchaseHistoryCard.RecipeCount = *modelRecipePurchaseHistory.RecipeCount
+			// レシピの値段・ポイント・個数を挿入
+			purchaseHistoryCard.Price = modelRecipePurchaseHistory.Price
+			purchaseHistoryCard.Point = modelRecipePurchaseHistory.Point
+			purchaseHistoryCard.RecipeCount = *modelRecipePurchaseHistory.RecipeCount
 
-				recipe = service.GetRecipeByRecipeID(modelRecipePurchaseHistory.RecipeID)
+			// レシピデータを取得
+			recipe = service.GetRecipeByRecipeID(modelRecipePurchaseHistory.RecipeID)
 
-				purchaseHistoryCard.RecipeName = recipe.Name
-				purchaseHistoryCard.RecipeImageURL = recipe.ImageURL
+			// レシピの名前・イメージ画像URLを挿入
+			purchaseHistoryCard.RecipeName = recipe.Name
+			purchaseHistoryCard.RecipeImageURL = recipe.ImageURL
 
-				purchaseHistory.TotalPrice += purchaseHistoryCard.Price
-				purchaseHistory.TotalPoint += purchaseHistoryCard.Point
+			// 値段とポイントの合計値を計算
+			purchaseHistory.TotalPrice += purchaseHistoryCard.Price
+			purchaseHistory.TotalPoint += purchaseHistoryCard.Point
 
-				modelFoodPurchaseHistories, err = service.GetFoodPurchaseHistoriesByUserIDAndRecipeID(userID, recipe.ID)
-				if err != nil {
-					c.AbortWithStatus(http.StatusBadRequest)
-					return
-				}
-
-				for _, modelFoodPurchaseHistory := range modelFoodPurchaseHistories {
-					food.FoodCount = *modelFoodPurchaseHistory.FoodCount
-					food.Name, err = service.GetFoodNameByID(modelFoodPurchaseHistory.FoodID)
-
-					if modelFoodPurchaseHistory.Quantity == 0 {
-						food.Quantity = modelFoodPurchaseHistory.Unit
-					} else {
-						food.Quantity = strconv.FormatUint(uint64(modelFoodPurchaseHistory.Quantity), 10) + modelFoodPurchaseHistory.Unit
-					}
-					foods = append(foods, food)
-				}
-
-				purchaseHistoryCard.Foods = foods
-
-				purchaseHistoryCards = append(purchaseHistoryCards, purchaseHistoryCard)
+			// レシピごとの食材購入履歴データを取得
+			modelFoodPurchaseHistories, err = service.GetFoodPurchaseHistoriesByUserIDAndRecipeID(userID, recipe.ID)
+			if err != nil {
+				c.AbortWithStatus(http.StatusBadRequest)
+				return
 			}
-			purchaseHistory.PurchaseHistoryCards = purchaseHistoryCards
-		}
-		purchaseHistories = append(purchaseHistories, purchaseHistory)
 
+			for _, modelFoodPurchaseHistory := range modelFoodPurchaseHistories {
+				food.ID = modelFoodPurchaseHistory.FoodID
+				food.FoodCount = *modelFoodPurchaseHistory.FoodCount
+				food.Name, err = service.GetFoodNameByID(modelFoodPurchaseHistory.FoodID)
+
+				if modelFoodPurchaseHistory.Quantity == 0 {
+					food.Quantity = modelFoodPurchaseHistory.Unit
+				} else {
+					food.Quantity = strconv.FormatUint(uint64(modelFoodPurchaseHistory.Quantity), 10) + modelFoodPurchaseHistory.Unit
+				}
+				foods = append(foods, food)
+			}
+
+			purchaseHistoryCard.Foods = foods
+
+			purchaseHistoryCards = append(purchaseHistoryCards, purchaseHistoryCard)
+		}
+		purchaseHistory.PurchaseHistoryCards = purchaseHistoryCards
 	}
+	purchaseHistories = append(purchaseHistories, purchaseHistory)
 
 	c.JSON(http.StatusOK, purchaseHistories)
 

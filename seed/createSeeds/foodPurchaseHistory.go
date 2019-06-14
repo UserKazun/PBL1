@@ -20,6 +20,30 @@ func CreateSeedFoodPurchaseHistories() {
 			"Quantity":  "500",
 			"Unit":      "g",
 		},
+		map[string]string{
+			"UserID":    "goya",
+			"RecipeID":  "1",
+			"FoodID":    "1",
+			"FoodCount": "1",
+			"Quantity":  "250",
+			"Unit":      "g",
+		},
+		map[string]string{
+			"UserID":    "goya",
+			"RecipeID":  "1",
+			"FoodID":    "2",
+			"FoodCount": "2",
+			"Quantity":  "85",
+			"Unit":      "g",
+		},
+		map[string]string{
+			"UserID":    "goya",
+			"RecipeID":  "1",
+			"FoodID":    "3",
+			"FoodCount": "2",
+			"Quantity":  "",
+			"Unit":      "適量",
+		},
 	}
 
 	for _, info := range foodPurchaseHistoriesInfos {
