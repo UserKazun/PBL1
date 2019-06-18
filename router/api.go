@@ -49,4 +49,7 @@ func apiRouter(api *gin.RouterGroup, api2 *gin.RouterGroup) {
 	// ユーザーIDを元にマイページ情報を取得する
 	api.GET("/mypage/users/:user_id", controller.GetMypageByUserID)
 
+	// ユーザーIDを元にマイページ情報を更新する
+	api.PUT("/mypage", controller.PutMypageByUserID)
+
 }
