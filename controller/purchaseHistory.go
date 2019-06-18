@@ -40,7 +40,7 @@ func GetPurchaseHistoriesByUserID(c *gin.Context) {
 	}
 
 	for _, purchaseDate := range purchaseDates {
-		purchaseHistory.Date = purchaseDate
+		purchaseHistory.Date = purchaseDate.Format("2006-01-02")
 		modelRecipePurchaseHistories, err = service.GetmodelRecipePurchaseHistoriesByUserIDAndPurchaseDate(userID, purchaseDate)
 
 		for _, modelRecipePurchaseHistory := range modelRecipePurchaseHistories {

@@ -1,7 +1,5 @@
 package controller
 
-import "time"
-
 // LoginUser ...ログインユーザ情報
 type LoginUser struct {
 	ID      string `json:"user_id"`
@@ -66,9 +64,9 @@ type Cart struct {
 
 // PurchaseHistory ...購入履歴
 type PurchaseHistory struct {
-	Date                 time.Time `json:"date"`
-	TotalPrice           uint      `json:"total_price"`
-	TotalPoint           uint      `json:"total_point"`
+	Date                 string `json:"date"`
+	TotalPrice           uint   `json:"total_price"`
+	TotalPoint           uint   `json:"total_point"`
 	PurchaseHistoryCards []PurchaseHistoryCard
 }
 
