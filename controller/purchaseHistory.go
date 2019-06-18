@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"log"
 	"net/http"
 	"strconv"
 	"time"
@@ -27,17 +26,16 @@ func GetPurchaseHistoriesByUserID(c *gin.Context) {
 
 	userID := c.Param("user_id")
 
-	// errCode := AuthCheck(c, userID)
-	// if errCode != nil {
-	// 	c.AbortWithStatus(http.StatusUnauthorized)
-	// 	return
-	// }
+	errCode := AuthCheck(c, userID)
+	if errCode != nil {
+		c.AbortWithStatus(http.StatusUnauthorized)
+		return
+	}
 
 	//特定ユーザーの購入日データ群を取得
 	purchaseDates, err = service.GetPurchaseDatesByUserID(userID)
 	if err != nil {
-		log.Println("登録されていないユーザIDです")
-		c.AbortWithStatus(http.StatusBadRequest)
+		c.AbortWithStatus(http.StatusInternalServerError)
 		return
 	}
 
