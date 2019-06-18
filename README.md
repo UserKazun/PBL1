@@ -330,6 +330,49 @@ curl http://54.238.92.95:8080/api/v1/carts/users/goya
 ```
 ---
 
+### [PUT] ユーザーIDを元にカートの中身(レシピの数量)を更新する
+
+#### エンドポイント
+```
+PUT http://54.238.92.95:8080/api/v1/carts/recipe-counts
+```
+
+#### Request Parameters
+場所|パラメータ名|指定する値|説明|
+|:-|:-|:-|:-|
+|Body|user_id|文字列|対象のユーザーID|
+|Body|recipe_id|数値|対象のレシピID|
+|Body|recipe_count|数値|購入したいレシピのセット数|
+
+#### Example Request
+
+```
+curl -X PUT -d "user_id=goya&recipe_id=1&recipe_count=2" http://54.238.92.95:8080/api/v1/carts/recipe-counts
+```
+---
+
+### [PUT] ユーザーIDを元にカートの中身(食料の数量)を更新する
+
+#### エンドポイント
+```
+PUT http://54.238.92.95:8080/api/v1/carts/food-counts
+```
+
+#### Request Parameters
+場所|パラメータ名|指定する値|説明|
+|:-|:-|:-|:-|
+|Body|user_id|文字列|対象のユーザーID|
+|Body|recipe_id|数値|対象のレシピID|
+|Body|food_id|数値|対象の食料ID|
+|Body|food_count|数値|購入したい食料のセット数|
+
+#### Example Request
+
+```
+curl -X PUT -d "user_id=goya&recipe_id=1&food_id=1&food_count=5" http://54.238.92.95:8080/api/v1/carts/food-counts
+```
+---
+
 ### [GET] ユーザーIDを元に購入履歴を取得する
 
 #### エンドポイント
@@ -384,46 +427,42 @@ curl http://54.238.92.95:8080/api/v1/purchase-histories/users/goya
 ```
 ---
 
-### [PUT] ユーザーIDを元にカートの中身(レシピの数量)を更新する
+### [GET] ユーザーIDを元にマイページ情報を取得する
 
 #### エンドポイント
 ```
-PUT http://54.238.92.95:8080/api/v1/carts/recipe-counts
+GET http://54.238.92.95:8080/api/v1/mypage/users/:user_id
 ```
 
 #### Request Parameters
 場所|パラメータ名|指定する値|説明|
 |:-|:-|:-|:-|
-|Body|user_id|文字列|対象のユーザーID|
-|Body|recipe_id|数値|対象のレシピID|
-|Body|recipe_count|数値|購入したいレシピのセット数|
+|Path|user_id|文字列|対象のユーザーID|
+
+
+#### Example Response
+
++ Response 200 (application/json)
+
+    <details>
+    <summary>Body</summary>
+    <pre>
+    <code>
+    {
+        "user_id": "goya",
+        "user_name": "destinyZero",
+        "user_email": "goya@goya.com",
+        "user_street_address": "沖縄県呉屋市呉屋町5858-5",
+        "cumulative_points": 1000
+    }
+    </code>
+    </pre>
+    </details>
+
 
 #### Example Request
 
 ```
-curl -X PUT -d "user_id=goya&recipe_id=1&recipe_count=2" http://54.238.92.95:8080/api/v1/carts/recipe-counts
+curl http://54.238.92.95:8080/api/v1/mypage/users/goya
 ```
 ---
-
-### [PUT] ユーザーIDを元にカートの中身(食料の数量)を更新する
-
-#### エンドポイント
-```
-PUT http://54.238.92.95:8080/api/v1/carts/food-counts
-```
-
-#### Request Parameters
-場所|パラメータ名|指定する値|説明|
-|:-|:-|:-|:-|
-|Body|user_id|文字列|対象のユーザーID|
-|Body|recipe_id|数値|対象のレシピID|
-|Body|food_id|数値|対象の食料ID|
-|Body|food_count|数値|購入したい食料のセット数|
-
-#### Example Request
-
-```
-curl -X PUT -d "user_id=goya&recipe_id=1&food_id=1&food_count=5" http://54.238.92.95:8080/api/v1/carts/food-counts
-```
----
-
