@@ -89,3 +89,12 @@ type Food struct {
 	Quantity  string `json:"food_quantity"`
 	FoodCount uint   `json:"food_count"`
 }
+
+//Mypage ...マイページ
+type Mypage struct {
+	UserID            string `json:"user_id"`
+	UserName          string `json:"user_name"`
+	UserEmail         string `json:"user_email"`
+	UserStreetAddress string `json:"user_street_address"`
+	CumulativePoints  uint   `json:"cumulative_points"`
+}
