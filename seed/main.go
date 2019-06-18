@@ -10,4 +10,6 @@ func main() {
 	createSeeds.CreateSeedCategories()
 	createSeeds.CreateSeedRecipePurchaseHistories()
 	createSeeds.CreateSeedFoodPurchaseHistories()
+	createSeeds.CreateSeedDegreeOfContributions()
+	createSeeds.CreateSeedBookmarks()
 }
