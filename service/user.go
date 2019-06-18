@@ -60,3 +60,15 @@ func PostFalseToIsAdmin(userID string) {
 	// db.Model(&userBefore).Update(&userAfter)
 	db.Save(&userAfter)
 }
+
+// GetUserByID ...ID別にユーザ情報を取得
+func GetUserByID(userID string) (*model.User, error) {
+	user := model.User{}
+
+	err := db.Where("id = ?", userID).First(&user).Error
+	if &user != nil && err != nil {
+		return nil, err
+	}
+
+	return &user, nil
+}

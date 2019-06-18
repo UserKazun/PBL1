@@ -12,3 +12,15 @@ func CreateDegreeOfContribution(degreeOfContribution model.DegreeOfContribution)
 	}
 	return degreeOfContribution, nil
 }
+
+// GetCumulativePointsByUserID ...対象ユーザーの飢餓対策合計ポイントを返す
+func GetCumulativePointsByUserID(userID string) (uint, error) {
+	degreeOfContribution := model.DegreeOfContribution{}
+
+	err := db.Where("user_id = ?", userID).First(&degreeOfContribution).Error
+	if err != nil {
+		return 0, err
+	}
+
+	return degreeOfContribution.CumulativePoints, nil
+}

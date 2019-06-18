@@ -46,4 +46,7 @@ func apiRouter(api *gin.RouterGroup, api2 *gin.RouterGroup) {
 	// ユーザーIDを元に購入履歴を取得する
 	api.GET("/purchase-histories/users/:user_id", controller.GetPurchaseHistoriesByUserID)
 
+	// ユーザーIDを元にマイページ情報を取得する
+	api.GET("/mypage/users/:user_id", controller.GetMypageByUserID)
+
 }
