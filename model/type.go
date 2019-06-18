@@ -6,10 +6,12 @@ import (
 
 // User ...ユーザー
 type User struct {
-	ID       string `gorm:"primary_key"`
-	Password string
-	Name     string
-	IsAdmin  bool
+	ID            string `gorm:"primary_key"`
+	Password      string
+	Name          string
+	Email         string
+	StreetAddress string
+	IsAdmin       bool
 }
 
 // Recipe ...レシピ
@@ -77,4 +79,16 @@ type RecipePurchaseHistory struct {
 	Price       uint
 	Point       uint
 	CreatedAt   time.Time
+}
+
+// DegreeOfContribution ...飢餓対策貢献ポイント
+type DegreeOfContribution struct {
+	UserID           string `gorm:"primary_key"`
+	CumulativePoints uint
+}
+
+//Bookmark ...ブックマーク
+type Bookmark struct {
+	UserID   string `sql:"type:varchar(50)" gorm:"primary_key"`
+	RecipeID uint   `sql:"type:int" gorm:"primary_key"`
 }
