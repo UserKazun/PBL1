@@ -72,3 +72,39 @@ func GetUserByID(userID string) (*model.User, error) {
 
 	return &user, nil
 }
+
+// GetPasswordByID ...ID別にパスワード情報を取得
+func GetPasswordByID(userID string) (string, error) {
+	user := model.User{}
+
+	err := db.Where("id = ?", userID).First(&user).Error
+	if &user != nil && err != nil {
+		return "", err
+	}
+
+	return user.Password, nil
+}
+
+//PutUserByID ...ユーザ情報の更新
+func PutUserByID(userID string, userName string, userEmail string, UserStreetAddress string, newPassword string) error {
+	beforeUser := model.User{}
+
+	err := db.Where("id = ?", userID).First(&beforeUser).Error
+	if &beforeUser != nil && err != nil {
+		return err
+	}
+
+	afterUser := beforeUser
+	afterUser.ID = userID
+	afterUser.Name = userName
+	afterUser.Email = userEmail
+	afterUser.StreetAddress = UserStreetAddress
+	afterUser.Password = newPassword
+
+	err = db.Model(&beforeUser).Update(afterUser).Error
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
