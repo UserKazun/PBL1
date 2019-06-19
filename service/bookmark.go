@@ -12,3 +12,20 @@ func CreateBookmark(bookmark model.Bookmark) (model.Bookmark, error) {
 	}
 	return bookmark, nil
 }
+
+// GetBookmarkRecipeIDsByUserID ...
+func GetBookmarkRecipeIDsByUserID(userID string) ([]uint, error) {
+	bookmarks := []model.Bookmark{}
+	var recipeIDs []uint
+
+	err := db.Where("user_id = ?", userID).Find(&bookmarks).Error
+	if err != nil {
+		return nil, err
+	}
+
+	for _, bookmark := range bookmarks {
+		recipeIDs = append(recipeIDs, bookmark.RecipeID)
+	}
+
+	return recipeIDs, nil
+}

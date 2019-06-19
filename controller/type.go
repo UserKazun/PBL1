@@ -96,3 +96,13 @@ type Mypage struct {
 	UserStreetAddress string `json:"user_street_address"`
 	CumulativePoints  uint   `json:"cumulative_points"`
 }
+
+// Bookmark ...ブックマーク
+type Bookmark struct {
+	ID          uint   `json:"recipe_id"`
+	Name        string `json:"recipe_name"`
+	Description string `json:"recipe_Description"`
+	ImageURL    string `json:"recipe_image_url"`
+	Price       string `json:"price"`
+	Point       uint   `json:"point"`
+}
