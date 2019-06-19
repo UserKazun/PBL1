@@ -251,7 +251,7 @@ curl http://54.238.92.95:8080/api/v1/search-recipes/categories/1/keys/肉
 ```
 ---
 
-### [GET] ユーザーIDを元にカートの中身を取得する
+### [GET] 対象ユーザのカートの中身を取得する
 
 #### エンドポイント
 ```
@@ -330,7 +330,7 @@ curl http://54.238.92.95:8080/api/v1/carts/users/goya
 ```
 ---
 
-### [PUT] ユーザーIDを元にカートの中身(レシピの数量)を更新する
+### [PUT] 対象ユーザのカートの中身(レシピの数量)を更新する
 
 #### エンドポイント
 ```
@@ -351,7 +351,7 @@ curl -X PUT -d "user_id=goya&recipe_id=1&recipe_count=2" http://54.238.92.95:808
 ```
 ---
 
-### [PUT] ユーザーIDを元にカートの中身(食料の数量)を更新する
+### [PUT] 対象ユーザのカートの中身(食料の数量)を更新する
 
 #### エンドポイント
 ```
@@ -373,7 +373,7 @@ curl -X PUT -d "user_id=goya&recipe_id=1&food_id=1&food_count=5" http://54.238.9
 ```
 ---
 
-### [GET] ユーザーIDを元に購入履歴を取得する
+### [GET] 対象ユーザの購入履歴を取得する
 
 #### エンドポイント
 ```
@@ -427,7 +427,7 @@ curl http://54.238.92.95:8080/api/v1/purchase-histories/users/goya
 ```
 ---
 
-### [GET] ユーザーIDを元にマイページ情報を取得する
+### [GET] 対象ユーザのマイページ情報を取得する
 
 #### エンドポイント
 ```
@@ -464,5 +464,56 @@ GET http://54.238.92.95:8080/api/v1/mypage/users/:user_id
 
 ```
 curl http://54.238.92.95:8080/api/v1/mypage/users/goya
+```
+---
+
+### [GET] 対象ユーザのブックマーク情報を取得する
+
+#### エンドポイント
+```
+GET http://54.238.92.95:8080/api/v1/bookmark/users/:user_id
+```
+
+#### Request Parameters
+場所|パラメータ名|指定する値|説明|
+|:-|:-|:-|:-|
+|Path|user_id|文字列|対象のユーザーID|
+
+
+#### Example Response
+
++ Response 200 (application/json)
+
+    <details>
+    <summary>Body</summary>
+    <pre>
+    <code>
+    [
+        {
+            "recipe_id": 1,
+            "recipe_name": "牛丼",
+            "recipe_Description": "お肉がのったご飯だよ！",
+            "recipe_image_url": "https://www.pakutaso.com/shared/img/thumb/KAZUHIRO171013022_TP_V.jpg",
+            "price": "¥150",
+            "point": 15
+        },
+        {
+            "recipe_id": 4,
+            "recipe_name": "米食っとけ、そう米だけさ",
+            "recipe_Description": "米オンリー",
+            "recipe_image_url": "https://d2dcan0armyq93.cloudfront.net/photo/odai/600/222569875b57db9b87ae55845b35315d_600.jpg",
+            "price": "¥50",
+            "point": 5
+        }
+    ]
+    </code>
+    </pre>
+    </details>
+
+
+#### Example Request
+
+```
+curl http://54.238.92.95:8080/api/v1/bookmark/users/goya
 ```
 ---
