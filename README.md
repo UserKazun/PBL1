@@ -197,7 +197,7 @@ curl http://54.238.92.95:8080/api/v1/categories
 ```
 ---
 
-### [GET] 与えられたキーを元に検索した結果のレシピデータを取得する
+### [GET] 与えられたキーとカテゴリーIDを元に検索した結果のレシピデータを取得する
 
 #### エンドポイント
 ```
@@ -248,6 +248,68 @@ GET http://54.238.92.95:8080/api/v1/search-recipes/categories/:category_id/keys/
 
 ```
 curl http://54.238.92.95:8080/api/v1/search-recipes/categories/1/keys/肉
+```
+---
+
+### [GET] 与えられたカテゴリーIDだけを元に検索した結果のレシピデータを取得する
+
+#### エンドポイント
+```
+GET http://54.238.92.95:8080/api/v1/search-recipes/categories/:category_id
+```
+
+#### Request Parameters
+場所|パラメータ名|指定する値|説明|
+|:-|:-|:-|:-|
+|Path|category_id|数値|絞り込みたいカテゴリーID|
+
+
+#### Example Response
+
++ Response 200 (application/json)
+
+    <details>
+    <summary>Body</summary>
+    <pre>
+    <code>
+    [
+        {
+            "recipe_id": 2,
+            "recipe_name": "肉だけカレーライス",
+            "recipe_Description": "男は黙って肉食っとけカレーライス",
+            "recipe_image_url": "https://d2l930y2yx77uc.cloudfront.net/production/uploads/images/7120502/picture_pc_bd3805fab5e332c67b1862c988179471.jpg",
+            "recipe_page_url": "fugafuga.com",
+            "price": "¥200",
+            "point": 20
+        },
+        {
+            "recipe_id": 1,
+            "recipe_name": "牛丼",
+            "recipe_Description": "お肉がのったご飯だよ！",
+            "recipe_image_url": "https://www.pakutaso.com/shared/img/thumb/KAZUHIRO171013022_TP_V.jpg",
+            "recipe_page_url": "hogehoge.com",
+            "price": "¥150",
+            "point": 15
+        },
+        {
+            "recipe_id": 4,
+            "recipe_name": "米食っとけ、そう米だけさ",
+            "recipe_Description": "米オンリー",
+            "recipe_image_url": "https://d2dcan0armyq93.cloudfront.net/photo/odai/600/222569875b57db9b87ae55845b35315d_600.jpg",
+            "recipe_page_url": "komekome.com",
+            "price": "¥50",
+            "point": 5
+        }
+    ]
+    </code>
+    </pre>
+    </details>
+
+
+#### Example Request
+
+```
+curl http://54.238.92.95:8080/api/v1/search-recipes/categories/1
 ```
 ---
 
@@ -431,13 +493,13 @@ curl http://54.238.92.95:8080/api/v1/purchase-histories/users/goya
 
 #### エンドポイント
 ```
-GET http://54.238.92.95:8080/api/v1/mypage/users/:user_id
+POST http://54.238.92.95:8080/api/v1/mypage
 ```
 
 #### Request Parameters
 場所|パラメータ名|指定する値|説明|
 |:-|:-|:-|:-|
-|Path|user_id|文字列|対象ユーザーのID|
+|Body|user_id|文字列|対象ユーザーのID|
 
 
 #### Example Response
@@ -464,7 +526,7 @@ GET http://54.238.92.95:8080/api/v1/mypage/users/:user_id
 #### Example Request
 
 ```
-curl http://54.238.92.95:8080/api/v1/mypage/users/goya
+curl -F "user_id=goya"  http://54.238.92.95:8080/api/v1/mypage
 ```
 ---
 
