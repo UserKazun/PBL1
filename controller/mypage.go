@@ -12,7 +12,7 @@ import (
 func GetMypageByUserID(c *gin.Context) {
 	mypage := Mypage{}
 
-	userID := c.Param("user_id")
+	userID := c.PostForm("user_id")
 
 	errCode := AuthCheck(c, userID)
 	if errCode != nil {
@@ -30,8 +30,10 @@ func GetMypageByUserID(c *gin.Context) {
 	mypage.UserID = user.ID
 	mypage.UserName = user.Name
 	mypage.UserEmail = user.Email
+	mypage.UserPassword = user.Password
 	mypage.UserStreetAddress = user.StreetAddress
 	mypage.CumulativePoints, err = service.GetCumulativePointsByUserID(userID)
+
 	if err != nil {
 		log.Println("データが取得できませんでした")
 		c.AbortWithStatus(http.StatusInternalServerError)

@@ -47,7 +47,7 @@ func apiRouter(api *gin.RouterGroup, api2 *gin.RouterGroup) {
 	api.GET("/purchase-histories/users/:user_id", controller.GetPurchaseHistoriesByUserID)
 
 	// 対象ユーザのマイページ情報を取得する
-	api.GET("/mypage/users/:user_id", controller.GetMypageByUserID)
+	api.POST("/mypage", controller.GetMypageByUserID)
 
 	// 対象ユーザのマイページ情報を更新する
 	api.PUT("/mypage", controller.PutMypageByUserID)

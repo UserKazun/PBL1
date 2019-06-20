@@ -93,6 +93,7 @@ type Mypage struct {
 	UserID            string `json:"user_id"`
 	UserName          string `json:"user_name"`
 	UserEmail         string `json:"user_email"`
+	UserPassword      string `json:"user_password"`
 	UserStreetAddress string `json:"user_street_address"`
 	CumulativePoints  uint   `json:"cumulative_points"`
 }
