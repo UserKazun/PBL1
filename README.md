@@ -14,7 +14,7 @@ POST http://54.238.92.95:8080/api/v1/auth/login
 #### Request Parameters
 場所|パラメータ名|指定する値|説明|
 |:-|:-|:-|:-|
-|Body|user_id|文字列|ログインしたいユーザーID|
+|Body|user_id|文字列|ログインしたいユーザーのID|
 |Body|password|文字列|ログインしたいユーザーのパスワード|
 
 #### Example Response
@@ -53,7 +53,7 @@ POST http://54.238.92.95:8080/api/v1/auth/logout
 #### Request Parameters
 場所|パラメータ名|指定する値|説明|
 |:-|:-|:-|:-|
-|Body|user_id|文字列|ログインしたいユーザーID|
+|Body|user_id|文字列|ログインしたいユーザーのID|
 
 #### Example Request
 
@@ -261,7 +261,7 @@ GET http://54.238.92.95:8080/api/v1/carts/users/:user_id
 #### Request Parameters
 場所|パラメータ名|指定する値|説明|
 |:-|:-|:-|:-|
-|Path|user_id|文字列|対象のユーザーID|
+|Path|user_id|文字列|対象ユーザーのID|
 
 
 #### Example Response
@@ -340,7 +340,7 @@ PUT http://54.238.92.95:8080/api/v1/carts/recipe-counts
 #### Request Parameters
 場所|パラメータ名|指定する値|説明|
 |:-|:-|:-|:-|
-|Body|user_id|文字列|対象のユーザーID|
+|Body|user_id|文字列|対象ユーザーのID|
 |Body|recipe_id|数値|対象のレシピID|
 |Body|recipe_count|数値|購入したいレシピのセット数|
 
@@ -383,7 +383,7 @@ GET http://54.238.92.95:8080/api/v1/purchase-histories/users/:user_id
 #### Request Parameters
 場所|パラメータ名|指定する値|説明|
 |:-|:-|:-|:-|
-|Path|user_id|文字列|対象のユーザーID|
+|Path|user_id|文字列|対象ユーザーのID|
 
 
 #### Example Response
@@ -427,7 +427,7 @@ curl http://54.238.92.95:8080/api/v1/purchase-histories/users/goya
 ```
 ---
 
-### [GET] 対象ユーザのマイページ情報を取得する
+### [POST] 対象ユーザのマイページ情報を取得する
 
 #### エンドポイント
 ```
@@ -437,7 +437,7 @@ GET http://54.238.92.95:8080/api/v1/mypage/users/:user_id
 #### Request Parameters
 場所|パラメータ名|指定する値|説明|
 |:-|:-|:-|:-|
-|Path|user_id|文字列|対象のユーザーID|
+|Path|user_id|文字列|対象ユーザーのID|
 
 
 #### Example Response
@@ -450,9 +450,10 @@ GET http://54.238.92.95:8080/api/v1/mypage/users/:user_id
     <code>
     {
         "user_id": "goya",
-        "user_name": "destinyZero",
-        "user_email": "goya@goya.com",
-        "user_street_address": "沖縄県呉屋市呉屋町5858-5",
+        "user_name": "goyaShogo",
+        "user_email": "goyagoya.com",
+        "user_password": "syogo",
+        "user_street_address": "兵庫県呉屋市呉屋村585-5",
         "cumulative_points": 1000
     }
     </code>
@@ -467,6 +468,30 @@ curl http://54.238.92.95:8080/api/v1/mypage/users/goya
 ```
 ---
 
+### [PUT] 対象ユーザのマイページ情報を更新する
+
+#### エンドポイント
+```
+GET http://54.238.92.95:8080/api/v1/mypage
+```
+
+#### Request Parameters
+場所|パラメータ名|指定する値|説明|
+|:-|:-|:-|:-|
+|Body|user_id|文字列|対象ユーザーのID|
+|Body|user_name|文字列|対象ユーザーの名前|
+|Body|user_email|文字列|対象ユーザーのメールアドレス|
+|Body|user_street_address|文字列|対象ユーザーの住所|
+|Body|old_password|文字列|対象ユーザーの変更前のパスワード|
+|Body|new_password|文字列|対象ユーザーの変更後のパスワード|
+
+#### Example Request
+
+```
+curl -X PUT -d "user_id=goya&user_name=goyaShogo&user_email=goyagoya.com&user_street_address=兵庫県呉屋市呉屋村585-5&old_password=syogo&new_password=syogo" localhost:8080/api/v1/mypage
+```
+---
+
 ### [GET] 対象ユーザのブックマーク情報を取得する
 
 #### エンドポイント
@@ -477,7 +502,7 @@ GET http://54.238.92.95:8080/api/v1/bookmark/users/:user_id
 #### Request Parameters
 場所|パラメータ名|指定する値|説明|
 |:-|:-|:-|:-|
-|Path|user_id|文字列|対象のユーザーID|
+|Path|user_id|文字列|対象ユーザーのID|
 
 
 #### Example Response
