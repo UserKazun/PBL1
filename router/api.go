@@ -53,6 +53,6 @@ func apiRouter(api *gin.RouterGroup, api2 *gin.RouterGroup) {
 	api.PUT("/mypage", controller.PutMypageByUserID)
 
 	// 対象ユーザのブックマーク情報を取得する
-	api.GET("/bookmark/:user_id", controller.GetBookmarkByUserID)
+	api.GET("/bookmark/users/:user_id", controller.GetBookmarkByUserID)
 
 }
