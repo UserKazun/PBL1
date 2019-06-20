@@ -112,3 +112,39 @@ func GetRecipesSearch(c *gin.Context) {
 
 	c.JSON(http.StatusOK, searchRecipes)
 }
+
+func GetRecipesCategoryOnlySearch(c *gin.Context) {
+	searchRecipe := SearchRecipe{}
+	searchRecipes := []SearchRecipe{}
+	var categoryID uint
+	var err error
+
+	categoryID, err = GetUint(c, "category_id")
+	if err != nil {
+		log.Println("category_id：数値が入力されていません")
+		c.AbortWithStatus(http.StatusBadRequest)
+		return
+	}
+
+	recipes, err := service.GetRecipesCategoryOnlySearch(categoryID)
+	if err != nil {
+		log.Println("与えられた検索キーが不適切です")
+		c.AbortWithStatus(http.StatusBadRequest)
+		return
+	}
+
+	for _, recipe := range recipes {
+		searchRecipe.ID = recipe.ID
+		searchRecipe.Name = recipe.Name
+		searchRecipe.Description = recipe.Description
+		searchRecipe.ImageURL = recipe.ImageURL
+		searchRecipe.PageURL = recipe.PageURL
+		searchRecipe.Price = "¥" + strconv.FormatUint(uint64(recipe.Price), 10)
+
+		searchRecipe.Point = recipe.Point
+
+		searchRecipes = append(searchRecipes, searchRecipe)
+	}
+
+	c.JSON(http.StatusOK, searchRecipes)
+}
