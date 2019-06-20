@@ -42,7 +42,7 @@ func CreateSeedRecipes() {
 		map[string]string{
 			"Name":        "米食っとけ、そう米だけさ",
 			"Description": "米オンリー",
-			"CategoryID":  "1",
+			"CategoryID":  "7",
 			"ImageURL":    "https://d2dcan0armyq93.cloudfront.net/photo/odai/600/222569875b57db9b87ae55845b35315d_600.jpg",
 			"PageURL":     "komekome.com",
 			"Price":       "50",
