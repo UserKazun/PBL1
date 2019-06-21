@@ -92,63 +92,43 @@ func GetPurchaseHistoriesByUserID(c *gin.Context) {
 
 }
 
+// PostPurchaseHistoriesByUserID ...ユーザーごとのカート内データを購入履歴に追加する
 func PostPurchaseHistoriesByUserID(c *gin.Context) {
-	modelRecipePurchaseHistory := model.RecipePurchaseHistory{}
-	modelFoodPurchaseHistory := model.FoodPurchaseHistory{}
-	modelFoodPurchaseHistories := []model.FoodPurchaseHistory{}
-	// modelRecipeSetCountInCart := model.RecipeSetCountInCart{}
-	modelRecipeSetCountInCarts := []model.RecipeSetCountInCart{}
-	modelIngredients := []model.Ingredient{}
-	modelCart := model.Cart{}
-	purchaseHistory := PurchaseHistory{}
-	food := Food{}
-	foods := []Food{}
-	purchaseHistoryCard := PurchaseHistoryCard{}
-	purchaseHistoryCards := []PurchaseHistoryCard{}
-	var err error
+	stringUserID := c.PostForm("user_id")
+	// carts := []model.Cart{}
+	uintRecipeID := uint(1)
 
-	userID := c.Param("user_id")
+	// ユーザー毎のカートに入っているrecipeIDを取ってくる
+	recipeIDs, _ :=  service.GetRecipeIDsInCartByUserID(stringUserID)
+	log.Printf("recipeIDs :", recipeIDs)
 
- 	modelRecipeSetCountInCarts, err = service.GetRecipeSetCountInCartsByUserID(userID)
- 	if err != nil {
- 		log.Println("購入できませんでした。")
- 		c.AbortWithStatus(http.StatusBadRequest)
+	errCode := AuthCheck(c, stringUserID)
+	if errCode != nil {
+		c.AbortWithStatus(http.StatusUnauthorized)
 		return
 	}
 
- 	for _, modelRecipeSetCountInCart := range modelRecipeSetCountInCarts {
- 		modelRecipePurchaseHistory.UserID = userID
- 		modelRecipePurchaseHistory.RecipeID = modelRecipeSetCountInCart.RecipeID
- 		modelRecipePurchaseHistory.RecipeCount = modelRecipeSetCountInCart.RecipeCount
+	// ユーザー毎のカートに入っているrecipeの分だけloop
+	for _, recipeID := range recipeIDs {
+		uintRecipeID = uint(recipeID)
+		log.Printf("uintRecipeID : ", uintRecipeID, recipeID)
+		// recipeIDを引数で渡し、該当するデータのPrice, Point取得
+		recipePrice, recipePoint, _ := service.GetRecipePriceAndPointByID(recipeIDs)
+		// ユーザー毎のカートに入っているrecipeセット数を取得
+		recipeSetCountInCart, _ := service.GetRecipeSetCountInCartsByUserID(stringUserID)
+		log.Printf("recipeSetCountInCart :", recipeSetCountInCart)
+		// ユーザー毎のカートに入っているrecipeのfoodIDを取得
+		foodIDsInCarts, _ := service.GetFoodIDsInCartByUserID(stringUserID, uintRecipeID)
+		log.Printf("foodIDsInCarts", foodIDsInCarts)
 
- 		&modelRecipePurchaseHistory.Price, &modelRecipePurchaseHistory.Point, err = service.GetRecipePriceAndPointByID(modelRecipeSetCountInCart.RecipeID)
-
- 		for _, modelIngredient := range modelIngredients {
- 			modelFoodPurchaseHistory.UserID = userID
- 			modelFoodPurchaseHistory.RecipeID = modelCart.RecipeID
- 			modelFoodPurchaseHistory.FoodID = modelIngredient.FoodID
- 			modelFoodPurchaseHistory.FoodCount = modelCart.FoodCount
- 			modelFoodPurchaseHistory.Quantity = modelIngredient.Quantity
-
- 			for _, modelFoodPurchaseHistory := range modelFoodPurchaseHistories {
- 				food.ID = modelFoodPurchaseHistory.FoodID
-				food.Name, err = service.GetFoodNameByID(modelFoodPurchaseHistory.FoodID)
-
-				if modelFoodPurchaseHistory.Quantity == 0 {
-					food.Quantity = modelFoodPurchaseHistory.Unit
-				} else {
-					food.Quantity = strconv.FormatUint(uint64(modelFoodPurchaseHistory.Quantity), 10) + modelFoodPurchaseHistory.Unit
-				}
-				foods = append(foods, food)
-			}
-			purchaseHistoryCard.Foods = foods
-
-			purchaseHistoryCards = append(purchaseHistoryCards, purchaseHistoryCard)
-
- 		}
-		purchaseHistory.PurchaseHistoryCards = purchaseHistoryCards
-
-		modelFoodPurchaseHistories = append(modelFoodPurchaseHistories, modelFoodPurchaseHistory)
- 	}
-	c.JSON(http.StatusOK, modelFoodPurchaseHistories)
+		for _, foodIDsInCart := range foodIDsInCarts {
+			// ユーザー毎のカートに入っているrecipeIDとfoodIDから材料の詳細を取得
+			ingredientsUserCarts, _ := service.GetIngredientsByRecipeIDAndFoodID(uintRecipeID, foodIDsInCart.FoodID)
+			// foodPurchaseHistoryにinsert
+			service.InsertFoodCartContentsToPuchaseHistory(stringUserID, foodIDsInCarts, ingredientsUserCarts)
+			// recipePurchaseHistoryにinsert
+			service.InsertRecipeCartContentsToPuchaseHistory(stringUserID, recipeSetCountInCart, recipePrice, recipePoint)
+		}
+	}
+ 	c.AbortWithStatus(http.StatusOK)
 }
