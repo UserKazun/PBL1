@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"log"
 	"net/http"
 	"strconv"
 	"time"
@@ -93,4 +94,50 @@ func GetPurchaseHistoriesByUserID(c *gin.Context) {
 
 	c.JSON(http.StatusOK, purchaseHistories)
 
+}
+
+// PostPurchaseHistoriesByUserID ...ユーザーごとのカート内データを購入履歴に追加する
+func PostPurchaseHistoriesByUserID(c *gin.Context) {
+	stringUserID := c.PostForm("user_id")
+	uintRecipeID := uint(1)
+
+	// carts := []model.Cart{}
+
+	errCode := AuthCheck(c, stringUserID)
+	if errCode != nil {
+		c.AbortWithStatus(http.StatusUnauthorized)
+		return
+	}
+
+	// ユーザー毎のカートに入っているrecipeIDを取ってくる
+	recipeIDs, _ := service.GetRecipeIDsInCartByUserID(stringUserID)
+	log.Println("recipeIDs :", recipeIDs)
+
+	// ユーザー毎のカートに入っているrecipeの分だけloop
+	for _, recipeID := range recipeIDs {
+		uintRecipeID = uint(recipeID)
+		// recipeIDを引数で渡し、該当するデータのPrice, Point取得
+		recipePrice, recipePoint, _ := service.GetRecipePriceAndPointByID(recipeIDs)
+
+		// ユーザー毎のカートに入っているrecipeセット数を取得
+		recipeSetCountInCart, _ := service.GetRecipeSetCountInCartsByUserID(stringUserID)
+
+		// recipePurchaseHistoryにinsert
+		service.InsertRecipeCartContentsToPuchaseHistory(stringUserID, recipeSetCountInCart, recipePrice, recipePoint)
+
+		// ユーザー毎のカートに入っているrecipeのfoodIDを取得
+		foodIDsInCarts, _ := service.GetFoodIDsInCartByUserID(stringUserID, uintRecipeID)
+
+		log.Println("このメニューの食材の全てだぜ！：", foodIDsInCarts)
+
+		for _, foodIDsInCart := range foodIDsInCarts {
+			// ユーザー毎のカートに入っているrecipeIDとfoodIDから材料の詳細を取得
+			ingredientsUserCarts, _ := service.GetIngredientsByRecipeIDAndFoodID(uintRecipeID, foodIDsInCart.FoodID)
+			// foodPurchaseHistoryにinsert
+			service.InsertFoodCartContentsToPuchaseHistory(stringUserID, foodIDsInCart, ingredientsUserCarts)
+		}
+
+	}
+
+	c.AbortWithStatus(http.StatusOK)
 }
