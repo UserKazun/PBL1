@@ -99,9 +99,13 @@ func GetPurchaseHistoriesByUserID(c *gin.Context) {
 // PostPurchaseHistoriesByUserID ...ユーザーごとのカート内データを購入履歴に追加する
 func PostPurchaseHistoriesByUserID(c *gin.Context) {
 	stringUserID := c.PostForm("user_id")
+
+  // carts := []model.Cart{}
 	uintRecipeID := uint(1)
 
-	// carts := []model.Cart{}
+	// ユーザー毎のカートに入っているrecipeIDを取ってくる
+	recipeIDs, _ :=  service.GetRecipeIDsInCartByUserID(stringUserID)
+	log.Printf("recipeIDs :", recipeIDs)
 
 	errCode := AuthCheck(c, stringUserID)
 	if errCode != nil {
@@ -133,6 +137,7 @@ func PostPurchaseHistoriesByUserID(c *gin.Context) {
 		for _, foodIDsInCart := range foodIDsInCarts {
 			// ユーザー毎のカートに入っているrecipeIDとfoodIDから材料の詳細を取得
 			ingredientsUserCarts, _ := service.GetIngredientsByRecipeIDAndFoodID(uintRecipeID, foodIDsInCart.FoodID)
+      
 			// foodPurchaseHistoryにinsert
 			service.InsertFoodCartContentsToPuchaseHistory(stringUserID, foodIDsInCart, ingredientsUserCarts)
 		}
