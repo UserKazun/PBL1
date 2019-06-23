@@ -28,3 +28,23 @@ func PutCartsRecipeCount(userID string, recipeID uint, recipeCount uint) error {
 
 	return nil
 }
+
+func GetRecipeSetCountInCartsByUserID(userID string) ([]model.RecipeSetCountInCart, error){
+	recipeSetCountInCarts := []model.RecipeSetCountInCart{}
+
+	err := db.Where("user_id = ?", userID).Find(&recipeSetCountInCarts).Error
+	if err != nil {
+		return nil, err
+	}
+	return recipeSetCountInCarts, nil
+}
+
+func GetRecipePriceAndPointByID(recipeID uint) (*uint, *uint, error){
+	recipe := model.Recipe{}
+
+	err := db.Where("id = ?", recipeID).First(&recipe).Error
+	if err != nil {
+		return nil, nil, err
+	}
+	return &recipe.Price, &recipe.Point, nil
+}

@@ -94,3 +94,64 @@ func GetPurchaseHistoriesByUserID(c *gin.Context) {
 	c.JSON(http.StatusOK, purchaseHistories)
 
 }
+
+func PostPurchaseHistoriesByUserID(c *gin.Context) {
+	modelRecipePurchaseHistory := model.RecipePurchaseHistory{}
+	modelFoodPurchaseHistory := model.FoodPurchaseHistory{}
+	modelFoodPurchaseHistories := []model.FoodPurchaseHistory{}
+	// modelRecipeSetCountInCart := model.RecipeSetCountInCart{}
+	modelRecipeSetCountInCarts := []model.RecipeSetCountInCart{}
+	modelIngredients := []model.Ingredient{}
+	modelCart := model.Cart{}
+	purchaseHistory := PurchaseHistory{}
+	food := Food{}
+	foods := []Food{}
+	purchaseHistoryCard := PurchaseHistoryCard{}
+	purchaseHistoryCards := []PurchaseHistoryCard{}
+	var err error
+
+	userID := c.Param("user_id")
+
+ 	modelRecipeSetCountInCarts, err = service.GetRecipeSetCountInCartsByUserID(userID)
+ 	if err != nil {
+ 		log.Println("購入できませんでした。")
+ 		c.AbortWithStatus(http.StatusBadRequest)
+		return
+	}
+
+ 	for _, modelRecipeSetCountInCart := range modelRecipeSetCountInCarts {
+ 		modelRecipePurchaseHistory.UserID = userID
+ 		modelRecipePurchaseHistory.RecipeID = modelRecipeSetCountInCart.RecipeID
+ 		modelRecipePurchaseHistory.RecipeCount = modelRecipeSetCountInCart.RecipeCount
+
+ 		&modelRecipePurchaseHistory.Price, &modelRecipePurchaseHistory.Point, err = service.GetRecipePriceAndPointByID(modelRecipeSetCountInCart.RecipeID)
+
+ 		for _, modelIngredient := range modelIngredients {
+ 			modelFoodPurchaseHistory.UserID = userID
+ 			modelFoodPurchaseHistory.RecipeID = modelCart.RecipeID
+ 			modelFoodPurchaseHistory.FoodID = modelIngredient.FoodID
+ 			modelFoodPurchaseHistory.FoodCount = modelCart.FoodCount
+ 			modelFoodPurchaseHistory.Quantity = modelIngredient.Quantity
+
+ 			for _, modelFoodPurchaseHistory := range modelFoodPurchaseHistories {
+ 				food.ID = modelFoodPurchaseHistory.FoodID
+				food.Name, err = service.GetFoodNameByID(modelFoodPurchaseHistory.FoodID)
+
+				if modelFoodPurchaseHistory.Quantity == 0 {
+					food.Quantity = modelFoodPurchaseHistory.Unit
+				} else {
+					food.Quantity = strconv.FormatUint(uint64(modelFoodPurchaseHistory.Quantity), 10) + modelFoodPurchaseHistory.Unit
+				}
+				foods = append(foods, food)
+			}
+			purchaseHistoryCard.Foods = foods
+
+			purchaseHistoryCards = append(purchaseHistoryCards, purchaseHistoryCard)
+
+ 		}
+		purchaseHistory.PurchaseHistoryCards = purchaseHistoryCards
+
+		modelFoodPurchaseHistories = append(modelFoodPurchaseHistories, modelFoodPurchaseHistory)
+ 	}
+	c.JSON(http.StatusOK, modelFoodPurchaseHistories)
+}
