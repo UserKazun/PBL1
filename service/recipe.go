@@ -62,6 +62,24 @@ func GetRecipesSearch(categoryID uint, searchKey string) ([]model.Recipe, error)
 	return recipes, nil
 }
 
+//GetRecipesCategoryOnlySearch ...レシピを検索する(カテゴリーのみ)
+func GetRecipesCategoryOnlySearch(categoryID uint) ([]model.Recipe, error) {
+	recipes := []model.Recipe{}
+	if categoryID == 1 {
+		err := db.Raw("select distinct recipes.id, recipes.name, recipes.description, recipes.image_url, recipes.page_url, recipes.price, recipes.point FROM recipes JOIN ingredients ON (recipes.ID=ingredients.recipe_id) LEFT JOIN foods ON (ingredients.food_id = foods.id) ORDER BY RAND() LIMIT 5;").Scan(&recipes).Error
+		if err != nil {
+			return nil, err
+		}
+	} else {
+		err := db.Raw("select distinct recipes.id, recipes.name, recipes.description, recipes.image_url, recipes.page_url, recipes.price, recipes.point FROM recipes JOIN ingredients ON (recipes.ID=ingredients.recipe_id) LEFT JOIN foods ON (ingredients.food_id = foods.id) WHERE recipes.category_id = ? ORDER BY RAND() LIMIT 5;", categoryID).Scan(&recipes).Error
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	return recipes, nil
+}
+
 // GetRecipeCount ...ユーザIDとレシピIDを元に、そのレシピのカートに入っている個数を返す
 func GetRecipeCount(userID string, recipeID uint) (uint, error) {
 	recipeSetCountInCart := model.RecipeSetCountInCart{}

@@ -1,7 +1,5 @@
 package controller
 
-import "time"
-
 // LoginUser ...ログインユーザ情報
 type LoginUser struct {
 	ID      string `json:"user_id"`
@@ -66,9 +64,9 @@ type Cart struct {
 
 // PurchaseHistory ...購入履歴
 type PurchaseHistory struct {
-	Date                 time.Time `json:"date"`
-	TotalPrice           uint      `json:"total_price"`
-	TotalPoint           uint      `json:"total_point"`
+	Date                 string `json:"date"`
+	TotalPrice           uint   `json:"total_price"`
+	TotalPoint           uint   `json:"total_point"`
 	PurchaseHistoryCards []PurchaseHistoryCard
 }
 
@@ -88,4 +86,24 @@ type Food struct {
 	Name      string `json:"food_name"`
 	Quantity  string `json:"food_quantity"`
 	FoodCount uint   `json:"food_count"`
+}
+
+//Mypage ...マイページ
+type Mypage struct {
+	UserID            string `json:"user_id"`
+	UserName          string `json:"user_name"`
+	UserEmail         string `json:"user_email"`
+	UserPassword      string `json:"user_password"`
+	UserStreetAddress string `json:"user_street_address"`
+	CumulativePoints  uint   `json:"cumulative_points"`
+}
+
+// Bookmark ...ブックマーク
+type Bookmark struct {
+	ID          uint   `json:"recipe_id"`
+	Name        string `json:"recipe_name"`
+	Description string `json:"recipe_Description"`
+	ImageURL    string `json:"recipe_image_url"`
+	Price       string `json:"price"`
+	Point       uint   `json:"point"`
 }
