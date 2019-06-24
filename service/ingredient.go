@@ -22,7 +22,7 @@ func GetIngredientsByRecipeID(recipeID uint) []model.Ingredient {
 	return ingredients
 }
 
-//GetIngredientsByRecipeIDAndFoodID ...
+// GetIngredientsByRecipeIDAndFoodID ...
 func GetIngredientsByRecipeIDAndFoodID(recipeID uint, foodID uint) (*model.Ingredient, error) {
 	ingredient := model.Ingredient{}
 

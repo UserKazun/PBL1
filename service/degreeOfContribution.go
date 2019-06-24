@@ -24,3 +24,15 @@ func GetCumulativePointsByUserID(userID string) (uint, error) {
 
 	return degreeOfContribution.CumulativePoints, nil
 }
+
+// UpdateCumCumlativePoints ...購入ボランを押したユーザーの貢献Pointを更新
+func UpdateCumlativePoints(cumulativePoints uint) (model.DegreeOfContribution, error) {
+	degreeOfContribution := model.DegreeOfContribution{}
+
+	err := db.Model(&degreeOfContribution).Update("cumulative_points", cumulativePoints).Error
+	if err != nil {
+		return model.DegreeOfContribution{}, err
+	}
+
+	return degreeOfContribution, err
+}

@@ -98,12 +98,10 @@ func GetPurchaseHistoriesByUserID(c *gin.Context) {
 // PostPurchaseHistoriesByUserID ...ユーザーごとのカート内データを購入履歴に追加する
 func PostPurchaseHistoriesByUserID(c *gin.Context) {
 	stringUserID := c.PostForm("user_id")
-	// carts := []model.Cart{}
 	uintRecipeID := uint(1)
 
 	// ユーザー毎のカートに入っているrecipeIDを取ってくる
 	recipeIDs, _ :=  service.GetRecipeIDsInCartByUserID(stringUserID)
-	log.Printf("recipeIDs :", recipeIDs)
 
 	errCode := AuthCheck(c, stringUserID)
 	if errCode != nil {
@@ -114,15 +112,19 @@ func PostPurchaseHistoriesByUserID(c *gin.Context) {
 	// ユーザー毎のカートに入っているrecipeの分だけloop
 	for _, recipeID := range recipeIDs {
 		uintRecipeID = uint(recipeID)
-		log.Printf("uintRecipeID : ", uintRecipeID, recipeID)
 		// recipeIDを引数で渡し、該当するデータのPrice, Point取得
 		recipePrice, recipePoint, _ := service.GetRecipePriceAndPointByID(recipeIDs)
 		// ユーザー毎のカートに入っているrecipeセット数を取得
 		recipeSetCountInCart, _ := service.GetRecipeSetCountInCartsByUserID(stringUserID)
-		log.Printf("recipeSetCountInCart :", recipeSetCountInCart)
 		// ユーザー毎のカートに入っているrecipeのfoodIDを取得
 		foodIDsInCarts, _ := service.GetFoodIDsInCartByUserID(stringUserID, uintRecipeID)
-		log.Printf("foodIDsInCarts", foodIDsInCarts)
+
+		// ユーザーが今所持している貢献Pointを取得
+		userHavePoint, _ := service.GetCumulativePointsByUserID(stringUserID)
+		// ユーザーが買う予定のものと今所持しているpointを足す
+		sumUserCumulativePoint := userHavePoint + recipePoint
+		// 引数に合計したPointを指定して貢献Pointテーブルを更新する
+		service.UpdateCumlativePoints(sumUserCumulativePoint)
 
 		for _, foodIDsInCart := range foodIDsInCarts {
 			// ユーザー毎のカートに入っているrecipeIDとfoodIDから材料の詳細を取得
