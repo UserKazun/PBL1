@@ -45,11 +45,11 @@ func GetPurchaseDatesByUserID(userID string) ([]time.Time, error) {
 	return purchaseDates, nil
 }
 
-// GetmodelRecipePurchaseHistoriesByUserIDAndPurchaseDate ...購入履歴にあるデータの挿入時間をダブることなく取得する
+// GetmodelRecipePurchaseHistoriesByUserIDAndPurchaseDate ...特定の購入日の履歴データ群を取得する
 func GetmodelRecipePurchaseHistoriesByUserIDAndPurchaseDate(userID string, purchaseDate time.Time) ([]model.RecipePurchaseHistory, error) {
 	recipePurchaseHistories := []model.RecipePurchaseHistory{}
 
-	err := db.Where("user_id = ? and created_at = ?", userID, purchaseDate).Find(&recipePurchaseHistories).Error
+	err := db.Where("user_id = ? and created_at = ?", userID, purchaseDate).Order("created_at").Find(&recipePurchaseHistories).Error
 	if err != nil {
 		return nil, err
 	}

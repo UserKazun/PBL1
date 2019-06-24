@@ -12,10 +12,12 @@ import (
 func CreateSeedUsers() {
 	usersInfos := []map[string]string{
 		map[string]string{
-			"ID":       "goya",
-			"Password": "syogo",
-			"Name":     "destinyZero",
-			"IsAdmin":  "false",
+			"ID":            "goya",
+			"Password":      "syogo",
+			"Name":          "destinyZero",
+			"Email":         "goya@goya.com",
+			"StreetAddress": "沖縄県呉屋市呉屋町5858-5",
+			"IsAdmin":       "false",
 		},
 		map[string]string{
 			"ID":       "Kmyan",
@@ -27,14 +29,18 @@ func CreateSeedUsers() {
 
 	for _, info := range usersInfos {
 		ID, _ := info["ID"]
-		Password, _ := info["Password"]
-		Name, _ := info["Name"]
-		IsAdmin, _ := strconv.ParseBool(info["IsAdmin"])
+		password, _ := info["Password"]
+		name, _ := info["Name"]
+		email, _ := info["Email"]
+		streetAddress, _ := info["StreetAddress"]
+		isAdmin, _ := strconv.ParseBool(info["IsAdmin"])
 		createUser(model.User{
-			ID:       string(ID),
-			Password: string(Password),
-			Name:     string(Name),
-			IsAdmin:  bool(IsAdmin),
+			ID:            string(ID),
+			Password:      string(password),
+			Name:          string(name),
+			Email:         string(email),
+			StreetAddress: string(streetAddress),
+			IsAdmin:       bool(isAdmin),
 		})
 	}
 }
