@@ -37,7 +37,7 @@ func GetRecipeSetCountInCartsByUserID(userID string) ([]model.RecipeSetCountInCa
 	if err != nil {
 		return nil, err
 	}
-	log.Printf("recipeSetCountInCarts : ", recipeSetCountInCarts)
+
 	return recipeSetCountInCarts, nil
 }
 
@@ -55,13 +55,11 @@ func GetRecipePriceAndPointByID(recipeID []uint) (uint, uint, error){
 func InsertFoodCartContentsToPuchaseHistory(userID string, foodIDsInCarts []model.Cart, ingredientInUserCarts *model.Ingredient) error {
 	foodPurchaseHistory := model.FoodPurchaseHistory{}
 	ingredientInUserCart := ingredientInUserCarts
-	log.Printf("foodIDsInCarts 2 :", foodIDsInCarts)
 	foodIDsInCart := model.Cart{}
 
 	// 引数で受け取ったfoodID分だけloop
 	for _, foodIDsInCart = range foodIDsInCarts {
 		// 該当する部分にデータを代入
-		log.Printf("foodIDsInCart", foodIDsInCart)
 		foodPurchaseHistory.UserID = userID
 		foodPurchaseHistory.RecipeID = foodIDsInCart.RecipeID
 		foodPurchaseHistory.FoodID = foodIDsInCart.FoodID
