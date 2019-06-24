@@ -135,5 +135,6 @@ func PostPurchaseHistoriesByUserID(c *gin.Context) {
 			service.InsertRecipeCartContentsToPuchaseHistory(stringUserID, recipeSetCountInCart, recipePrice, recipePoint)
 		}
 	}
+	service.DeleteCartContent(stringUserID)
  	c.AbortWithStatus(http.StatusOK)
 }
