@@ -77,5 +77,6 @@ func DeleteCartContent(userID string) error {
 	if err != nil {
 		return err
 	}
+
 	return nil
 }

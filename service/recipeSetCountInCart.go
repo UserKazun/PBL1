@@ -70,6 +70,7 @@ func InsertFoodCartContentsToPuchaseHistory(userID string, foodIDsInCarts []mode
 		_, err := CreateFoodPurchaseHistory(foodPurchaseHistory)
 		return err
 	}
+
 	return nil
 }
 
@@ -88,5 +89,6 @@ func InsertRecipeCartContentsToPuchaseHistory(userID string, recipeSetCountInCar
 		_, err := CreateRecipePurchaseHistory(recipePurchaseHistory)
 		return err
 	}
+
 	return nil
 }

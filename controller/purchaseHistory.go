@@ -124,7 +124,7 @@ func PostPurchaseHistoriesByUserID(c *gin.Context) {
 		// ユーザーが買う予定のものと今所持しているpointを足す
 		sumUserCumulativePoint := userHavePoint + recipePoint
 		// 引数に合計したPointを指定して貢献Pointテーブルを更新する
-		service.UpdateCumlativePoints(sumUserCumulativePoint)
+		service.UpdateCumulativePoints(sumUserCumulativePoint)
 
 		for _, foodIDsInCart := range foodIDsInCarts {
 			// ユーザー毎のカートに入っているrecipeIDとfoodIDから材料の詳細を取得
@@ -135,6 +135,7 @@ func PostPurchaseHistoriesByUserID(c *gin.Context) {
 			service.InsertRecipeCartContentsToPuchaseHistory(stringUserID, recipeSetCountInCart, recipePrice, recipePoint)
 		}
 	}
+
 	service.DeleteCartContent(stringUserID)
  	c.AbortWithStatus(http.StatusOK)
 }
