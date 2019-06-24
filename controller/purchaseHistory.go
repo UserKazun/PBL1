@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"log"
 	"net/http"
 	"strconv"
 	"time"
@@ -32,64 +33,60 @@ func GetPurchaseHistoriesByUserID(c *gin.Context) {
 		return
 	}
 
-	//特定ユーザーの購入日データ群を取得
-	purchaseDates, err = service.GetPurchaseDatesByUserID(userID)
+	modelRecipePurchaseHistories, err = service.GetRecipePurchaseHistoriesByUserID(userID)
 	if err != nil {
-		c.AbortWithStatus(http.StatusInternalServerError)
+		log.Println("登録されていないユーザIDです")
+		c.AbortWithStatus(http.StatusBadRequest)
 		return
 	}
 
-	for _, purchaseDate := range purchaseDates {
-		purchaseHistory.Date = purchaseDate.Format("2006-01-02")
-		modelRecipePurchaseHistories, err = service.GetmodelRecipePurchaseHistoriesByUserIDAndPurchaseDate(userID, purchaseDate)
+	for _, modelRecipePurchaseHistory := range modelRecipePurchaseHistories {
+		purchaseHistory.Date = modelRecipePurchaseHistory.CreatedAt
+		purchaseDates, err = service.GetPurchaseDatesByUserID(userID)
 
-		for _, modelRecipePurchaseHistory := range modelRecipePurchaseHistories {
-			// 材料の中身をリセット
-			foods = nil
+		for _, purchaseDate := range purchaseDates {
+			modelRecipePurchaseHistories, err = service.GetmodelRecipePurchaseHistoriesByUserIDAndPurchaseDate(userID, purchaseDate)
 
-			// レシピの値段・ポイント・個数を挿入
-			purchaseHistoryCard.Price = modelRecipePurchaseHistory.Price
-			purchaseHistoryCard.Point = modelRecipePurchaseHistory.Point
-			purchaseHistoryCard.RecipeCount = *modelRecipePurchaseHistory.RecipeCount
+			for _, modelRecipePurchaseHistory := range modelRecipePurchaseHistories {
+				purchaseHistoryCard.Point = modelRecipePurchaseHistory.Point
+				purchaseHistoryCard.Price = modelRecipePurchaseHistory.Price
+				purchaseHistoryCard.RecipeCount = *modelRecipePurchaseHistory.RecipeCount
 
-			// レシピデータを取得
-			recipe = service.GetRecipeByRecipeID(modelRecipePurchaseHistory.RecipeID)
+				recipe = service.GetRecipeByRecipeID(modelRecipePurchaseHistory.RecipeID)
 
-			// レシピの名前・イメージ画像URLを挿入
-			purchaseHistoryCard.RecipeName = recipe.Name
-			purchaseHistoryCard.RecipeImageURL = recipe.ImageURL
+				purchaseHistoryCard.RecipeName = recipe.Name
+				purchaseHistoryCard.RecipeImageURL = recipe.ImageURL
 
-			// 値段とポイントの合計値を計算
-			purchaseHistory.TotalPrice += purchaseHistoryCard.Price
-			purchaseHistory.TotalPoint += purchaseHistoryCard.Point
+				purchaseHistory.TotalPrice += purchaseHistoryCard.Price
+				purchaseHistory.TotalPoint += purchaseHistoryCard.Point
 
-			// レシピごとの食材購入履歴データを取得
-			modelFoodPurchaseHistories, err = service.GetFoodPurchaseHistoriesByUserIDAndRecipeID(userID, recipe.ID)
-			if err != nil {
-				c.AbortWithStatus(http.StatusBadRequest)
-				return
-			}
-
-			for _, modelFoodPurchaseHistory := range modelFoodPurchaseHistories {
-				food.ID = modelFoodPurchaseHistory.FoodID
-				food.FoodCount = *modelFoodPurchaseHistory.FoodCount
-				food.Name, err = service.GetFoodNameByID(modelFoodPurchaseHistory.FoodID)
-
-				if modelFoodPurchaseHistory.Quantity == 0 {
-					food.Quantity = modelFoodPurchaseHistory.Unit
-				} else {
-					food.Quantity = strconv.FormatUint(uint64(modelFoodPurchaseHistory.Quantity), 10) + modelFoodPurchaseHistory.Unit
+				modelFoodPurchaseHistories, err = service.GetFoodPurchaseHistoriesByUserIDAndRecipeID(userID, recipe.ID)
+				if err != nil {
+					c.AbortWithStatus(http.StatusBadRequest)
+					return
 				}
-				foods = append(foods, food)
+
+				for _, modelFoodPurchaseHistory := range modelFoodPurchaseHistories {
+					food.FoodCount = *modelFoodPurchaseHistory.FoodCount
+					food.Name, err = service.GetFoodNameByID(modelFoodPurchaseHistory.FoodID)
+
+					if modelFoodPurchaseHistory.Quantity == 0 {
+						food.Quantity = modelFoodPurchaseHistory.Unit
+					} else {
+						food.Quantity = strconv.FormatUint(uint64(modelFoodPurchaseHistory.Quantity), 10) + modelFoodPurchaseHistory.Unit
+					}
+					foods = append(foods, food)
+				}
+
+				purchaseHistoryCard.Foods = foods
+
+				purchaseHistoryCards = append(purchaseHistoryCards, purchaseHistoryCard)
 			}
-
-			purchaseHistoryCard.Foods = foods
-
-			purchaseHistoryCards = append(purchaseHistoryCards, purchaseHistoryCard)
+			purchaseHistory.PurchaseHistoryCards = purchaseHistoryCards
 		}
-		purchaseHistory.PurchaseHistoryCards = purchaseHistoryCards
+		purchaseHistories = append(purchaseHistories, purchaseHistory)
+
 	}
-	purchaseHistories = append(purchaseHistories, purchaseHistory)
 
 	c.JSON(http.StatusOK, purchaseHistories)
 
@@ -98,10 +95,12 @@ func GetPurchaseHistoriesByUserID(c *gin.Context) {
 // PostPurchaseHistoriesByUserID ...ユーザーごとのカート内データを購入履歴に追加する
 func PostPurchaseHistoriesByUserID(c *gin.Context) {
 	stringUserID := c.PostForm("user_id")
+	// carts := []model.Cart{}
 	uintRecipeID := uint(1)
 
 	// ユーザー毎のカートに入っているrecipeIDを取ってくる
 	recipeIDs, _ :=  service.GetRecipeIDsInCartByUserID(stringUserID)
+	log.Printf("recipeIDs :", recipeIDs)
 
 	errCode := AuthCheck(c, stringUserID)
 	if errCode != nil {
@@ -112,30 +111,24 @@ func PostPurchaseHistoriesByUserID(c *gin.Context) {
 	// ユーザー毎のカートに入っているrecipeの分だけloop
 	for _, recipeID := range recipeIDs {
 		uintRecipeID = uint(recipeID)
+		log.Printf("uintRecipeID : ", uintRecipeID, recipeID)
 		// recipeIDを引数で渡し、該当するデータのPrice, Point取得
 		recipePrice, recipePoint, _ := service.GetRecipePriceAndPointByID(recipeIDs)
 		// ユーザー毎のカートに入っているrecipeセット数を取得
 		recipeSetCountInCart, _ := service.GetRecipeSetCountInCartsByUserID(stringUserID)
+		log.Printf("recipeSetCountInCart :", recipeSetCountInCart)
 		// ユーザー毎のカートに入っているrecipeのfoodIDを取得
 		foodIDsInCarts, _ := service.GetFoodIDsInCartByUserID(stringUserID, uintRecipeID)
+		log.Printf("foodIDsInCarts", foodIDsInCarts)
 
-		// ユーザーが今所持している貢献Pointを取得
-		userHavePoint, _ := service.GetCumulativePointsByUserID(stringUserID)
-		// ユーザーが買う予定のものと今所持しているpointを足す
-		sumUserCumulativePoint := userHavePoint + recipePoint
-		// 引数に合計したPointを指定して貢献Pointテーブルを更新する
-		service.UpdateCumulativePoints(sumUserCumulativePoint)
-
-		for _, foodIDsInCart := range foodIDsInCarts {
+		for _, foodIDInCart := range foodIDsInCarts {
 			// ユーザー毎のカートに入っているrecipeIDとfoodIDから材料の詳細を取得
-			ingredientsUserCarts, _ := service.GetIngredientsByRecipeIDAndFoodID(uintRecipeID, foodIDsInCart.FoodID)
+			ingredientsUserCart, _ := service.GetIngredientsByRecipeIDAndFoodID(uintRecipeID, foodIDInCart.FoodID)
 			// foodPurchaseHistoryにinsert
-			service.InsertFoodCartContentsToPuchaseHistory(stringUserID, foodIDsInCarts, ingredientsUserCarts)
+			service.InsertFoodCartContentsToPuchaseHistory(stringUserID, foodIDsInCarts, ingredientsUserCart)
 			// recipePurchaseHistoryにinsert
 			service.InsertRecipeCartContentsToPuchaseHistory(stringUserID, recipeSetCountInCart, recipePrice, recipePoint)
 		}
 	}
-
-	service.DeleteCartContent(stringUserID)
  	c.AbortWithStatus(http.StatusOK)
 }

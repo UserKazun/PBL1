@@ -31,31 +31,19 @@ func apiRouter(api *gin.RouterGroup, api2 *gin.RouterGroup) {
 	// キーを元に検索した結果のレシピデータを取得する
 	api.GET("search-recipes/categories/:category_id/keys/:search_key", controller.GetRecipesSearch)
 
-	// キーを元に検索した結果のレシピデータを取得する
-	api.GET("search-recipes/categories/:category_id", controller.GetRecipesCategoryOnlySearch)
-
-	// 対象ユーザのカートの中身を取得する
+	// ユーザーIDを元にカートの中身を取得する
 	api.GET("/carts/users/:user_id", controller.GetCartsByUserID)
 
-	// 対象ユーザの中身(レシピ)を更新する
+	// ユーザーIDを元にカートの中身(レシピ)を更新する
 	api.PUT("/carts/recipe-counts", controller.PutCartsRecipeCountByUserID)
 
-	// 対象ユーザの中身(食材)を更新する
+	// ユーザーIDを元にカートの中身(食材)を更新する
 	api.PUT("/carts/food-counts", controller.PutCartsFoodCountByUserID)
 
 	// ユーザーIDを元にカートの中身を購入する
 	api.POST("/purchase-histories", controller.PostPurchaseHistoriesByUserID)
 
-	// 対象ユーザの購入履歴を取得する
+	// ユーザーIDを元に購入履歴を取得する
 	api.GET("/purchase-histories/users/:user_id", controller.GetPurchaseHistoriesByUserID)
-
-	// 対象ユーザのマイページ情報を取得する
-	api.POST("/mypage", controller.GetMypageByUserID)
-
-	// 対象ユーザのマイページ情報を更新する
-	api.PUT("/mypage", controller.PutMypageByUserID)
-
-	// 対象ユーザのブックマーク情報を取得する
-	api.GET("/bookmark/users/:user_id", controller.GetBookmarkByUserID)
 
 }
