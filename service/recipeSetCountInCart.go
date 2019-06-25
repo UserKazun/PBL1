@@ -29,6 +29,7 @@ func PutCartsRecipeCount(userID string, recipeID uint, recipeCount uint) error {
 	return nil
 }
 
+<<<<<<< HEAD
 func GetRecipeSetCountInCartsByUserID(userID string) ([]model.RecipeSetCountInCart, error) {
 	recipeSetCountInCarts := []model.RecipeSetCountInCart{}
 

@@ -96,6 +96,7 @@ func GetPurchaseHistoriesByUserID(c *gin.Context) {
 
 }
 
+<<<<<<< HEAD
 // PostPurchaseHistoriesByUserID ...ユーザーごとのカート内データを購入履歴に追加する
 func PostPurchaseHistoriesByUserID(c *gin.Context) {
 	stringUserID := c.PostForm("user_id")
