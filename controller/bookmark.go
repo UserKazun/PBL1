@@ -48,5 +48,20 @@ func GetBookmarkByUserID(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, bookmarks)
+}
 
+func PostBookmarkByUserID(c *gin.Context) {
+	userID := c.PostForm("user_id")
+	recipeID, _ := strconv.Atoi(c.PostForm("recipe_id"))
+
+	bookmark := model.Bookmark{}
+	bookmark.UserID = userID
+	bookmark.RecipeID = uint(recipeID)
+
+	_, err := service.CreateBookmark(bookmark)
+	if err != nil {
+		log.Println("ブックマークデータの追加ができませんでした")
+		c.AbortWithStatus(http.StatusInternalServerError)
+		return
+	}
 }

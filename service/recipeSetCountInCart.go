@@ -29,7 +29,7 @@ func PutCartsRecipeCount(userID string, recipeID uint, recipeCount uint) error {
 	return nil
 }
 
-func GetRecipeSetCountInCartsByUserID(userID string) ([]model.RecipeSetCountInCart, error){
+func GetRecipeSetCountInCartsByUserID(userID string) ([]model.RecipeSetCountInCart, error) {
 	recipeSetCountInCarts := []model.RecipeSetCountInCart{}
 
 	err := db.Where("user_id = ?", userID).Find(&recipeSetCountInCarts).Error
@@ -37,7 +37,7 @@ func GetRecipeSetCountInCartsByUserID(userID string) ([]model.RecipeSetCountInCa
 	if err != nil {
 		return nil, err
 	}
-
+  
 	return recipeSetCountInCarts, nil
 }
 
@@ -68,6 +68,7 @@ func InsertFoodCartContentsToPuchaseHistory(userID string, foodIDsInCarts []mode
 		foodPurchaseHistory.Unit = ingredientInUserCart.Unit
 
 		_, err := CreateFoodPurchaseHistory(foodPurchaseHistory)
+
 		return err
 	}
 	return nil
