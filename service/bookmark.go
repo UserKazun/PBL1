@@ -1,6 +1,8 @@
 package service
 
 import (
+	"log"
+
 	"github.com/PBL1/model"
 )
 
@@ -28,4 +30,24 @@ func GetBookmarkRecipeIDsByUserID(userID string) ([]uint, error) {
 	}
 
 	return recipeIDs, nil
+}
+
+func DeleteBookmark(userID string, recipeID uint) error {
+	bookmark := model.Bookmark{}
+
+	// bookmark.UserID = userID
+	// bookmark.RecipeID = recipeID
+
+	log.Println(bookmark)
+
+	db.Where("user_id = ? and recipe_id = ?", userID, recipeID).First(&bookmark)
+
+	log.Println(bookmark)
+
+	err := db.Delete(&bookmark).Error
+	if err != nil {
+		return err
+	}
+
+	return nil
 }

@@ -61,4 +61,6 @@ func apiRouter(api *gin.RouterGroup, api2 *gin.RouterGroup) {
 	// 対象ユーザのブックマーク情報を追加する
 	api.POST("/bookmark", controller.PostBookmarkByUserID)
 
+	// 対象ユーザのブックマーク情報を追加する
+	api.DELETE("/bookmark/users/:user_id/recipes/:recipe_id", controller.DeleteBookmarkByUserID)
 }

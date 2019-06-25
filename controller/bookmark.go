@@ -60,8 +60,30 @@ func PostBookmarkByUserID(c *gin.Context) {
 
 	_, err := service.CreateBookmark(bookmark)
 	if err != nil {
-		log.Println("ブックマークデータの追加ができませんでした")
+		log.Println("ブックマークデータを追加できませんでした")
 		c.AbortWithStatus(http.StatusInternalServerError)
 		return
 	}
+	c.AbortWithStatus(http.StatusOK)
+}
+
+func DeleteBookmarkByUserID(c *gin.Context) {
+	var recipeID uint
+	var err error
+
+	userID := c.Param("user_id")
+	recipeID, err = GetUint(c, "recipe_id")
+	if err != nil {
+		log.Println(err)
+		c.AbortWithStatus(http.StatusBadRequest)
+		return
+	}
+
+	err = service.DeleteBookmark(userID, recipeID)
+	if err != nil {
+		log.Println("ブックマークデータを削除できませんでした")
+		c.AbortWithStatus(http.StatusInternalServerError)
+		return
+	}
+	c.AbortWithStatus(http.StatusOK)
 }
