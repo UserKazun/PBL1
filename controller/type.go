@@ -107,3 +107,10 @@ type Bookmark struct {
 	Price       string `json:"price"`
 	Point       uint   `json:"point"`
 }
+
+// TradeItem ...交換アイテム
+type TradeItem struct {
+	Name     string `json:"trade_name"`
+	ImageURL string `json:"trade_image_url"`
+	Point    uint   `json:"trade_point"`
+}

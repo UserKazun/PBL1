@@ -87,8 +87,16 @@ type DegreeOfContribution struct {
 	CumulativePoints uint
 }
 
-//Bookmark ...ブックマーク
+// Bookmark ...ブックマーク
 type Bookmark struct {
 	UserID   string `sql:"type:varchar(50)" gorm:"primary_key"`
 	RecipeID uint   `sql:"type:int" gorm:"primary_key"`
+}
+
+// TradeItem ...交換アイテム
+type TradeItem struct {
+	ID       uint `gorm:"primary_key"`
+	Name     string
+	ImageURL string
+	Point    uint
 }
