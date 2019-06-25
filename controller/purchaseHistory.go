@@ -99,9 +99,14 @@ func GetPurchaseHistoriesByUserID(c *gin.Context) {
 // PostPurchaseHistoriesByUserID ...ユーザーごとのカート内データを購入履歴に追加する
 func PostPurchaseHistoriesByUserID(c *gin.Context) {
 	stringUserID := c.PostForm("user_id")
+
+  // carts := []model.Cart{}
+
 	uintRecipeID := uint(1)
 
-	// carts := []model.Cart{}
+	// ユーザー毎のカートに入っているrecipeIDを取ってくる
+	recipeIDs, _ :=  service.GetRecipeIDsInCartByUserID(stringUserID)
+
 
 	errCode := AuthCheck(c, stringUserID)
 	if errCode != nil {
@@ -110,7 +115,9 @@ func PostPurchaseHistoriesByUserID(c *gin.Context) {
 	}
 
 	// ユーザー毎のカートに入っているrecipeIDを取ってくる
-	recipeIDs, _ := service.GetRecipeIDsInCartByUserID(stringUserID)
+
+	recipeIDs, _ = service.GetRecipeIDsInCartByUserID(stringUserID)
+
 	log.Println("recipeIDs :", recipeIDs)
 
 	// ユーザー毎のカートに入っているrecipeの分だけloop
@@ -122,22 +129,29 @@ func PostPurchaseHistoriesByUserID(c *gin.Context) {
 		// ユーザー毎のカートに入っているrecipeセット数を取得
 		recipeSetCountInCart, _ := service.GetRecipeSetCountInCartsByUserID(stringUserID)
 
+		// ユーザー毎のカートに入っているrecipeのfoodIDを取得
+		foodIDsInCarts, _ := service.GetFoodIDsInCartByUserID(stringUserID, uintRecipeID)
+
+		// 引数に合計したPointを指定して飢餓対策Pointテーブルを更新する
+		service.UpdateCumulativePoints(stringUserID, recipePoint)
+
 		// recipePurchaseHistoryにinsert
 		service.InsertRecipeCartContentsToPuchaseHistory(stringUserID, recipeSetCountInCart, recipePrice, recipePoint)
 
 		// ユーザー毎のカートに入っているrecipeのfoodIDを取得
-		foodIDsInCarts, _ := service.GetFoodIDsInCartByUserID(stringUserID, uintRecipeID)
+		foodIDsInCarts, _ = service.GetFoodIDsInCartByUserID(stringUserID, uintRecipeID)
 
 		log.Println("このメニューの食材の全てだぜ！：", foodIDsInCarts)
 
 		for _, foodIDsInCart := range foodIDsInCarts {
 			// ユーザー毎のカートに入っているrecipeIDとfoodIDから材料の詳細を取得
 			ingredientsUserCarts, _ := service.GetIngredientsByRecipeIDAndFoodID(uintRecipeID, foodIDsInCart.FoodID)
+      
 			// foodPurchaseHistoryにinsert
-			service.InsertFoodCartContentsToPuchaseHistory(stringUserID, foodIDsInCart, ingredientsUserCarts)
+			service.InsertFoodCartContentsToPuchaseHistory(stringUserID, foodIDsInCarts, ingredientsUserCarts)
 		}
 
 	}
-
-	c.AbortWithStatus(http.StatusOK)
+	service.DeleteCartContent(stringUserID)
+ 	c.AbortWithStatus(http.StatusOK)
 }

@@ -68,3 +68,15 @@ func GetFoodIDsInCartByUserID(userID string, recipeID uint) ([]model.Cart, error
 
 	return carts, nil
 }
+
+// DeleteCartContent ...カートの中身を削除する
+func DeleteCartContent(userID string) error {
+	carts := []model.Cart{}
+
+	err := db.Delete(&carts).Error
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
