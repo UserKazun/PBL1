@@ -58,4 +58,7 @@ func apiRouter(api *gin.RouterGroup, api2 *gin.RouterGroup) {
 	// 対象ユーザのブックマーク情報を取得する
 	api.GET("/bookmark/users/:user_id", controller.GetBookmarkByUserID)
 
+	// 対象ユーザのブックマーク情報を追加する
+	api.POST("/bookmark", controller.PostBookmarkByUserID)
+
 }
