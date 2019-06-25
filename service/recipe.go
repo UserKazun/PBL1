@@ -106,3 +106,14 @@ func GetRecipePoint(recipeID uint) (uint, error) {
 
 	return recipe.Point, nil
 }
+
+func GetRecipePriceAndPointByID(recipeID []uint) (uint, uint, error) {
+	recipe := model.Recipe{}
+	log.Println("recipeID :", recipeID)
+
+	err := db.Where("id = ?", recipeID).Find(&recipe).Error
+	if err != nil {
+		return 0, 0, err
+	}
+	return recipe.Price, recipe.Point, nil
+}

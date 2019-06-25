@@ -43,7 +43,7 @@ func apiRouter(api *gin.RouterGroup, api2 *gin.RouterGroup) {
 	// 対象ユーザの中身(食材)を更新する
 	api.PUT("/carts/food-counts", controller.PutCartsFoodCountByUserID)
 
-	// ユーザーIDを元にカートの中身を購入する
+	// 対象ユーザのカートの中身を購入する
 	api.POST("/purchase-histories", controller.PostPurchaseHistoriesByUserID)
 
 	// 対象ユーザの購入履歴を取得する
@@ -57,5 +57,8 @@ func apiRouter(api *gin.RouterGroup, api2 *gin.RouterGroup) {
 
 	// 対象ユーザのブックマーク情報を取得する
 	api.GET("/bookmark/users/:user_id", controller.GetBookmarkByUserID)
+
+	// 対象ユーザのブックマーク情報を追加する
+	api.POST("/bookmark", controller.PostBookmarkByUserID)
 
 }
