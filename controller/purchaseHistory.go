@@ -127,12 +127,8 @@ func PostPurchaseHistoriesByUserID(c *gin.Context) {
 		// ユーザー毎のカートに入っているrecipeのfoodIDを取得
 		foodIDsInCarts, _ := service.GetFoodIDsInCartByUserID(stringUserID, uintRecipeID)
 
-		// ユーザーが今所持している飢餓対策Pointを取得
-		userHavePoint, _ := service.GetCumulativePointsByUserID(stringUserID)
-		// ユーザーが買う予定のものと今所持しているpointを足す
-		sumUserCumulativePoint := userHavePoint + recipePoint
 		// 引数に合計したPointを指定して飢餓対策Pointテーブルを更新する
-		service.UpdateCumulativePoints(sumUserCumulativePoint)
+		service.UpdateCumulativePoints(stringUserID, recipePoint)
 
 		// recipePurchaseHistoryにinsert
 		service.InsertRecipeCartContentsToPuchaseHistory(stringUserID, recipeSetCountInCart, recipePrice, recipePoint)
