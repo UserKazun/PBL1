@@ -58,6 +58,12 @@ func PostBookmarkByUserID(c *gin.Context) {
 	bookmark.UserID = userID
 	bookmark.RecipeID = uint(recipeID)
 
+	errCode := AuthCheck(c, userID)
+	if errCode != nil {
+		c.AbortWithStatus(http.StatusUnauthorized)
+		return
+	}
+
 	_, err := service.CreateBookmark(bookmark)
 	if err != nil {
 		log.Println("ブックマークデータを追加できませんでした")
@@ -76,6 +82,12 @@ func DeleteBookmarkByUserID(c *gin.Context) {
 	if err != nil {
 		log.Println(err)
 		c.AbortWithStatus(http.StatusBadRequest)
+		return
+	}
+
+	errCode := AuthCheck(c, userID)
+	if errCode != nil {
+		c.AbortWithStatus(http.StatusUnauthorized)
 		return
 	}
 
