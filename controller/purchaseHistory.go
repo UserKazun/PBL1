@@ -124,7 +124,7 @@ func PostPurchaseHistoriesByUserID(c *gin.Context) {
 	for _, recipeID := range recipeIDs {
 		uintRecipeID = uint(recipeID)
 		// recipeIDを引数で渡し、該当するデータのPrice, Point取得
-		recipePrice, recipePoint, _ := service.GetRecipePriceAndPointByID(recipeIDs)
+		recipePrice, recipePoint, _ := service.GetRecipePriceAndRecipePointByID(recipeIDs)
 
 		// ユーザー毎のカートに入っているrecipeセット数を取得
 		recipeSetCountInCart, _ := service.GetRecipeSetCountInCartsByUserID(stringUserID)
@@ -148,7 +148,7 @@ func PostPurchaseHistoriesByUserID(c *gin.Context) {
 			ingredientsUserCarts, _ := service.GetIngredientsByRecipeIDAndFoodID(uintRecipeID, foodIDsInCart.FoodID)
       
 			// foodPurchaseHistoryにinsert
-			service.InsertFoodCartContentsToPuchaseHistory(stringUserID, foodIDsInCarts, ingredientsUserCarts)
+			service.InsertFoodCartContentsToPuchaseHistories(stringUserID, foodIDsInCarts, ingredientsUserCarts)
 		}
 
 	}

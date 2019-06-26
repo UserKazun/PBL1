@@ -41,7 +41,7 @@ func GetRecipeSetCountInCartsByUserID(userID string) ([]model.RecipeSetCountInCa
 	return recipeSetCountInCarts, nil
 }
 
-func GetRecipePriceAndPointByID(recipeID []uint) (uint, uint, error){
+func GetRecipePriceAndRecipePointByID(recipeID []uint) (uint, uint, error){
 	recipe := model.Recipe{}
 	log.Printf("recipeID :", recipeID)
 
@@ -52,7 +52,7 @@ func GetRecipePriceAndPointByID(recipeID []uint) (uint, uint, error){
 	return recipe.Price, recipe.Point, nil
 }
 
-func InsertFoodCartContentsToPuchaseHistory(userID string, foodIDsInCarts []model.Cart, ingredientInUserCarts *model.Ingredient) error {
+func InsertFoodCartContentsToPuchaseHistories(userID string, foodIDsInCarts []model.Cart, ingredientInUserCarts *model.Ingredient) error {
 	foodPurchaseHistory := model.FoodPurchaseHistory{}
 	ingredientInUserCart := ingredientInUserCarts
 	foodIDsInCart := model.Cart{}
