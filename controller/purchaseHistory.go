@@ -100,13 +100,12 @@ func GetPurchaseHistoriesByUserID(c *gin.Context) {
 func PostPurchaseHistoriesByUserID(c *gin.Context) {
 	stringUserID := c.PostForm("user_id")
 
-  // carts := []model.Cart{}
+	// carts := []model.Cart{}
 
 	uintRecipeID := uint(1)
 
 	// ユーザー毎のカートに入っているrecipeIDを取ってくる
-	recipeIDs, _ :=  service.GetRecipeIDsInCartByUserID(stringUserID)
-
+	recipeIDs, _ := service.GetRecipeIDsInCartByUserID(stringUserID)
 
 	errCode := AuthCheck(c, stringUserID)
 	if errCode != nil {
@@ -146,12 +145,12 @@ func PostPurchaseHistoriesByUserID(c *gin.Context) {
 		for _, foodIDsInCart := range foodIDsInCarts {
 			// ユーザー毎のカートに入っているrecipeIDとfoodIDから材料の詳細を取得
 			ingredientsUserCarts, _ := service.GetIngredientsByRecipeIDAndFoodID(uintRecipeID, foodIDsInCart.FoodID)
-      
+
 			// foodPurchaseHistoryにinsert
 			service.InsertFoodCartContentsToPuchaseHistory(stringUserID, foodIDsInCarts, ingredientsUserCarts)
 		}
 
 	}
 	service.DeleteCartContent(stringUserID)
- 	c.AbortWithStatus(http.StatusOK)
+	c.AbortWithStatus(http.StatusOK)
 }
