@@ -37,44 +37,11 @@ func GetRecipeSetCountInCartsByUserID(userID string) ([]model.RecipeSetCountInCa
 	if err != nil {
 		return nil, err
 	}
-  
+
 	return recipeSetCountInCarts, nil
 }
 
-func GetRecipePriceAndPointByID(recipeID []uint) (uint, uint, error){
-	recipe := model.Recipe{}
-	log.Printf("recipeID :", recipeID)
-
-	err := db.Where("id = ?", recipeID).Find(&recipe).Error
-	if err != nil {
-		return 0, 0, err
-	}
-	return recipe.Price, recipe.Point, nil
-}
-
-func InsertFoodCartContentsToPuchaseHistory(userID string, foodIDsInCarts []model.Cart, ingredientInUserCarts *model.Ingredient) error {
-	foodPurchaseHistory := model.FoodPurchaseHistory{}
-	ingredientInUserCart := ingredientInUserCarts
-	foodIDsInCart := model.Cart{}
-
-	// 引数で受け取ったfoodID分だけloop
-	for _, foodIDsInCart = range foodIDsInCarts {
-		// 該当する部分にデータを代入
-		foodPurchaseHistory.UserID = userID
-		foodPurchaseHistory.RecipeID = foodIDsInCart.RecipeID
-		foodPurchaseHistory.FoodID = foodIDsInCart.FoodID
-		foodPurchaseHistory.FoodCount = foodIDsInCart.FoodCount
-		foodPurchaseHistory.Quantity = foodIDsInCart.FoodID * ingredientInUserCart.Quantity
-		foodPurchaseHistory.Unit = ingredientInUserCart.Unit
-
-		_, err := CreateFoodPurchaseHistory(foodPurchaseHistory)
-
-		return err
-	}
-	return nil
-}
-
-func InsertRecipeCartContentsToPuchaseHistory(userID string, recipeSetCountInCarts []model.RecipeSetCountInCart , recipePrice uint, recipePoint uint) error {
+func InsertRecipeCartContentsToPuchaseHistory(userID string, recipeSetCountInCarts []model.RecipeSetCountInCart, recipePrice uint, recipePoint uint) error {
 	recipePurchaseHistory := model.RecipePurchaseHistory{}
 
 	// recipeSetの分だけloop
