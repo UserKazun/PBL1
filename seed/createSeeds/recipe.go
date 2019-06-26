@@ -12,7 +12,7 @@ import (
 func CreateSeedRecipes() {
 
 	recipesInfos := []map[string]string{
-		map[string]string{
+		map[string]string{ //1
 			"Name":        "牛丼",
 			"Description": "お肉がのったご飯だよ！",
 			"CategoryID":  "2",
@@ -21,7 +21,7 @@ func CreateSeedRecipes() {
 			"Price":       "150",
 			"Point":       "15",
 		},
-		map[string]string{
+		map[string]string{ //2
 			"Name":        "肉だけカレーライス",
 			"Description": "男は黙って肉食っとけカレーライス",
 			"CategoryID":  "7",
@@ -30,7 +30,7 @@ func CreateSeedRecipes() {
 			"Price":       "200",
 			"Point":       "20",
 		},
-		map[string]string{
+		map[string]string{ //3
 			"Name":        "シチュー",
 			"Description": "",
 			"CategoryID":  "5",
@@ -39,7 +39,7 @@ func CreateSeedRecipes() {
 			"Price":       "200",
 			"Point":       "20",
 		},
-		map[string]string{
+		map[string]string{ //4
 			"Name":        "米食っとけ、そう米だけさ",
 			"Description": "米オンリー",
 			"CategoryID":  "7",

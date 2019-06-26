@@ -12,4 +12,5 @@ func main() {
 	//createSeeds.CreateSeedFoodPurchaseHistories()
 	createSeeds.CreateSeedDegreeOfContributions()
 	createSeeds.CreateSeedBookmarks()
+	createSeeds.CreateSeedTradeItems()
 }
