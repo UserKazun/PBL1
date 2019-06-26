@@ -1,8 +1,6 @@
 package service
 
 import (
-	"log"
-
 	"github.com/PBL1/model"
 )
 
@@ -27,23 +25,22 @@ func PutCartsFoodCount(userID string, recipeID uint, foodID uint, foodCount uint
 	return nil
 }
 
-func InsertFoodCartContentsToPuchaseHistory(userID string, foodIDsInCart model.Cart, ingredientInUserCarts *model.Ingredient) error {
+func InsertFoodCartContentsToPuchaseHistory(userID string, foodIDsInCarts []model.Cart, ingredientInUserCarts *model.Ingredient) error {
 	foodPurchaseHistory := model.FoodPurchaseHistory{}
 	ingredientInUserCart := ingredientInUserCarts
 
-	// 該当する部分にデータを代入
-	log.Println("入れるぜ！", foodIDsInCart)
-	foodPurchaseHistory.UserID = userID
-	foodPurchaseHistory.RecipeID = foodIDsInCart.RecipeID
-	foodPurchaseHistory.FoodID = foodIDsInCart.FoodID
-	foodPurchaseHistory.FoodCount = foodIDsInCart.FoodCount
-	foodPurchaseHistory.Quantity = foodIDsInCart.FoodID * ingredientInUserCart.Quantity
-	foodPurchaseHistory.Unit = ingredientInUserCart.Unit
+	// 引数で受け取ったfoodID分だけloop
+	for _, foodIDsInCart := range foodIDsInCarts {
+		// 該当する部分にデータを代入
+		foodPurchaseHistory.UserID = userID
+		foodPurchaseHistory.RecipeID = foodIDsInCart.RecipeID
+		foodPurchaseHistory.FoodID = foodIDsInCart.FoodID
+		foodPurchaseHistory.FoodCount = foodIDsInCart.FoodCount
+		foodPurchaseHistory.Quantity = foodIDsInCart.FoodID * ingredientInUserCart.Quantity
+		foodPurchaseHistory.Unit = ingredientInUserCart.Unit
 
-	log.Println("入れたぜ！", foodPurchaseHistory)
+		_, err := CreateFoodPurchaseHistory(foodPurchaseHistory)
 
-	_, err := CreateFoodPurchaseHistory(foodPurchaseHistory)
-	if err != nil {
 		return err
 	}
 
