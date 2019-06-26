@@ -649,7 +649,7 @@ curl -X DELETE localhost:8080/api/v1/bookmark/users/goya/recipes/2
 ```
 ---
 
-### [GET] 対象ユーザの購入履歴を取得する(ログイン必須)
+### [GET] 対象ユーザの購入履歴を取得する
 
 #### エンドポイント
 ```
