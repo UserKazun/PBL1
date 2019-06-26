@@ -649,7 +649,7 @@ curl -X DELETE localhost:8080/api/v1/bookmark/users/goya/recipes/2
 ```
 ---
 
-### [GET] 対象ユーザの購入履歴を取得する
+### [GET] 飢餓貢献ポイントと交換できる商品データを取得する
 
 #### エンドポイント
 ```
