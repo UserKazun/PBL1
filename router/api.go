@@ -64,6 +64,9 @@ func apiRouter(api *gin.RouterGroup, api2 *gin.RouterGroup) {
 	// 対象ユーザのブックマーク情報を削除する
 	api.DELETE("/bookmark/users/:user_id/recipes/:recipe_id", controller.DeleteBookmarkByUserID)
 
-	// 対象ユーザのブックマーク情報を取得する
-	api.GET("/trade-items", controller.GetTradeItemsByUserID)
+	// 飢餓貢献ポイントで交換できる商品情報を取得する
+	api.GET("/trade-items", controller.GetTradeItems)
+
+	// 対象ユーザが飢餓貢献ポイントで商品を交換する
+	api.POST("/trade-items", controller.PostTradeItemsByUserID)
 }

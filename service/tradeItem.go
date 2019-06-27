@@ -13,7 +13,7 @@ func CreateTradeItem(tradeItem model.TradeItem) (model.TradeItem, error) {
 	return tradeItem, nil
 }
 
-func GetTradeItemsByUserID() ([]model.TradeItem, error) {
+func GetTradeItems() ([]model.TradeItem, error) {
 	tradeItems := []model.TradeItem{}
 
 	err := db.Find(&tradeItems).Order("point", false).Error
