@@ -100,3 +100,10 @@ type TradeItem struct {
 	ImageURL string
 	Point    uint
 }
+
+// TradeItemHistory ...交換アイテム
+type TradeItemHistory struct {
+	UserID      string `sql:"type:varchar(50)" gorm:"primary_key"`
+	TradeItemID uint   `sql:"type:int" gorm:"primary_key"`
+	CreatedAt   time.Time
+}
