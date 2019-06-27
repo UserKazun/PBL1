@@ -143,3 +143,21 @@ func PutCartsFoodCountByUserID(c *gin.Context) {
 	c.AbortWithStatus(http.StatusOK)
 
 }
+
+func PostDeleteCartContentByUserID(c *gin.Context) {
+	userID := c.PostForm("user_id")
+
+	errCode := AuthCheck(c, userID)
+	if errCode != nil {
+		c.AbortWithStatus(http.StatusUnauthorized)
+		return
+	}
+
+	err := service.DeleteCartContent(userID)
+	if err != nil {
+		c.AbortWithStatus(http.StatusInternalServerError)
+		return
+	}
+
+	c.AbortWithStatus(http.StatusOK)
+}

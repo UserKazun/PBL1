@@ -46,6 +46,9 @@ func apiRouter(api *gin.RouterGroup, api2 *gin.RouterGroup) {
 	// 対象ユーザのカートの中身を購入する
 	api.POST("/purchase-histories", controller.PostPurchaseHistoriesByUserID)
 
+	// 対象ユーザーのカートの中身を削除する
+	api.POST("/delete-cart-content", controller.PostDeleteCartContentByUserID)
+
 	// 対象ユーザの購入履歴を取得する
 	api.GET("/purchase-histories/users/:user_id", controller.GetPurchaseHistoriesByUserID)
 
