@@ -46,6 +46,9 @@ func apiRouter(api *gin.RouterGroup, api2 *gin.RouterGroup) {
 	// 対象ユーザのカートの中身を購入する
 	api.POST("/purchase-histories", controller.PostPurchaseHistoriesByUserID)
 
+	// 対象ユーザーのカートの中身を削除する
+	api.POST("/delete-cart-content", controller.PostDeleteCartContentByUserID)
+
 	// 対象ユーザの購入履歴を取得する
 	api.GET("/purchase-histories/users/:user_id", controller.GetPurchaseHistoriesByUserID)
 
@@ -70,6 +73,6 @@ func apiRouter(api *gin.RouterGroup, api2 *gin.RouterGroup) {
 	// 対象ユーザが飢餓貢献ポイントで商品を交換する
 	api.POST("/trade-items", controller.PostTradeItemsByUserID)
 
-	// 飢餓貢献ポイントで交換できる商品情報を取得する
+	// 飢餓貢献ポイントで交換した履歴情報を取得する
 	api.GET("/trade-items-Histories/users/:user_id", controller.GetTradeItemsHistoriesByUserID)
 }
