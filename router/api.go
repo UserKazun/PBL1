@@ -69,4 +69,7 @@ func apiRouter(api *gin.RouterGroup, api2 *gin.RouterGroup) {
 
 	// 対象ユーザが飢餓貢献ポイントで商品を交換する
 	api.POST("/trade-items", controller.PostTradeItemsByUserID)
+
+	// 飢餓貢献ポイントで交換できる商品情報を取得する
+	api.GET("/trade-items-Histories/users/:user_id", controller.GetTradeItemsHistoriesByUserID)
 }

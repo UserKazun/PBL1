@@ -23,3 +23,14 @@ func GetTradeItems() ([]model.TradeItem, error) {
 
 	return tradeItems, nil
 }
+
+func GetTradeItemByID(id uint) (*model.TradeItem, error) {
+	tradeItem := model.TradeItem{}
+
+	err := db.Where("id = ?", id).First(&tradeItem).Error
+	if err != nil {
+		return nil, err
+	}
+
+	return &tradeItem, nil
+}

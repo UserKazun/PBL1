@@ -114,3 +114,15 @@ type TradeItem struct {
 	ImageURL string `json:"trade_image_url"`
 	Point    uint   `json:"trade_point"`
 }
+
+// TradeItemHistory ...交換アイテム
+type TradeItemHistory struct {
+	Date                  string                 `json:"date"`
+	TradeItemHistoryCards []TradeItemHistoryCard `json:"trade_items"`
+}
+
+type TradeItemHistoryCard struct {
+	Name     string `json:"trade_name"`
+	ImageURL string `json:"trade_image_url"`
+	Point    uint   `json:"trade_point"`
+}
