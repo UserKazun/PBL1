@@ -760,3 +760,86 @@ GET http://54.238.92.95:8080/api/v1/trade-items
 curl http://54.238.92.95:8080/api/v1/purchase-histories/users/goya
 ```
 ---
+
+### [POST] 対象ユーザが飢餓貢献ポイントと商品を交換する(ログイン必須)
+
+#### エンドポイント
+```
+POST http://54.238.92.95:8080/api/v1/trade-items
+```
+
+
+#### Request Parameters
+場所|パラメータ名|指定する値|説明|
+|:-|:-|:-|:-|
+|Body|user_id|文字列|対象ユーザーのID|
+|Body|trade_item_id|数値|対象レシピのID|
+
+
+#### Example Request
+
+```
+curl -F "user_id=goya" -F "trade_item_id=1" http://54.238.92.95:8080/api/v1/trade-items
+```
+---
+
+
+### [GET] 飢餓貢献ポイントで交換した履歴情報を取得する
+
+#### エンドポイント
+```
+GET http://54.238.92.95:8080/api/v1/trade-items-Histories/users/:user_id
+```
+
+#### Request Parameters
+場所|パラメータ名|指定する値|説明|
+|:-|:-|:-|:-|
+|Path|user_id|文字列|対象ユーザーのID|
+
+
+#### Example Response
+
++ Response 200 (application/json)
+
+    <details>
+    <summary>Body</summary>
+    <pre>
+    <code>
+    [
+        {
+            "date": "2019-06-28",
+            "trade_items": [
+                {
+                    "trade_name": "人をダメにするソファ",
+                    "trade_image_url": "http://urx.blue/V5dk",
+                    "trade_point": 2000
+                }
+            ]
+        },
+        {
+            "date": "2019-06-27",
+            "trade_items": [
+                {
+                    "trade_name": "スコッティ フラワーパック",
+                    "trade_image_url": "http://ur0.work/W8jw",
+                    "trade_point": 300
+                },
+                {
+                    "trade_name": "クリネックス ティシュー",
+                    "trade_image_url": "http://ur0.work/UR5I",
+                    "trade_point": 400
+                }
+            ]
+        }
+    ]
+    </code>
+    </pre>
+    </details>
+
+
+#### Example Request
+
+```
+curl http://54.238.92.95:8080/api/v1/trade-items-Histories/users/goya
+```
+---
