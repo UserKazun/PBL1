@@ -29,32 +29,39 @@ func PutCartsRecipeCount(userID string, recipeID uint, recipeCount uint) error {
 	return nil
 }
 
-func GetRecipeSetCountInCartsByUserID(userID string) ([]model.RecipeSetCountInCart, error) {
-	recipeSetCountInCarts := []model.RecipeSetCountInCart{}
+func GetRecipeSetCountInCartsByUserID(userID string) (*model.RecipeSetCountInCart, error) {
+	recipeSetCountInCart := model.RecipeSetCountInCart{}
 
-	err := db.Where("user_id = ?", userID).Find(&recipeSetCountInCarts).Error
+	err := db.Where("user_id = ?", userID).Find(&recipeSetCountInCart).Error
 	log.Println(userID)
 	if err != nil {
 		return nil, err
 	}
 
-	return recipeSetCountInCarts, nil
+	return &recipeSetCountInCart, nil
 }
 
-func InsertRecipeCartContentsToPuchaseHistory(userID string, recipeSetCountInCarts []model.RecipeSetCountInCart, recipePrice uint, recipePoint uint) error {
+func InsertRecipeCartContentsToPuchaseHistory(userID string, recipeID uint, recipeSetCountInCart model.RecipeSetCountInCart, recipePrice uint, recipePoint uint) (uint, error) {
 	recipePurchaseHistory := model.RecipePurchaseHistory{}
+	var err error
 
-	// recipeSetの分だけloop
-	for _, recipeSetCountInCart := range recipeSetCountInCarts {
-		// 該当する部分にデータを代入
-		recipePurchaseHistory.UserID = userID
-		recipePurchaseHistory.RecipeID = recipeSetCountInCart.RecipeID
-		recipePurchaseHistory.RecipeCount = recipeSetCountInCart.RecipeCount
-		recipePurchaseHistory.Price = recipePrice
-		recipePurchaseHistory.Point = recipePoint
+	// 該当する部分にデータを代入
+	recipePurchaseHistory.UserID = userID
+	recipePurchaseHistory.RecipeID = recipeID
+	recipePurchaseHistory.RecipeCount = recipeSetCountInCart.RecipeCount
+	recipePurchaseHistory.Price = recipePrice
+	recipePurchaseHistory.Point = recipePoint
 
-		_, err := CreateRecipePurchaseHistory(recipePurchaseHistory)
-		return err
+	_, err = CreateRecipePurchaseHistory(recipePurchaseHistory)
+	if err != nil {
+		return 0, err
 	}
-	return nil
+
+	err = db.Raw("select * from recipe_purchase_histories order by id").Scan(&recipePurchaseHistory).Error
+	if err != nil {
+		return 0, err
+	}
+	log.Println("recipePurchaseHistory.ID", recipePurchaseHistory.ID)
+
+	return recipePurchaseHistory.ID, nil
 }

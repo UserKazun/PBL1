@@ -15,15 +15,6 @@ func CreateRecipe(recipe model.Recipe) (model.Recipe, error) {
 	return recipe, nil
 }
 
-// GetRecipeByMenuID ...メニューIDを元に、レシピのURLを返す
-func GetRecipeByMenuID(recipeID uint) (string, error) {
-	recipe := model.Recipe{}
-
-	err := db.Where("id = ?", recipeID).First(&recipe).Error
-
-	return recipe.PageURL, err
-}
-
 // GetRecipeNameByRecipeID ...メニューIDを元に、レシピの名前を返す
 func GetRecipeNameByRecipeID(recipeID uint) string {
 	recipe := model.Recipe{}
@@ -107,11 +98,11 @@ func GetRecipePoint(recipeID uint) (uint, error) {
 	return recipe.Point, nil
 }
 
-func GetRecipePriceAndPointByID(recipeID []uint) (uint, uint, error) {
+func GetRecipePriceAndRecipePointByID(recipeID uint) (uint, uint, error) {
 	recipe := model.Recipe{}
 	log.Println("recipeID :", recipeID)
 
-	err := db.Where("id = ?", recipeID).Find(&recipe).Error
+	err := db.Where("id = ?", recipeID).First(&recipe).Error
 	if err != nil {
 		return 0, 0, err
 	}

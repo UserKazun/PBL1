@@ -13,9 +13,6 @@ func apiRouter(api *gin.RouterGroup, api2 *gin.RouterGroup) {
 	// ログアウト時にセッションとしてログイン情報を削除する
 	api.POST("/auth/logout", controller.PostLogoutDeleteCookie)
 
-	// recipeIDを元にレシピのURLを取得する
-	api.GET("/recipes/:recipe_id/URL", controller.GetRecipeByMenuID)
-
 	// レシピIDを元にそのレシピ画面を表示するのに必要なデータ（材料）を取得する
 	api.GET("/ingredient/:recipe_id", controller.GetIngredientsByRecipeID)
 
@@ -31,7 +28,7 @@ func apiRouter(api *gin.RouterGroup, api2 *gin.RouterGroup) {
 	// キーを元に検索した結果のレシピデータを取得する
 	api.GET("search-recipes/categories/:category_id/keys/:search_key", controller.GetRecipesSearch)
 
-	// キーを元に検索した結果のレシピデータを取得する
+	// キーを元に検索した結果のレシピデータを取得する(カテゴリー検索のみ)
 	api.GET("search-recipes/categories/:category_id", controller.GetRecipesCategoryOnlySearch)
 
 	// 対象ユーザのカートの中身を取得する

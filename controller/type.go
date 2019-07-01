@@ -46,7 +46,7 @@ type SearchRecipe struct {
 	Name        string `json:"recipe_name"`
 	Description string `json:"recipe_Description"`
 	ImageURL    string `json:"recipe_image_url"`
-	PageURL     string `json:"recipe_page_url"`
+	//PageURL     string `json:"recipe_page_url"`
 	Price       string `json:"price"`
 	Point       uint   `json:"point"`
 }

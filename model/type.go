@@ -21,9 +21,9 @@ type Recipe struct {
 	Description string
 	CategoryID  uint
 	ImageURL    string
-	PageURL     string
-	Price       uint
-	Point       uint
+	//PageURL     string
+	Price uint
+	Point uint
 }
 
 // Category ...料理カテゴリー
@@ -61,24 +61,26 @@ type RecipeSetCountInCart struct {
 	RecipeCount *uint
 }
 
-// FoodPurchaseHistory ...食材の購入履歴
-type FoodPurchaseHistory struct {
-	UserID    string `sql:"type:varchar(50)" gorm:"primary_key"`
-	RecipeID  uint   `sql:"type:int" gorm:"primary_key"`
-	FoodID    uint   `sql:"type:int" gorm:"primary_key"`
-	FoodCount *uint
-	Quantity  uint
-	Unit      string
-}
-
 // RecipePurchaseHistory ...レシピの購入履歴
 type RecipePurchaseHistory struct {
-	UserID      string `sql:"type:varchar(50)" gorm:"primary_key"`
-	RecipeID    uint   `sql:"type:int" gorm:"primary_key"`
+	ID          uint `gorm:"primary_key"` // 購入履歴のID
+	UserID      string
+	RecipeID    uint
 	RecipeCount *uint
 	Price       uint
 	Point       uint
 	CreatedAt   time.Time
+}
+
+// FoodPurchaseHistory ...食材の購入履歴
+type FoodPurchaseHistory struct {
+	RecipePurchaseHistoryID uint `sql:"type:int" gorm:"primary_key"`
+	// UserID                  string
+	// RecipeID                uint
+	FoodID    uint `sql:"type:int" gorm:"primary_key"`
+	FoodCount *uint
+	Quantity  uint
+	Unit      string
 }
 
 // DegreeOfContribution ...飢餓対策貢献ポイント
@@ -101,7 +103,7 @@ type TradeItem struct {
 	Point    uint
 }
 
-// TradeItemHistory ...交換アイテム
+// TradeItemHistory ...アイテム交換履歴
 type TradeItemHistory struct {
 	UserID      string `sql:"type:varchar(50)" gorm:"primary_key"`
 	TradeItemID uint   `sql:"type:int" gorm:"primary_key"`
