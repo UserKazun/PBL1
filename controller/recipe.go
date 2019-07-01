@@ -9,31 +9,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// GetRecipeByMenuID ...受け取ったメニューIDを元にレシピのURLを返す
-func GetRecipeByMenuID(c *gin.Context) {
-	var recipeID uint
-	var err error
-	var recipePageURL string
-
-	recipeID, err = GetUint(c, "recipe_id")
-	if err != nil {
-		log.Println(err)
-		c.AbortWithStatus(http.StatusBadRequest)
-		return
-	}
-
-	recipePageURL, err = service.GetRecipeByMenuID(recipeID)
-	if err != nil {
-		log.Println("存在しないレシピIDです")
-		c.AbortWithStatus(http.StatusBadRequest)
-		return
-	}
-
-	c.JSON(http.StatusOK, gin.H{
-		"recipe_PageURL": recipePageURL,
-	})
-}
-
 func GetRecipeByRecipeID(c *gin.Context) {
 	recipe := Recipe{}
 
@@ -102,7 +77,6 @@ func GetRecipesSearch(c *gin.Context) {
 		searchRecipe.Name = recipe.Name
 		searchRecipe.Description = recipe.Description
 		searchRecipe.ImageURL = recipe.ImageURL
-		searchRecipe.PageURL = recipe.PageURL
 		searchRecipe.Price = "¥" + strconv.FormatUint(uint64(recipe.Price), 10)
 
 		searchRecipe.Point = recipe.Point
@@ -138,7 +112,6 @@ func GetRecipesCategoryOnlySearch(c *gin.Context) {
 		searchRecipe.Name = recipe.Name
 		searchRecipe.Description = recipe.Description
 		searchRecipe.ImageURL = recipe.ImageURL
-		searchRecipe.PageURL = recipe.PageURL
 		searchRecipe.Price = "¥" + strconv.FormatUint(uint64(recipe.Price), 10)
 
 		searchRecipe.Point = recipe.Point

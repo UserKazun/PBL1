@@ -27,14 +27,14 @@ func PutCartsFoodCount(userID string, recipeID uint, foodID uint, foodCount uint
 	return nil
 }
 
-func InsertFoodCartContentsToPuchaseHistory(userID string, foodIDsInCart model.Cart, ingredientInUserCarts *model.Ingredient) error {
+func InsertFoodCartContentsToPuchaseHistories(recipePurchaseHistoryID uint, foodIDsInCart model.Cart, ingredientInUserCart *model.Ingredient) error {
 	foodPurchaseHistory := model.FoodPurchaseHistory{}
-	ingredientInUserCart := ingredientInUserCarts
 
 	// 該当する部分にデータを代入
 	log.Println("入れるぜ！", foodIDsInCart)
-	foodPurchaseHistory.UserID = userID
-	foodPurchaseHistory.RecipeID = foodIDsInCart.RecipeID
+	// foodPurchaseHistory.UserID = userID
+	// foodPurchaseHistory.RecipeID = foodIDsInCart.RecipeID
+	foodPurchaseHistory.RecipePurchaseHistoryID = recipePurchaseHistoryID
 	foodPurchaseHistory.FoodID = foodIDsInCart.FoodID
 	foodPurchaseHistory.FoodCount = foodIDsInCart.FoodCount
 	foodPurchaseHistory.Quantity = foodIDsInCart.FoodID * ingredientInUserCart.Quantity

@@ -13,9 +13,6 @@ func apiRouter(api *gin.RouterGroup, api2 *gin.RouterGroup) {
 	// ログアウト時にセッションとしてログイン情報を削除する
 	api.POST("/auth/logout", controller.PostLogoutDeleteCookie)
 
-	// recipeIDを元にレシピのURLを取得する
-	api.GET("/recipes/:recipe_id/URL", controller.GetRecipeByMenuID)
-
 	// レシピIDを元にそのレシピ画面を表示するのに必要なデータ（材料）を取得する
 	api.GET("/ingredient/:recipe_id", controller.GetIngredientsByRecipeID)
 
@@ -31,7 +28,7 @@ func apiRouter(api *gin.RouterGroup, api2 *gin.RouterGroup) {
 	// キーを元に検索した結果のレシピデータを取得する
 	api.GET("search-recipes/categories/:category_id/keys/:search_key", controller.GetRecipesSearch)
 
-	// キーを元に検索した結果のレシピデータを取得する
+	// キーを元に検索した結果のレシピデータを取得する(カテゴリー検索のみ)
 	api.GET("search-recipes/categories/:category_id", controller.GetRecipesCategoryOnlySearch)
 
 	// 対象ユーザのカートの中身を取得する
@@ -64,4 +61,15 @@ func apiRouter(api *gin.RouterGroup, api2 *gin.RouterGroup) {
 	// 対象ユーザのブックマーク情報を追加する
 	api.POST("/bookmark", controller.PostBookmarkByUserID)
 
+	// 対象ユーザのブックマーク情報を削除する
+	api.DELETE("/bookmark/users/:user_id/recipes/:recipe_id", controller.DeleteBookmarkByUserID)
+
+	// 飢餓貢献ポイントで交換できる商品情報を取得する
+	api.GET("/trade-items", controller.GetTradeItems)
+
+	// 対象ユーザが飢餓貢献ポイントで商品を交換する
+	api.POST("/trade-items", controller.PostTradeItemsByUserID)
+
+	// 飢餓貢献ポイントで交換した履歴情報を取得する
+	api.GET("/trade-items-Histories/users/:user_id", controller.GetTradeItemsHistoriesByUserID)
 }

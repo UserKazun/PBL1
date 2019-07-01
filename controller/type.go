@@ -46,7 +46,7 @@ type SearchRecipe struct {
 	Name        string `json:"recipe_name"`
 	Description string `json:"recipe_Description"`
 	ImageURL    string `json:"recipe_image_url"`
-	PageURL     string `json:"recipe_page_url"`
+	//PageURL     string `json:"recipe_page_url"`
 	Price       string `json:"price"`
 	Point       uint   `json:"point"`
 }
@@ -106,4 +106,23 @@ type Bookmark struct {
 	ImageURL    string `json:"recipe_image_url"`
 	Price       string `json:"price"`
 	Point       uint   `json:"point"`
+}
+
+// TradeItem ...交換アイテム
+type TradeItem struct {
+	Name     string `json:"trade_name"`
+	ImageURL string `json:"trade_image_url"`
+	Point    uint   `json:"trade_point"`
+}
+
+// TradeItemHistory ...交換アイテム
+type TradeItemHistory struct {
+	Date                  string                 `json:"date"`
+	TradeItemHistoryCards []TradeItemHistoryCard `json:"trade_items"`
+}
+
+type TradeItemHistoryCard struct {
+	Name     string `json:"trade_name"`
+	ImageURL string `json:"trade_image_url"`
+	Point    uint   `json:"trade_point"`
 }

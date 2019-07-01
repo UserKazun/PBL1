@@ -13,10 +13,10 @@ func CreateFoodPurchaseHistory(foodPurchaseHistory model.FoodPurchaseHistory) (m
 	return foodPurchaseHistory, nil
 }
 
-func GetFoodPurchaseHistoriesByUserIDAndRecipeID(userID string, recipeID uint) ([]model.FoodPurchaseHistory, error) {
+func GetFoodPurchaseHistoriesByUserIDAndRecipeID(recipePurchaseHistoryID uint) ([]model.FoodPurchaseHistory, error) {
 	foodPurchaseHistories := []model.FoodPurchaseHistory{}
 
-	err := db.Where("user_id = ? and recipe_id = ?", userID, recipeID).Find(&foodPurchaseHistories).Error
+	err := db.Where("recipe_purchase_history_id = ?", recipePurchaseHistoryID).Find(&foodPurchaseHistories).Error
 	if err != nil {
 		return nil, err
 	}

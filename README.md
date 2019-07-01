@@ -604,3 +604,242 @@ GET http://54.238.92.95:8080/api/v1/bookmark/users/:user_id
 curl http://54.238.92.95:8080/api/v1/bookmark/users/goya
 ```
 ---
+
+### [POST] 対象ユーザのブックマーク情報を追加する(ログイン必須)
+
+#### エンドポイント
+```
+POST http://54.238.92.95:8080/api/v1/bookmark
+```
+
+
+#### Request Parameters
+場所|パラメータ名|指定する値|説明|
+|:-|:-|:-|:-|
+|Body|user_id|文字列|対象ユーザーのID|
+|Body|recipe_id|数値|対象レシピのID|
+
+
+#### Example Request
+
+```
+curl -F "user_id=goya" -F "recipe_id=1" http://54.238.92.95:8080/api/v1/bookmark
+```
+---
+
+### [DELETE] 対象ユーザのブックマーク情報を削除する(ログイン必須)
+
+#### エンドポイント
+```
+DELETE http://54.238.92.95:8080/api/v1/bookmark
+```
+
+
+#### Request Parameters
+場所|パラメータ名|指定する値|説明|
+|:-|:-|:-|:-|
+|Path|user_id|文字列|対象ユーザーのID|
+|Path|recipe_id|数値|対象レシピのID|
+
+
+#### Example Request
+
+```
+curl -X DELETE localhost:8080/api/v1/bookmark/users/goya/recipes/2
+```
+---
+
+### [GET] 飢餓貢献ポイントと交換できる商品データを取得する
+
+#### エンドポイント
+```
+GET http://54.238.92.95:8080/api/v1/trade-items
+```
+
+#### Request Parameters
+場所|パラメータ名|指定する値|説明|
+|:-|:-|:-|:-|
+
+
+#### Example Response
+
++ Response 200 (application/json)
+
+    <details>
+    <summary>Body</summary>
+    <pre>
+    <code>
+    [
+        {
+            "ID": 1,
+            "Name": "スコッティ フラワーパック",
+            "ImageURL": "http://ur0.work/W8jw",
+            "Point": 300
+        },
+        {
+            "ID": 2,
+            "Name": "クリネックス ティシュー",
+            "ImageURL": "http://ur0.work/UR5I",
+            "Point": 400
+        },
+        {
+            "ID": 3,
+            "Name": "ウタマロ石鹸",
+            "ImageURL": "http://ur0.work/02OC",
+            "Point": 450
+        },
+        {
+            "ID": 4,
+            "Name": "ハイディスク モバイルバッテリー5000mAh",
+            "ImageURL": "http://ur0.work/Xaxx",
+            "Point": 2000
+        },
+        {
+            "ID": 5,
+            "Name": "プラズマクラスター搭載 卓上加湿器",
+            "ImageURL": "http://ur0.work/WrVy",
+            "Point": 15000
+        },
+        {
+            "ID": 6,
+            "Name": "オーガニック オリーブオイル",
+            "ImageURL": "http://ur0.work/HwUk",
+            "Point": 400
+        },
+        {
+            "ID": 7,
+            "Name": "キャノーラ油",
+            "ImageURL": "http://ur0.work/3Vcm",
+            "Point": 350
+        },
+        {
+            "ID": 8,
+            "Name": "おーいお茶2L×6本",
+            "ImageURL": "http://urx.blue/SmGu",
+            "Point": 350
+        },
+        {
+            "ID": 9,
+            "Name": "鼻セレブ3箱パック",
+            "ImageURL": "http://urx.blue/P7lw",
+            "Point": 450
+        },
+        {
+            "ID": 10,
+            "Name": "電気タコ焼き機",
+            "ImageURL": "http://urx.blue/VpeM",
+            "Point": 1500
+        },
+        {
+            "ID": 11,
+            "Name": "Dyson Cool",
+            "ImageURL": "http://urx.blue/fIvJ",
+            "Point": 25000
+        },
+        {
+            "ID": 12,
+            "Name": "人をダメにするソファ",
+            "ImageURL": "http://urx.blue/V5dk",
+            "Point": 2000
+        },
+        {
+            "ID": 13,
+            "Name": "SanDisc USB 128GB",
+            "ImageURL": "http://urx.blue/Y0YM",
+            "Point": 1600
+        }
+    ]
+    </code>
+    </pre>
+    </details>
+
+
+#### Example Request
+
+```
+curl http://54.238.92.95:8080/api/v1/purchase-histories/users/goya
+```
+---
+
+### [POST] 対象ユーザが飢餓貢献ポイントと商品を交換する(ログイン必須)
+
+#### エンドポイント
+```
+POST http://54.238.92.95:8080/api/v1/trade-items
+```
+
+
+#### Request Parameters
+場所|パラメータ名|指定する値|説明|
+|:-|:-|:-|:-|
+|Body|user_id|文字列|対象ユーザーのID|
+|Body|trade_item_id|数値|対象レシピのID|
+
+
+#### Example Request
+
+```
+curl -F "user_id=goya" -F "trade_item_id=1" http://54.238.92.95:8080/api/v1/trade-items
+```
+---
+
+
+### [GET] 飢餓貢献ポイントで交換した履歴情報を取得する
+
+#### エンドポイント
+```
+GET http://54.238.92.95:8080/api/v1/trade-items-Histories/users/:user_id
+```
+
+#### Request Parameters
+場所|パラメータ名|指定する値|説明|
+|:-|:-|:-|:-|
+|Path|user_id|文字列|対象ユーザーのID|
+
+
+#### Example Response
+
++ Response 200 (application/json)
+
+    <details>
+    <summary>Body</summary>
+    <pre>
+    <code>
+    [
+        {
+            "date": "2019-06-28",
+            "trade_items": [
+                {
+                    "trade_name": "人をダメにするソファ",
+                    "trade_image_url": "http://urx.blue/V5dk",
+                    "trade_point": 2000
+                }
+            ]
+        },
+        {
+            "date": "2019-06-27",
+            "trade_items": [
+                {
+                    "trade_name": "スコッティ フラワーパック",
+                    "trade_image_url": "http://ur0.work/W8jw",
+                    "trade_point": 300
+                },
+                {
+                    "trade_name": "クリネックス ティシュー",
+                    "trade_image_url": "http://ur0.work/UR5I",
+                    "trade_point": 400
+                }
+            ]
+        }
+    ]
+    </code>
+    </pre>
+    </details>
+
+
+#### Example Request
+
+```
+curl http://54.238.92.95:8080/api/v1/trade-items-Histories/users/goya
+```
+---

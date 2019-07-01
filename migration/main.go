@@ -21,6 +21,8 @@ func main() {
 	db.DropTableIfExists(&model.FoodPurchaseHistory{})
 	db.DropTableIfExists(&model.DegreeOfContribution{})
 	db.DropTableIfExists(&model.Bookmark{})
+	db.DropTableIfExists(&model.TradeItem{})
+	db.DropTableIfExists(&model.TradeItemHistory{})
 
 	db.CreateTable(&model.User{})
 	db.CreateTable(&model.Recipe{})
@@ -33,4 +35,6 @@ func main() {
 	db.CreateTable(&model.FoodPurchaseHistory{})
 	db.CreateTable(&model.DegreeOfContribution{})
 	db.CreateTable(&model.Bookmark{})
+	db.CreateTable(&model.TradeItem{})
+	db.CreateTable(&model.TradeItemHistory{})
 }
