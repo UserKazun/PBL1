@@ -77,7 +77,7 @@ func GetRecipesSearch(c *gin.Context) {
 		searchRecipe.Name = recipe.Name
 		searchRecipe.Description = recipe.Description
 		searchRecipe.ImageURL = recipe.ImageURL
-		searchRecipe.Price = "¥" + strconv.FormatUint(uint64(recipe.Price), 10)
+		searchRecipe.Price = strconv.FormatUint(uint64(recipe.Price), 10) + "円"
 
 		searchRecipe.Point = recipe.Point
 
@@ -112,7 +112,7 @@ func GetRecipesCategoryOnlySearch(c *gin.Context) {
 		searchRecipe.Name = recipe.Name
 		searchRecipe.Description = recipe.Description
 		searchRecipe.ImageURL = recipe.ImageURL
-		searchRecipe.Price = "¥" + strconv.FormatUint(uint64(recipe.Price), 10)
+		searchRecipe.Price = strconv.FormatUint(uint64(recipe.Price), 10) + "円"
 
 		searchRecipe.Point = recipe.Point
 

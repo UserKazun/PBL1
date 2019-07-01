@@ -144,8 +144,8 @@ func PutCartsFoodCountByUserID(c *gin.Context) {
 
 }
 
-func PostDeleteCartContentByUserID(c *gin.Context) {
-	userID := c.PostForm("user_id")
+func DeleteCartContentByUserID(c *gin.Context) {
+	userID := c.Param("user_id")
 
 	errCode := AuthCheck(c, userID)
 	if errCode != nil {
