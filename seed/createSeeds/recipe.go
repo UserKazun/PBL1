@@ -82,8 +82,8 @@ func CreateSeedRecipes() {
 			"Point":       "30",
 		},
 		map[string]string{ //9
-			"Name":        "豆腐の韓国風",
-			"Description": "電子レンジで簡単、玉ねぎの甘みが美味しい",
+			"Name":        "豆腐の韓国風サラダ",
+			"Description": "これだけでもお腹にたまるからダイエットにも☆",
 			"CategoryID":  "7",
 			"ImageURL":    "https://img.cpcdn.com/recipes/4491418/m/deedaf2ac50639cae185d7792e74869e.jpg?u=11000068&p=1501231688",
 			"Price":       "150",
