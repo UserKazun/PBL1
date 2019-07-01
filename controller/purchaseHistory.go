@@ -22,6 +22,9 @@ func GetPurchaseHistoriesByUserID(c *gin.Context) {
 	modelRecipePurchaseHistories := []model.RecipePurchaseHistory{}
 	modelFoodPurchaseHistories := []model.FoodPurchaseHistory{}
 	purchaseDates := []time.Time{}
+	purchaseDateTemp := "0"
+	timeNext := time.Time{}
+	var purchaseNextDate string
 	recipe := model.Recipe{}
 	var err error
 
@@ -41,8 +44,21 @@ func GetPurchaseHistoriesByUserID(c *gin.Context) {
 	}
 
 	for _, purchaseDate := range purchaseDates {
+
+		// すでに挿入された日付か確認
+		if purchaseDate.Format("2006-01-02") == purchaseDateTemp {
+			continue
+		}
+
+		// 挿入された日付を保持
+		purchaseDateTemp = purchaseDate.Format("2006-01-02")
+
 		purchaseHistory.Date = purchaseDate.Format("2006-01-02")
-		modelRecipePurchaseHistories, err = service.GetmodelRecipePurchaseHistoriesByUserIDAndPurchaseDate(userID, purchaseDate)
+
+		timeNext = purchaseDate.Add(24 * time.Hour)
+		purchaseNextDate = timeNext.Format("2006-01-02")
+
+		modelRecipePurchaseHistories, err = service.GetmodelRecipePurchaseHistoriesByUserIDAndPurchaseDate(userID, purchaseHistory.Date, purchaseNextDate)
 
 		for _, modelRecipePurchaseHistory := range modelRecipePurchaseHistories {
 			// 材料の中身をリセット

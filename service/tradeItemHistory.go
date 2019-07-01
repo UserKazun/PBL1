@@ -44,7 +44,9 @@ func GetTradeItemHistoriesByUserIDAndTradeDate(userID string, tradeDate string, 
 	log.Println("今日", tradeDate)
 	log.Println("明日", tradeNextDate)
 
-	err := db.Where("user_id = ? and created_at >= ? and created_at < ?", userID, tradeDate, tradeNextDate).Find(&tradeItemHistories).Error
+	//err := db.Where("user_id = ? and created_at >= ? and created_at < ?", userID, tradeDate, tradeNextDate).Find(&tradeItemHistories).Error
+	err := db.Raw("select * from trade_item_histories where user_id = ? and created_at >= ? and created_at < ? order by created_at desc", userID, tradeDate, tradeNextDate).Scan(&tradeItemHistories).Error
+
 	if err != nil {
 		return nil, err
 	}

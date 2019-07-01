@@ -46,10 +46,11 @@ func GetPurchaseDatesByUserID(userID string) ([]time.Time, error) {
 }
 
 // GetmodelRecipePurchaseHistoriesByUserIDAndPurchaseDate ...特定の購入日の履歴データ群を取得する
-func GetmodelRecipePurchaseHistoriesByUserIDAndPurchaseDate(userID string, purchaseDate time.Time) ([]model.RecipePurchaseHistory, error) {
+func GetmodelRecipePurchaseHistoriesByUserIDAndPurchaseDate(userID string, purchaseDate string, purchaseNextDate string) ([]model.RecipePurchaseHistory, error) {
 	recipePurchaseHistories := []model.RecipePurchaseHistory{}
 
-	err := db.Where("user_id = ? and created_at = ?", userID, purchaseDate).Order("created_at").Find(&recipePurchaseHistories).Error
+	//err := db.Where("user_id = ? and created_at >= ? and created_at < ?", userID, purchaseDate, ).Order("created_at").Find(&recipePurchaseHistories).Error
+	err := db.Raw("select * from recipe_purchase_histories where user_id = ? and created_at >= ? and created_at < ? order by created_at desc", userID, purchaseDate, purchaseNextDate).Scan(&recipePurchaseHistories).Error
 	if err != nil {
 		return nil, err
 	}
