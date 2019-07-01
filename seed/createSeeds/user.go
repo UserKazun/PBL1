@@ -14,7 +14,7 @@ func CreateSeedUsers() {
 		map[string]string{
 			"ID":            "goya",
 			"Password":      "syogo",
-			"Name":          "destinyZero",
+			"Name":          "DESTINY-ZERO8",
 			"Email":         "goya@goya.com",
 			"StreetAddress": "沖縄県呉屋市呉屋町5858-5",
 			"IsAdmin":       "false",
