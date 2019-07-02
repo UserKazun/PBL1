@@ -35,7 +35,7 @@ func apiRouter(api *gin.RouterGroup, api2 *gin.RouterGroup) {
 	api.GET("/carts/users/:user_id", controller.GetCartsByUserID)
 
 	// 対象ユーザーのカートの中身を削除する
-	api.DELETE("/carts/users/:user_id/recipes/:recipe_id", controller.DeleteCartContentByUserID)
+	api.DELETE("/carts/users/:user_id/recipes/:recipe_id", controller.DeleteCartContentByUserIDandRecipeID)
 
 	// 対象ユーザの中身(レシピ)を更新する
 	api.PUT("/carts/recipe-counts", controller.PutCartsRecipeCountByUserID)

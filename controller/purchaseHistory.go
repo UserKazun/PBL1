@@ -145,7 +145,7 @@ func PostPurchaseHistoriesByUserID(c *gin.Context) {
 		foodIDsInCarts, _ := service.GetFoodIDsInCartByUserID(stringUserID, uintRecipeID)
 
 		// 引数に合計したPointを指定して飢餓対策Pointテーブルを更新する
-		service.UpdateCumulativePoints(stringUserID, recipePoint)
+		service.UpdateCumulativePoints(stringUserID, recipePoint, *recipeSetCountInCart.RecipeCount)
 
 		// recipePurchaseHistoryにinsert
 		recipePurchaseHistoryID, _ := service.InsertRecipeCartContentsToPuchaseHistory(stringUserID, recipeID, *recipeSetCountInCart, recipePrice, recipePoint)
@@ -164,6 +164,6 @@ func PostPurchaseHistoriesByUserID(c *gin.Context) {
 		}
 
 	}
-	service.DeleteCartContent(stringUserID)
+	service.AllDeleteCartContent()
 	c.AbortWithStatus(http.StatusOK)
 }

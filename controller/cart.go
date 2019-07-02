@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"log"
 	"net/http"
 	"strconv"
 
@@ -144,8 +145,14 @@ func PutCartsFoodCountByUserID(c *gin.Context) {
 
 }
 
-func DeleteCartContentByUserID(c *gin.Context) {
+func DeleteCartContentByUserIDandRecipeID(c *gin.Context) {
 	userID := c.Param("user_id")
+	recipeID, err := GetUint(c, "recipe_id")
+	if err != nil {
+		log.Println(err)
+		c.AbortWithStatus(http.StatusBadRequest)
+		return
+	}
 
 	errCode := AuthCheck(c, userID)
 	if errCode != nil {
@@ -153,7 +160,7 @@ func DeleteCartContentByUserID(c *gin.Context) {
 		return
 	}
 
-	err := service.DeleteCartContent(userID)
+	err = service.DeleteCartContentByUserIDandRecipeID(userID, recipeID)
 	if err != nil {
 		c.AbortWithStatus(http.StatusInternalServerError)
 		return

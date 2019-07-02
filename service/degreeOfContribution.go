@@ -28,7 +28,7 @@ func GetCumulativePointsByUserID(userID string) (uint, error) {
 }
 
 // UpdateCumulativePoints ...購入ボタンを押したユーザーの飢餓対策貢献Pointを更新
-func UpdateCumulativePoints(userID string, recipePoint uint) error {
+func UpdateCumulativePoints(userID string, recipeCount uint, recipePoint uint) error {
 	degreeOfContribution := model.DegreeOfContribution{}
 	var err error
 
@@ -37,7 +37,7 @@ func UpdateCumulativePoints(userID string, recipePoint uint) error {
 		return err
 	}
 
-	err = db.Model(&degreeOfContribution).Update("cumulative_points", degreeOfContribution.CumulativePoints+recipePoint).Error
+	err = db.Model(&degreeOfContribution).Update("cumulative_points", degreeOfContribution.CumulativePoints+(recipeCount*recipePoint)).Error
 	if err != nil {
 		return err
 	}
